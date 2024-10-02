@@ -1,0 +1,239 @@
+/* Overlay for the login/sign-up page */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  backdrop-filter: blur(5px); /* Apply blur effect to background */
+  z-index: 1000;
+}
+
+/* Main container for login/signup */
+.logSign-container {
+  display: flex;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+  width: 90%;
+  max-width: 700px;
+  background-color: #f4f4f9; /* Light background */
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Image container */
+.logSign-img-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logSign-img-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Form container */
+.logSign-form-container {
+  flex: 1;
+  justify-content: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  }
+form{
+  overflow-y: auto;
+}
+/* Form heading */
+.logSign-form-container h2 {
+  margin-bottom: 20px;
+  color: #333; /* Dark color for heading */
+}
+
+/* Form fields */
+label {
+  font-size: 16px;
+  margin-bottom: 5px;
+  display: block;
+  color: #555; /* Darker color for labels */
+}
+
+input, select {
+  width: 100%; /* Full width */
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 2px solid #4d97e1; /* Border color */
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: "Stylish", serif; /* Font styling */
+  transition: border-color 0.3s ease; /* Transition for border */
+}
+
+/* Input focus effect */
+input:focus, select:focus {
+  border-color: #007bff; /* Change border color on focus */
+  outline: none; /* Remove outline */
+}
+
+/* Login button */
+.login-button {
+  width: 100%; /* Full width */
+  padding: 10px;
+  background-color: #28a745; /* Green background */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease; /* Transition for button */
+  margin-top: 10px; /* Space above button */
+}
+
+/* Button hover effect */
+.login-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Error text styling */
+.error-text {
+  color: red;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+/* Additional links section */
+.additional-links {
+  display: flex;
+  justify-content: space-between; 
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+/* span {
+  margin: 0 15px; /* Spacing between elements */
+
+
+a {
+  color: #007bff; /* Link color */
+  text-decoration: none;
+  transition: color 0.3s ease; /* Transition for links */
+}
+
+/* Link hover effect */
+.additional-links a:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 20px; /* Distance from the top */
+  right: 20px; /* Distance from the right */
+  background-color: #fff;
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  z-index: 2000; /* Above other elements */
+  transition: opacity 0.3s ease; /* Transition for fade effect */
+}
+
+/* Close button for notifications */
+.close-button {
+  background: none;
+  border: none;
+  color: #aaa; /* Light gray for close button */
+  font-size: 18px;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  transition: color 0.3s ease; /* Transition for color */
+}
+
+/* Close button hover effect */
+.close-button:hover {
+  color: #f00; /* Red on hover */
+}
+/* Password input container */
+.password-input {
+  display: flex;
+  align-items: center;
+  position: relative; /* To position the 'Show' button within the input */
+  width: 100%;
+}
+
+/* Style for the password input field */
+.password-input input {
+  width: 100%;
+  padding: 10px;
+  padding-right: 60px; /* Make room for the 'Show' button */
+  border: 2px solid #4d97e1; /* Same as other input fields */
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: "Stylish", serif; /* Font styling */
+  transition: border-color 0.3s ease;
+}
+
+/* Input focus effect */
+.password-input input:focus {
+  border-color: #007bff; /* Change border color on focus */
+  outline: none; /* Remove outline */
+}
+
+/* Style for the 'Show' button */
+.password-input button {
+  position: absolute;
+  right: 10px; /* Position button inside the input field */
+  background-color: transparent; /* Transparent background */
+  border: none; /* Remove border */
+  font-size: 14px; /* Smaller font size for button */
+  cursor: pointer;
+  color: #007bff; /* Color to match the design */
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+/* Hover effect for the 'Show' button */
+.password-input button:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
+
+/* Optional: Style for the 'Hide' text if used */
+.password-input button.hide {
+  color: crimson; /* Different color for hide state */
+}
+
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .logSign-container {
+      flex-direction: column; /* Stack image and form on smaller screens */
+      width: 90%; /* Adjust width */
+      padding: 15px; /* Adjust padding */
+  }
+
+  .logSign-img-container, .logSign-form-container {
+      width: 100%; /* Full width */
+  }
+
+  .logSign-form-container {
+      padding: 15px; /* Reduce padding in form */
+  }
+
+  input, select, .login-button {
+      font-size: 14px; /* Smaller font size */
+  }
+}

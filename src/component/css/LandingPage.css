@@ -1,0 +1,200 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: "Stylish", serif;
+  color: #333;
+  line-height: 1.6;
+  background-color: #f4f4f9;
+  transition: background-color 0.3s ease;
+}
+
+body:hover {
+  background-color: #e3e3e8;
+}
+
+/* Landing Page Background */
+.landing-page {
+  color: #4d97e1;
+  padding: 40px 20px;
+  /* border-radius: 20px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); */
+  transition: box-shadow 0.3s ease;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 60px;
+}
+
+/* .landing-page:hover {
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+} */
+
+/* Hero Section */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.hero-content {
+  flex: 1;
+  max-width: 600px;
+  text-align: left;
+  transition: transform 0.3s ease;
+}
+
+.hero-content:hover {
+  transform: translateY(-10px);
+}
+
+#heading {
+  font-size: 100px;
+  margin: 0;
+  font-weight: 800;
+  transition: color 0.3s ease, transform 0.3s ease;
+  color: #4d97e1;
+  -webkit-text-stroke: 0.000001rem black;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+#heading:hover {
+  color: #1e73d2;
+  transform: scale(1.05);
+}
+
+#HeadingTagline {
+  font-size: 50px;
+  font-weight: 800;
+  transition: color 0.3s ease;
+  color: crimson;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+#HeadingTagline:hover {
+  color: darkred;
+}
+
+.hero-image {
+  flex: 1;
+  max-width: 400px;
+}
+
+.hero-image img {
+  width: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 15px;
+  /* filter: drop-shadow(0.5px 0.5px 15px #4d97e1); */
+}
+
+.hero-image img:hover {
+  transform: scale(1.1) rotate(-2deg);
+}
+
+/* About Us Section */
+#aboutUsHeading {
+  text-align: center;
+  font-size: 48px;
+  margin-top: 60px;
+  color: crimson;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+#aboutUsHeading:hover {
+  transform: scale(1.1);
+}
+
+#aboutUS {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  padding: 40px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+#aboutUS p {
+  font-size: 1.6rem;
+  line-height: 1.8;
+  max-width: 600px;
+  transition: color 0.3s ease;
+}
+
+#aboutUS img {
+  max-width: 400px;
+  height: auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 15px;
+  filter: drop-shadow(0.5px 0.5px 8px #4d97e1);
+}
+
+#aboutUS img:hover {
+  transform: scale(1.1) rotate(2deg);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-content {
+    margin: 0;
+  }
+
+  #heading {
+    font-size: 80px;
+  }
+
+  #HeadingTagline {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-page {
+    margin-top: 20px;
+  }
+
+  #aboutUS {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #aboutUS img {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  #heading {
+    font-size: 60px;
+  }
+
+  .landing-page {
+    margin-top: 30px;
+  }
+
+  #HeadingTagline {
+    font-size: 30px;
+  }
+
+  #aboutUsHeading {
+    font-size: 36px;
+  }
+
+  #aboutUS p {
+    font-size: 1.4rem;
+  }
+}

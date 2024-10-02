@@ -1,0 +1,64 @@
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 10px 20px 10px;
+  gap: 15px; /* Increased gap for better spacing */
+}
+
+/* Search bar styling */
+.search-bar {
+  padding: 12px 15px;
+  border: 2px solid crimson; /* Changed from dotted to solid for cleaner look */
+  border-radius: 15px; /* More rounded corners */
+  width: 35%; /* Increased width slightly */
+  font-size: 16px; /* Modern font size */
+  transition: all 0.3s ease; /* Smooth transitions for hover and focus */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+/* Hover and focus effects */
+.search-bar:hover, .search-bar:focus {
+  border-color: #4d97e1;
+  box-shadow: 0 6px 12px rgba(77, 151, 225, 0.3); /* Blue glow on focus */
+  outline: none; /* Remove default outline */
+}
+
+/* Dropdown selectors styling */
+.semester-selector, .branch-selector {
+  padding: 12px;
+  width: 15%; /* Increased width for a balanced look */
+  border: 2px solid crimson; /* Consistent with search bar */
+  border-radius: 15px; /* Rounded corners */
+  font-size: 16px;
+  background-color: #f9f9f9; /* Soft background */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+/* Hover and focus effects for dropdowns */
+.semester-selector:hover, .branch-selector:hover,
+.semester-selector:focus, .branch-selector:focus {
+  border-color: #4d97e1;
+  box-shadow: 0 6px 12px rgba(77, 151, 225, 0.3); /* Consistent blue glow */
+  outline: none;
+  background-color: #fff; /* Brighten background on hover */
+}
+
+/* Placeholder color adjustment */
+::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .search-bar {
+    width: 40%; /* Adjust width for smaller screens */
+  }
+  
+  .semester-selector, .branch-selector {
+  
+    width: 25%;
+  }
+}

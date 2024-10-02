@@ -1,0 +1,93 @@
+/* Page Layout for Notes */
+.notes-page {
+  margin-top: 120px;
+  padding: 20px;
+}
+
+/* Container for the notes section */
+.notes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Same grid structure */
+  gap: 20px;
+  padding: 20px;
+  margin-top: 0px;
+  font-family: "Stylish", serif;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Same shadow style */
+}
+
+.notes-container:hover {
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2); /* Same hover shadow */
+}
+
+/* Individual note card styling */
+.note-card {
+  background-color: #f4f4f9;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px #1e1d1d; /* Same shadow as buylabmanual.css */
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 270px; /* Same width */
+  height: 400px; /* Same height */
+  margin: 0 auto; /* Center the cards */
+  padding: 20px;
+}
+
+.note-card:hover {
+  box-shadow: 7px 7px 25px #1e1d1d; /* Same hover effect */
+  transform: translateY(-10px);
+}
+
+/* Image styling */
+.note-image {
+  width: 100%;
+  height: 60%;
+  object-fit: cover; /* Ensures image fits the card like buylabmanual.css */
+}
+
+/* Content of the card */
+.note-content {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Note title */
+.note-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Note description */
+.note-description {
+  font-size: 18px;
+  color: #777;
+  line-height: 1.5;
+}
+
+/* Responsive design */
+@media screen and (max-width: 600px) {
+  .notes-container {
+    grid-template-columns: 1fr; /* Stack cards in single column */
+  }
+
+  .note-card {
+    width: 100%; /* Full width on mobile */
+    height: auto; /* Natural height */
+  }
+
+  .note-content {
+    padding: 15px;
+  }
+
+  .note-title {
+    font-size: 18px;
+  }
+
+  .note-description {
+    font-size: 14px;
+  }
+}

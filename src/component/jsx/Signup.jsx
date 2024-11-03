@@ -1,6 +1,4 @@
-
-
- import React, { useState } from 'react';
+import React, { useState } from 'react';
 import '../css/LogSign.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Notification from './Notification'; 
@@ -20,14 +18,20 @@ const Signup = () => {
     const [errors, setErrors] = useState({ enrolmentID: '', phone: '', password: '', confirmPassword: '' });
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-    const enrolmentRegex = /^0704CS\d{6}$/;
+    
+    const enrolmentRegex = /^0704CS\d{6,7}$/;
     const phoneRegex = /^[6789]\d{9}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
-    const [setCookie] = useCookies(['bytewiseCookies']);
+    const [cookies, setCookie] = useCookies(['bytewiseCookies']); // Corrected
     const navigate = useNavigate();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
+
+        setFormData({
+            ...formData,
+            [name]: value
+        });
 
         if (name === 'enrolmentID') {
             setErrors((prevErrors) => ({
@@ -70,11 +74,6 @@ const Signup = () => {
                 confirmPassword: value !== formData.password ? 'Passwords do not match' : ''
             }));
         }
-
-        setFormData({
-            ...formData,
-            [name]: value
-        });
     };
 
     const handleSubmit = async (event) => {
@@ -103,7 +102,8 @@ const Signup = () => {
                     name: formData.name,
                     sem: formData.sem,
                     phone: formData.phone,
-                }, { path: '/', maxAge: 3600});
+                    status: true // Set status to true on success
+                }, { path: '/', maxAge: 3600 });
                 setFormData({
                     enrolmentID: '',
                     name: '',
@@ -115,9 +115,15 @@ const Signup = () => {
                 navigate('/');
             } else {
                 setNotification({ message: data.message || 'Error signing up', type: 'error' });
+                setCookie('bytewiseCookies', {
+                    status: false // Set status to false on failure
+                }, { path: '/', maxAge: 3600 });
             }
         } catch (error) {
             setNotification({ message: 'Server error! Please try again.', type: 'error' });
+            setCookie('bytewiseCookies', {
+                status: false // Set status to false on exception
+            }, { path: '/', maxAge: 3600 });
         }
     };
 
@@ -129,111 +135,113 @@ const Signup = () => {
         setConfirmPasswordVisible((prev) => !prev);
     };
 
-return (
-<div className="overlay">
-    <button className="close-button" onClick={() => navigate('/login')}>X</button>
-      {notification && (
-             <Notification
-                 message={notification.message}
-                 type={notification.type}
-             onClose={() => setNotification(null)}
-         />
-     )}
+    return (
+        <div className="overlay">
+            <button className="close-button" onClick={() => navigate('/login')}>X</button>
+            {notification && (
+                <Notification
+                    message={notification.message}
+                    type={notification.type}
+                    onClose={() => setNotification(null)}
+                />
+            )}
 
-     <div className="logSign-container">
-         <div className="logSign-img-container">
-             <img src="Sign.png" alt="SignUp" />
-         </div>
-         <div className="logSign-form-container">
-             <h2>Create Your Account</h2>
-             <form onSubmit={handleSubmit}>
-                 <label htmlFor="name">Full Name</label>
-                 <input
-                     type="text"
-                     id="name"
-                     name="name"
-                     value={formData.name}
-                     onChange={handleChange}
-                     placeholder="Enter your full name"
-                    autoComplete='name'
-                 />
-                <label htmlFor="enrolmentID">Enrollment Number</label>
-                 {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
-                 <input
-                     type="text"
-                     id="enrolmentID"
-                     name="enrolmentID"
-                     value={formData.enrolmentID}
-                     onChange={handleChange}
-                     placeholder="Enter your enrollment number"
-                     required
-                 />
+            <div className="logSign-container">
+                <div className="logSign-img-container">
+                    <img src="Sign.png" alt="SignUp" />
+                </div>
+                <div className="logSign-form-container">
+                    <h2 className='Signinh2'>Create Your Account</h2>
+                    <form onSubmit={handleSubmit}>
+                        <label htmlFor="name">Full Name</label>
+                        <input
+                            type="text"
+                            id="nameid"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="Enter your full name"
+                            autoComplete='name'
+                            required
+                        />
+                        <label htmlFor="enrolmentID">Enrollment Number</label>
+                        {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
+                        <input
+                            type="text"
+                            id="enrolmentID"
+                            name="enrolmentID"
+                            value={formData.enrolmentID}
+                            onChange={handleChange}
+                            placeholder="Enter your enrollment number"
+                            required
+                        />
 
-                 <label htmlFor="phone">Phone Number</label>
-                 {errors.phone && <p className="error-text">{errors.phone}</p>}
-                 <input
-                     type="tel"
-                     id="phone"
-                     name="phone"
-                     value={formData.phone}
-                     onChange={handleChange}
-                     placeholder="Enter your phone number"
-                     autoComplete='phone'
-                 />
+                        <label htmlFor="phone">Phone Number</label>
+                        {errors.phone && <p className="error-text">{errors.phone}</p>}
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="Enter your phone number"
+                            autoComplete='phone'
+                            required
+                        />
 
-                 <label htmlFor="sem">Select Semester</label>
-                 <select
-                     id="sem"
-                    name="sem"
-                     value={formData.sem}
-                     onChange={handleChange}
-                     required
-                 >
-                     <option value="" disabled>Select your semester</option>
-                     {Array.from({ length: 8 }, (_, index) => (
-                         <option key={index + 1} value={index + 1}>Semester {index + 1}</option>
-                     ))}
-                 </select>
-                 <label htmlFor="password">Password</label>
-                 {errors.password && <p className="error-text">{errors.password}</p>}
-                 <div className="password-input">
-                     <input
-                         type={passwordVisible ? 'text' : 'password'}
-                         id="password"
-                         name="password"
-                         value={formData.password}
-                         onChange={handleChange}
-                         placeholder="Create a password"
-                         required
-                     />
-                     <button type="button" onClick={togglePasswordVisibility}>
-                         {passwordVisible ? 'Hide' : 'Show'}
-                     </button>
-                 </div>
-                 <label htmlFor="confirmPassword">Confirm Password</label>
-                 {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
-                 <div className="password-input">
-                     <input
-                         type={confirmPasswordVisible ? 'text' : 'password'}
-                         id="confirmPassword"
-                         name="confirmPassword"
-                         value={formData.confirmPassword}
-                        onChange={handleChange}
-                         placeholder="Confirm your password"
-                         required
-                     />
-                     <button type="button" onClick={toggleConfirmPasswordVisibility}>
-                         {confirmPasswordVisible ? 'Hide' : 'Show'}
-                     </button>
-                 </div>
-                 <button type="submit" className="login-button">Signup</button>
-                 <span>Already have an account? </span>
-                 <Link to="/login">Login</Link>
-             </form>
-         </div>
-     </div>
- </div>
-);
+                        <label htmlFor="sem">Select Semester</label>
+                        <select
+                            id="sem"
+                            name="sem"
+                            value={formData.sem}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="" disabled>Select your semester</option>
+                            {Array.from({ length: 8 }, (_, index) => (
+                                <option key={index + 1} value={index + 1}>Semester {index + 1}</option>
+                            ))}
+                        </select>
+                        <label htmlFor="password">Password</label>
+                        {errors.password && <p className="error-text">{errors.password}</p>}
+                        <div className="password-input">
+                            <input
+                                type={passwordVisible ? 'text' : 'password'}
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="Create a password"
+                                required
+                            />
+                            <button type="button" onClick={togglePasswordVisibility}>
+                                {passwordVisible ? 'Hide' : 'Show'}
+                            </button>
+                        </div>
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
+                        <div className="password-input">
+                            <input
+                                type={confirmPasswordVisible ? 'text' : 'password'}
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                placeholder="Confirm your password"
+                                required
+                            />
+                            <button type="button" onClick={toggleConfirmPasswordVisibility}>
+                                {confirmPasswordVisible ? 'Hide' : 'Show'}
+                            </button>
+                        </div>
+                        <button type="submit" className="login-button">Signup</button>
+                        <span>Already have an account? </span>
+                        <Link to="/login">Login</Link>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default Signup;

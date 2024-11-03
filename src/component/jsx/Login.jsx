@@ -16,22 +16,23 @@ const Login = () => {
     const [cookies, setCookie] = useCookies(['bytewiseCookies']);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
-    const enrolmentRegex = /^0704CS\d{6}$/;
+    const enrolmentRegex = /^0704CS\d{6,7}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
 
     useEffect(() => {
-        // Redirect based on cookie presence
-        if (cookies.bytewiseCookies) {
+        if (cookies.bytewiseCookies && cookies.bytewiseCookies.status) {
             navigate('/');
-        } else {
-            navigate('/login');
         }
     }, [cookies, navigate]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
 
-        // Validate input fields
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+
         if (name === 'enrolmentID') {
             setErrors((prevErrors) => ({
                 ...prevErrors,
@@ -45,11 +46,6 @@ const Login = () => {
                 password: passwordRegex.test(value) ? '' : 'Password must be at least 8 characters long and contain both letters and numbers'
             }));
         }
-
-        setFormData({
-            ...formData,
-            [name]: value
-        });
     };
 
     const handleSubmit = async (event) => {
@@ -61,43 +57,47 @@ const Login = () => {
             return;
         }
 
-        // Check if enrolmentID and password fields are not empty
+        // Check if fields are empty
         if (!formData.enrolmentID || !formData.password) {
             setNotification({ message: 'Enrolment ID and password are required.', type: 'error' });
             return;
         }
 
         try {
-            // Send login request to the backend
             const response = await fetch('http://localhost:3000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    enrolmentID: formData.enrolmentID,
-                    password: formData.password,
-                }),
+                body: JSON.stringify(formData),
             });
 
             const data = await response.json();
 
-            // Handle response
             if (response.ok) {
                 setNotification({ message: 'Login successful!', type: 'success' });
                 setCookie('bytewiseCookies', {
                     enrolmentID: formData.enrolmentID,
-                    name: data.user.name, // Assuming name is returned from the backend
-                    sem: data.user.sem, // Assuming sem is returned from the backend
-                    phone: data.user.phone, // Assuming phone is returned from the backend
+                    name: data.user.name,
+                    sem: data.user.sem,
+                    phone: data.user.phone,
+                    status: true // Set status to true on successful login
                 }, { path: '/', maxAge: 3600 });
                 navigate('/');
             } else {
-                setNotification({ message: data.message, type: 'error' });
+                setNotification({ message: data.message || 'Login failed. Please check your credentials.', type: 'error' });
+                setCookie('bytewiseCookies', {
+                    ...cookies.bytewiseCookies,
+                    status: false // Set status to false on failed login
+                }, { path: '/', maxAge: 3600 });
             }
         } catch (error) {
             console.error('Login error:', error);
             setNotification({ message: 'An error occurred. Please try again later.', type: 'error' });
+            setCookie('bytewiseCookies', {
+                ...cookies.bytewiseCookies,
+                status: false // Set status to false on error
+            }, { path: '/', maxAge: 3600 });
         }
     };
 
@@ -156,7 +156,7 @@ const Login = () => {
 
                         <div className="additional-links">
                             <Link to="/forgot-password" className="forgot-password-link">Forgot Password?</Link>
-                            <span>New user? create account -
+                            <span>New user? Create account - 
                                 <Link to='/signup' className='signup-link'>Sign Up</Link>       
                             </span>
                         </div>

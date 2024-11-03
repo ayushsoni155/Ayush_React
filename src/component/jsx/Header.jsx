@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../css/Header.css"; // Importing the CSS file
 import { FaBars } from "react-icons/fa"; // Importing the Font Awesome icon
 import { Link } from "react-router-dom";
@@ -13,13 +13,8 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Optional: A state to trigger re-renders when cookies change
-  const [isLoggedIn, setIsLoggedIn] = useState(!!cookies.bytewiseCookies);
-
-  useEffect(() => {
-    // Update logged-in state when cookies change
-    setIsLoggedIn(!!cookies.bytewiseCookies);
-  }, [cookies.bytewiseCookies]);
+  // Check login status based on cookies
+  const isLoggedIn = cookies.bytewiseCookies && cookies.bytewiseCookies.status === true;
 
   return (
     <header>

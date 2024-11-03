@@ -12,29 +12,35 @@ const Profile = () => {
         phone: '',
     });
     const [notification, setNotification] = useState(null);
-    const [cookies, removeCookie] = useCookies(['bytewiseCookies']);
+    const [cookies, setCookie] = useCookies(['bytewiseCookies']);
     const navigate = useNavigate();
 
     useEffect(() => {
         const userData = cookies.bytewiseCookies;
-        if (userData) {
+        if (userData && userData.status) { // Check if user is logged in
             setFormData({
                 enrolmentID: userData.enrolmentID,
                 name: userData.name,
                 sem: userData.sem,
                 phone: userData.phone,
             });
+        } else {
+            navigate('/login'); // Redirect if not logged in
         }
-    }, [cookies]);
+    }, [cookies, navigate]);
+
     const handleLogout = () => {
-        // Log current cookies to check if bytewiseCookies exists
         console.log('Current cookies before logout:', cookies);
-    
-        // Check if the cookie exists before trying to remove it
+
         if (cookies.bytewiseCookies) {
-            removeCookie('bytewiseCookies'); // Ensure the path matches where it was set
+            // Set status to false instead of removing the cookie
+            setCookie('bytewiseCookies', {
+                ...cookies.bytewiseCookies,
+                status: false // Update status to false on logout
+            }, { path: '/', maxAge: 3600 });
+
             setNotification({ message: 'You have been logged out!', type: 'success' });
-    
+
             // Redirect after a brief delay
             setTimeout(() => {
                 navigate('/login');
@@ -43,7 +49,6 @@ const Profile = () => {
             console.log('Cookie bytewiseCookies does not exist.');
         }
     };
-    
 
     return (
         <>
@@ -51,30 +56,36 @@ const Profile = () => {
 
             {notification && (
                 <Notification
-                message={notification.message}
-                type={notification.type}
-                onClose={() => setNotification(null)}
+                    message={notification.message}
+                    type={notification.type}
+                    onClose={() => setNotification(null)}
                 />
             )}
             <div className="profile-container">
-            <button className="close-button" onClick={() => navigate('/login')}>X</button>
+                <button className="close-button" onClick={() => navigate('/login')}>X</button>
                 <h2>Profile</h2>
-                <div className="form-group">
-                    <label>Enrolment ID</label>
-                    <p>{formData.enrolmentID}</p>
-                </div>
-                <div className="form-group">
-                    <label>Name</label>
-                    <p>{formData.name}</p>
-                </div>
-                <div className="form-group">
-                    <label>Semester</label>
-                    <p>{formData.sem}</p>
-                </div>
-                <div className="form-group">
-                    <label>Phone Number</label>
-                    <p>{formData.phone}</p>
-                </div>
+                {cookies.bytewiseCookies && cookies.bytewiseCookies.status ? ( // Check status
+                    <>
+                        <div className="form-group">
+                            <label>Enrolment ID</label>
+                            <p>{formData.enrolmentID}</p>
+                        </div>
+                        <div className="form-group">
+                            <label>Name</label>
+                            <p>{formData.name}</p>
+                        </div>
+                        <div className="form-group">
+                            <label>Semester</label>
+                            <p>{formData.sem}</p>
+                        </div>
+                        <div className="form-group">
+                            <label>Phone Number</label>
+                            <p>{formData.phone}</p>
+                        </div>
+                    </>
+                ) : (
+                    <p>You are not logged in. Please log in to view your profile.</p>
+                )}
                 <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
         </>

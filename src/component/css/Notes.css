@@ -49,6 +49,7 @@
 
 /* Content of the card */
 .note-content {
+  overflow: auto;
   padding: 20px;
   text-align: center;
 }

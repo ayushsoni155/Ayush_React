@@ -16,19 +16,19 @@
 /* Main container for login/signup */
 .logSign-container {
   display: flex;
-
   flex-direction: row;
   justify-content: center;
   align-items: center;
   height: 90%;
   width: 90%;
   max-width: 700px;
+  max-height: 90%; /* Ensure form doesn't overflow viewport */
   background-color: #f4f4f9; /* Light background */
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   padding: 20px;
   text-align: center;
-  overflow: hidden;
+  overflow: auto; /* Enable scrolling if content overflows */
 }
 
 /* Image container */
@@ -48,18 +48,22 @@
 /* Form container */
 .logSign-form-container {
   flex: 1;
-  justify-content: center;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  height: 90%;
-  }
-form{
-  overflow-y: auto;
+  justify-content: center;
+  padding: 30px;
+  max-height: 100%; /* Ensure form container is fully visible */
+  overflow: auto; /* Allow form to scroll within container */
 }
+
 /* Form heading */
 .logSign-form-container h2 {
   margin-bottom: 20px;
+  color: #333; /* Dark color for heading */
+}
+.Signinh2 {
+  margin-bottom: 10px;
+  margin-top: 50px;
   color: #333; /* Dark color for heading */
 }
 
@@ -72,25 +76,25 @@ label {
 }
 
 input, select {
-  width: 100%; /* Full width */
+  width: 100%;
   padding: 10px;
   margin-bottom: 15px;
   border: 2px solid #4d97e1; /* Border color */
   border-radius: 5px;
   font-size: 16px;
   font-family: "Stylish", serif; /* Font styling */
-  transition: border-color 0.3s ease; /* Transition for border */
+  transition: border-color 0.3s ease;
 }
 
 /* Input focus effect */
 input:focus, select:focus {
-  border-color: #007bff; /* Change border color on focus */
-  outline: none; /* Remove outline */
+  border-color: #007bff;
+  outline: none;
 }
 
 /* Login button */
 .login-button {
-  width: 100%; /* Full width */
+  width: 100%;
   padding: 10px;
   background-color: #28a745; /* Green background */
   color: white;
@@ -98,13 +102,13 @@ input:focus, select:focus {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease; /* Transition for button */
-  margin-top: 10px; /* Space above button */
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
 /* Button hover effect */
 .login-button:hover {
-  background-color: #218838; /* Darker green on hover */
+  background-color: #218838;
 }
 
 /* Error text styling */
@@ -117,123 +121,174 @@ input:focus, select:focus {
 /* Additional links section */
 .additional-links {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   margin-top: 15px;
   font-size: 14px;
 }
 
-/* span {
-  margin: 0 15px; /* Spacing between elements */
-
-
 a {
-  color: #007bff; /* Link color */
+  color: #007bff;
   text-decoration: none;
-  transition: color 0.3s ease; /* Transition for links */
+  transition: color 0.3s ease;
 }
 
 /* Link hover effect */
 .additional-links a:hover {
-  color: #0056b3; /* Darker blue on hover */
+  color: #0056b3;
 }
 
-/* Notification styles */
-.notification {
-  position: fixed;
-  top: 20px; /* Distance from the top */
-  right: 20px; /* Distance from the right */
-  background-color: #fff;
-  border: 1px solid #ddd; /* Light border */
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  z-index: 2000; /* Above other elements */
-  transition: opacity 0.3s ease; /* Transition for fade effect */
-}
-
-/* Close button for notifications */
-.close-button {
-  background: none;
-  border: none;
-  color: #aaa; /* Light gray for close button */
-  font-size: 18px;
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-  transition: color 0.3s ease; /* Transition for color */
-}
-
-/* Close button hover effect */
-.close-button:hover {
-  color: #f00; /* Red on hover */
-}
 /* Password input container */
 .password-input {
   display: flex;
   align-items: center;
-  position: relative; /* To position the 'Show' button within the input */
+  position: relative;
   width: 100%;
 }
 
-/* Style for the password input field */
+/* Password input field */
 .password-input input {
   width: 100%;
   padding: 10px;
-  padding-right: 60px; /* Make room for the 'Show' button */
-  border: 2px solid #4d97e1; /* Same as other input fields */
+  padding-right: 60px; /* Space for 'Show' button */
+  border: 2px solid #4d97e1;
   border-radius: 5px;
   font-size: 16px;
-  font-family: "Stylish", serif; /* Font styling */
   transition: border-color 0.3s ease;
 }
 
-/* Input focus effect */
+/* Focus effect for password input */
 .password-input input:focus {
-  border-color: #007bff; /* Change border color on focus */
-  outline: none; /* Remove outline */
+  border-color: #007bff;
+  outline: none;
 }
 
-/* Style for the 'Show' button */
+/* Show/Hide button inside password input */
 .password-input button {
   position: absolute;
-  right: 10px; /* Position button inside the input field */
-  background-color: transparent; /* Transparent background */
-  border: none; /* Remove border */
-  font-size: 14px; /* Smaller font size for button */
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
   cursor: pointer;
-  color: #007bff; /* Color to match the design */
-  transition: color 0.3s ease; /* Smooth color transition */
+  color: #007bff;
+  transition: color 0.3s ease;
 }
 
-/* Hover effect for the 'Show' button */
+/* Hover effect for Show/Hide button */
 .password-input button:hover {
-  color: #0056b3; /* Darker blue on hover */
+  color: #0056b3;
 }
 
-/* Optional: Style for the 'Hide' text if used */
-.password-input button.hide {
-  color: crimson; /* Different color for hide state */
+/* PDF viewer styles */
+.pdf-viewer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
 }
 
+.pdf-viewer iframe {
+  width: 90%;  /* Full width for larger screens */
+  height: 600px; /* Default height */
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pdf-viewer iframe:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 1);
+}
+
+/* Close button */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  color: #ff4d4d; /* Red color for close button */
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect for close button */
+.close-button:hover {
+  color: #ff1a1a; /* Darker red on hover */
+  transform: scale(1.1); /* Slight scaling on hover */
+}
+
+/* PDF close button */
+.pdfclosebtn {
+  background-color: #ff4d4d;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.pdfclosebtn:hover {
+  background-color: #ff3333;
+  box-shadow: 0 4px 10px rgba(255, 77, 77, 0.5);
+}
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
+  /* Adjust logSign container for smaller screens */
   .logSign-container {
-      flex-direction: column; /* Stack image and form on smaller screens */
-      width: 90%; /* Adjust width */
-      padding: 15px; /* Adjust padding */
+    flex-direction: column;
+    width: 90%;
+    max-height: 90%; /* Ensure height constraint for smaller screens */
+    padding: 15px;
   }
 
+  /* Image and form containers in stack layout */
   .logSign-img-container, .logSign-form-container {
-      width: 100%; /* Full width */
+    width: 100%;
   }
 
   .logSign-form-container {
-      padding: 15px; /* Reduce padding in form */
+    padding: 15px;
+    overflow: auto; /* Allow scrolling for smaller screens */
   }
 
   input, select, .login-button {
-      font-size: 14px; /* Smaller font size */
+    font-size: 14px; /* Smaller font size */
+  }
+
+  /* Responsive PDF viewer for smaller screens */
+  .pdf-viewer iframe {
+    width: 100%;
+    height: 400px;
+  }
+
+  /* Adjust close button for smaller screens */
+  .pdfclosebtn {
+    right: 5%;
+    top: 20%;
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  /* PDF viewer for mobile screens */
+  .pdf-viewer iframe {
+    width: 100%;
+    height: 300px;
+  }
+
+  /* Adjust close button for mobile screens */
+  .pdfclosebtn {
+    right: 4%;
+    top: 18%;
+    padding: 6px 12px;
+    font-size: 12px;
   }
 }

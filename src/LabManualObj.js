@@ -67,7 +67,7 @@ const labManualsObj = [
     branch: "CSE",
     Subject_code: "BT204",
     Price: 50,
-    image: "/Eng_Civil.jpg"
+    image: "/Eng_Civil.png"
   },
   {
     id: 8,
@@ -207,7 +207,7 @@ const labManualsObj = [
     branch: "CSE",
     Subject_code: "CS601",
     Price: 50,
-    image: "/Eng_ML.jpg"
+    image: "/Eng_ML.png"
   },
   {
     id: 22,
@@ -227,7 +227,7 @@ const labManualsObj = [
     branch: "CSE",
     Subject_code: "CS605",
     Price: 50,
-    image: "/Eng_DataAnalytics.jpg"
+    image: "/Eng_DataAnalytics.png"
   },
   {
     id: 24,

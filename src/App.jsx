@@ -9,6 +9,11 @@ import Cart from './component/jsx/Cart';
 import Signup from './component/jsx/Signup';
 import Login from './component/jsx/Login';
 import Profile from './component/jsx/Profile';
+import ForgotPassword from './component/jsx/ForgetPassword';
+import ResetPassword from './component/jsx/ResetPassword';
+import Feedback from './component/jsx/Feedback';
+
+
 const App = () => {
   return (
     <Router>
@@ -22,8 +27,12 @@ const App = () => {
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/Signup' element={<Signup/>}/>
         <Route path='/profile' element={<Profile/>}/>
+        <Route path='/forgot-password' element={<ForgotPassword/>}/>
+        <Route path='/reset-password' element={<ResetPassword/>}/>
+        
         
       </Routes>
+      <Feedback/>
       <Footer/>
     </Router>
   );

@@ -16,7 +16,7 @@ const notesArray = [
         description: "It covers basic concepts of calculus, algebra, and geometry.", 
         image: '/Eng_M1.png', 
         branch: "CSE", 
-        pdfUrl:'/NotesPDF/temp.pdf'
+        pdfUrl:'/NotesPDF/M1Notes.pdf'
     }, 
     { 
         name: "English for Communication", 
@@ -39,8 +39,9 @@ const notesArray = [
         Subject_code: "BT105", 
         Sem: "1st", 
         description: " It teaches the basics of technical drawing, including projections, drafting, and visualization of objects.", 
-        image: '/Eng_Ed.jpg',  
-        branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+        image: '/Eng_Ed.png',  
+        branch: "CSE",
+        pdfUrl:'/NotesPDF/EDNotes.pdf' 
     }, 
     { 
         name: "Engineering Physics", 
@@ -48,7 +49,8 @@ const notesArray = [
         Sem: "2nd", 
         description: " It explores the fundamental principles of physics and their applications in engineering.", 
         image: '/Eng_Physics.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE", 
+        pdfUrl:'/NotesPDF/PhysicsNotes.pdf' 
     }, 
     { 
         name: "Mathematics - II (M2)", 
@@ -56,7 +58,8 @@ const notesArray = [
         Sem: "2nd", 
         description: "It focuses on advanced calculus, differential equations, and vector analysis, essential for solving complex engineering problems.", 
         image: '/Eng_M2.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+         pdfUrl:'/NotesPDF/M2Notes.pdf' 
     }, 
     { 
         name: "Basic Mechanical Engineering", 
@@ -64,15 +67,17 @@ const notesArray = [
         Sem: "2nd", 
         description: "It introduces fundamental concepts of mechanics, thermodynamics, and material science.", 
         image: '/Eng_Mechanical.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+         pdfUrl:'/NotesPDF/MechanicalNotes.pdf' 
     }, 
     { 
         name: "Basic Civil Engineering & Mechanics", 
         Subject_code: "BT204", 
         Sem: "2nd", 
         description: "It covers fundamental principles of civil engineering, including structures, materials, and mechanics.", 
-        image: '/Eng_Civil.jpg', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+        image: '/Eng_Civil.png', 
+         branch: "CSE",
+         pdfUrl:'/NotesPDF/CivilNotes.pdf' 
     }, 
     { 
         name: "Basic Computer Engineering", 
@@ -80,7 +85,8 @@ const notesArray = [
         Sem: "2nd", 
         description: "It essential for understanding how computers and software work.", 
         image: '/Eng_BasicComputer.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+        pdfUrl:'/NotesPDF/BCENotes.pdf' 
     }, 
     { 
         name: "Energy & Environmental Engineering", 
@@ -88,7 +94,8 @@ const notesArray = [
         Sem: "3rd", 
         description: " It focuses on the study of energy systems, sustainability, and environmental protection.", 
         image: '/Eng_EEE.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+         pdfUrl:'/NotesPDF/EEENotes.pdf' 
     }, 
     { 
         name: "Discrete Structure", 
@@ -96,7 +103,8 @@ const notesArray = [
         Sem: "3rd", 
         description: "It studies mathematical concepts related to countable, distinct objects, logic, set theory, graph theory, and combinatorics.", 
         image: '/Eng_Discret.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+        pdfUrl:'/NotesPDF/DiscreteStructureNotes.pdf' 
     }, 
     { 
         name: "Data Structure", 
@@ -104,7 +112,8 @@ const notesArray = [
         Sem: "3rd", 
         description: "It focuses on organizing and storing data efficiently.", 
         image: '/Eng_DSA.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+        pdfUrl:'/NotesPDF/DSANotes.pdf' 
     }, 
     { 
         name: "Digital Systems", 
@@ -112,7 +121,8 @@ const notesArray = [
         Sem: "3rd", 
         description: " It studies about logic gates, number systems, and digital signal processing.", 
         image: '/Eng_DigitalSystem.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+         pdfUrl:'/NotesPDF/DigitalSystemNotes.pdf' 
     }, 
     { 
         name: "Object-Oriented Programming & Methodology", 
@@ -128,7 +138,8 @@ const notesArray = [
         Sem: "4th", 
         description: "It covers advanced topics such as linear algebra, complex variables, and partial differential equations.", 
         image: '/Eng_M3.png',
-	branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+	branch: "CSE",
+    pdfUrl:'/NotesPDF/M3Notes.pdf' 
     }, 
     { 
         name: "Analysis and Design of Algorithms", 
@@ -136,7 +147,8 @@ const notesArray = [
         Sem: "4th", 
         description: "It teaches how to evaluate the performance of algorithms and create efficient solutions to problems.", 
         image: '/Eng_ADA.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+         pdfUrl:'/NotesPDF/ADANotes.pdf' 
     }, 
     { 
         name: "Software Engineering", 
@@ -144,7 +156,8 @@ const notesArray = [
         Sem: "4th", 
         description: " It focuses on the systematic design, development, testing, and maintenance of software.", 
         image: '/Eng_SE.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+         pdfUrl:'/NotesPDF/SENotes.pdf' 
     }, 
     { 
         name: "Computer Organization & Architecture", 
@@ -152,7 +165,8 @@ const notesArray = [
         Sem: "4th", 
         description: "It explains how computers are built and how they work, processor, memory, and data handling.", 
         image: '/Eng_COA.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+         pdfUrl:'/NotesPDF/COANotes.pdf' 
     }, 
     { 
         name: "Operating System", 
@@ -160,7 +174,8 @@ const notesArray = [
         Sem: "4th", 
         description: "It explains how a computer works by managing hardware, running programs, and handling tasks like memory and storage.", 
         image: '/Eng_OS.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+         pdfUrl:'/NotesPDF/OSNotes.pdf' 
     }, 
     { 
         name: "Theory of Computation", 
@@ -183,8 +198,9 @@ const notesArray = [
         Subject_code: "CS503", 
         Sem: "5th", 
         description: "It involves analyzing data to find patterns, make decisions, and solve problems using techniques.", 
-        image: '/Eng_DataAnalytics.jpg',
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+        image: '/Eng_DataAnalytics.png',
+         branch: "CSE",
+         pdfUrl:'/NotesPDF/DANotes.pdf' 
     }, 
     /*{ 
         name: "Pattern Recognition", 
@@ -213,7 +229,7 @@ const notesArray = [
         Subject_code: "CS601", 
         Sem: "6th", 
         description: "It teaches computers to learn from data and improve their performance on tasks.", 
-        image: '/Eng_ML.jpg',
+        image: '/Eng_ML.png',
          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
     }, 
     { 

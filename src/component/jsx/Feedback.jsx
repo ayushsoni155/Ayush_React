@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import Notification from './Notification'; // Assuming you already have a Notification component
+import Notification from './Notification';
 import '../css/Feedback.css';
 
 export default function Feedback() {
@@ -10,9 +10,12 @@ export default function Feedback() {
     enrolmentID: '',
     message: '',
   });
-  const [notification, setNotification] = useState(null);
+  const [notification, setNotification] = useState({
+    message: '',
+    type: '',
+    visible: false
+  });
 
-  // Fetch cookie data to prefill the form
   useEffect(() => {
     const userData = cookies.bytewiseCookies;
     if (userData) {
@@ -31,11 +34,15 @@ export default function Feedback() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!cookies.bytewiseCookies || !cookies.bytewiseCookies.status) {
-      setNotification({ message: 'You must be logged in to submit feedback.', type: 'error' });
+      setNotification({
+        message: 'You must be logged in to submit feedback.',
+        type: 'error',
+        visible: true
+      });
       return;
     }
 
@@ -45,18 +52,51 @@ export default function Feedback() {
       message: formData.message,
     };
 
-    console.log(feedbackData);
-    // Handle form submission (e.g., send to backend)
-    setNotification({ message: 'Feedback submitted successfully!', type: 'success' });
+    try {
+      const response = await fetch('http://localhost:3000/feedback-submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(feedbackData),
+      });
+
+      if (response.ok) {
+        setNotification({
+            message: 'Feedback submitted successfully.',
+            type: 'success',
+            visible: true
+        });
+        setFormData((prevData) => ({
+            ...prevData,
+            message: '',
+        }));
+    } else {
+        console.log('Setting error notification');
+        setNotification({
+            message: 'Error submitting feedback.',
+            type: 'error',
+            visible: true
+        });
+    }
+    
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      setNotification({
+        message: 'Error submitting feedback. Please try again later.',
+        type: 'error',
+        visible: true
+      });
+    }
   };
 
   return (
     <>
-      {notification && (
+      {notification.visible && (
         <Notification
           message={notification.message}
           type={notification.type}
-          onClose={() => setNotification(null)}
+          onClose={() => setNotification({ ...notification, visible: false })}
         />
       )}
 
@@ -71,7 +111,7 @@ export default function Feedback() {
                 id="name"
                 name="name"
                 value={formData.name}
-                readOnly // Prefilled from cookies, no edit allowed
+                readOnly
                 required
               />
             </div>
@@ -82,7 +122,7 @@ export default function Feedback() {
                 id="enrolment"
                 name="enrolment"
                 value={formData.enrolmentID}
-                readOnly // Prefilled from cookies, no edit allowed
+                readOnly
                 required
               />
             </div>

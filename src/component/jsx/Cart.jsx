@@ -42,6 +42,15 @@ const Cart = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
+  const updateQuantity = (id, newQuantity) => {
+    if (newQuantity < 1) return; // Prevents quantity from going below 1
+    const updatedCart = cartItems.map(item =>
+      item.id === id ? { ...item, quantity: newQuantity } : item
+    );
+    setCartItems(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  };
+
   const handlePayment = async () => {
     if (!isLoggedIn) {
       setShowLoginNotification(true);
@@ -143,28 +152,45 @@ const Cart = () => {
         {cartItems.length === 0 ? (
           <p>Your cart is empty. <Link to="/Lab-Manuals">Go back to shopping.</Link></p>
         ) : (
-          <>
-            <ul className="cart-items">
+          <table className="cart-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
               {cartItems.map(item => (
-                <li key={item.id} className="cart-item">
-                  <div>
-                    <h3>{item.name}</h3>
-                    <p>Price: ₹{item.Price * item.quantity}</p>
-                  </div>
-                  <button onClick={() => removeItem(item.id)} id="remove-button">Remove</button>
-                </li>
+                <tr key={item.id} className="cart-item">
+                  <td>{item.name}</td>
+                  <td>₹{item.Price}</td>
+                  <td>
+                    <div className="quantity-control">
+                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                    </div>
+                  </td>
+                  <td>₹{item.Price * item.quantity}</td>
+                  <td>
+                    <button onClick={() => removeItem(item.id)} id="remove-button">Remove</button>
+                  </td>
+                </tr>
               ))}
-            </ul>
-            <div className="cart-summary">
-              <h3>Total Price: ₹{totalPrice}</h3>
-              <button onClick={handlePayment} className="payment-btn">Go for payment</button>
-            </div>
-          </>
+            </tbody>
+          </table>
         )}
+        <div className="cart-summary">
+          <h3>Total Price: ₹{totalPrice}</h3>
+          <button onClick={handlePayment} className="payment-btn">Go for payment</button>
+        </div>
       </div>
 
       {/* Order History Section */}
-      <div className="section">
+      <div className="section order-history-container">
         <h2 className="section-title">Order History</h2>
         {orderHistory.length === 0 ? (
           <p>No past orders found.</p>

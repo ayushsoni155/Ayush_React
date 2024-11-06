@@ -9,12 +9,24 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cookies] = useCookies(['bytewiseCookies']); // Use cookies to check login status
 
+  // Toggle the navigation menu for mobile
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Scroll to the top when navigating
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);  // Scrolls to the top of the page
+  }
+
   // Check login status based on cookies
   const isLoggedIn = cookies.bytewiseCookies && cookies.bytewiseCookies.status === true;
+
+  // Close the menu when a navigation link is clicked
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+    scrollToTop();
+  };
 
   return (
     <header>
@@ -23,12 +35,14 @@ const Header = () => {
           <h1>ByteWise</h1>
           <p id="tagline">Your toolkit for engineering success</p>
         </div>
+        
+        {/* Navigation Bar */}
         <nav className={isMenuOpen ? "nav-active" : ""}>
           <ul className="nav-Links">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/notes">Notes</Link></li>
-            <li><Link to="/Lab-Manuals">Lab Manuals</Link></li>
-            <li><Link to="/courses">Courses</Link></li>
+            <li><Link to="/" onClick={handleLinkClick}>Home</Link></li>
+            <li><Link to="/notes" onClick={handleLinkClick}>Notes</Link></li>
+            <li><Link to="/Lab-Manuals" onClick={handleLinkClick}>Lab Manuals</Link></li>
+            <li><Link to="/courses" onClick={handleLinkClick}>Courses</Link></li>
           </ul>
           
           {/* Conditional rendering for Login/Profile button */}
@@ -47,10 +61,13 @@ const Header = () => {
             </button>
           )}
 
+          {/* Cart Button */}
           <button className="cartprofile">
-            <Link to='/cart'><CiShoppingCart /></Link>
+            <Link to='/cart' onClick={scrollToTop}><CiShoppingCart /></Link>
           </button>
         </nav>
+        
+        {/* Menu Icon for Mobile View */}
         <div className="menu-icon" onClick={toggleMenu}>
           <FaBars />
         </div>

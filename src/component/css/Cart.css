@@ -1,108 +1,168 @@
+/* General Styles */
 .cart-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: auto;
-  margin-top: 150px;
-  border-radius: 8px;
-  background: transparent;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
+  margin-top: 160px;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background:transparent;/* Background color for better contrast */
+  
+  }
 
 .section {
-  margin-bottom: 40px;
-  padding: 20px;
-  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  padding: 30px;
 }
 
-/* Cart Items and Order History Styling */
-.cart-items, .order-history {
-  list-style-type: none;
-  padding: 0;
-  margin: 20px 0;
+.section-title {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333; 
+
 }
 
-.cart-item, .order-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  border-bottom: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  margin-bottom: 10px;
-  transition: transform 0.2s ease;
-}
-
-.cart-item:hover, .order-item:hover {
-  transform: translateY(-3px);
-}
-
-h2.section-title {
-  font-size: 1.5rem;
+/* Cart Table Styles */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
   margin-bottom: 20px;
-  color: #4d97e1;
+  
 }
 
-/* Remove Button */
-#remove-button {
-  background-color: #ff4d4d;
+.cart-table th,
+.cart-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.cart-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #555; /* Slightly lighter for contrast */
+}
+
+.cart-item:hover {
+  background-color: #f1f1f1; /* Light gray on hover */
+}
+
+/* Quantity Control Styles */
+.quantity-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quantity-control button {
+  background-color: #4d97e1; /* Primary button color */
   color: white;
-  padding: 8px 12px;
   border: none;
   border-radius: 4px;
+  padding: 5px 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.3s;
+}
+
+.quantity-control button:hover {
+  background-color: #3b7db3; /* Darker shade on hover */
+}
+
+/* Remove Button Styles */
+#remove-button {
+  background-color: #e74c3c; /* Red for remove action */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 #remove-button:hover {
-  background-color: #cc0000;
-  transform: translateY(-2px);
+  background-color: #c0392b; /* Darker red on hover */
 }
 
-#remove-button:active {
-  background-color: #990000;
-}
-
-/* Summary and Payment Button */
+/* Summary Section */
 .cart-summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  margin-top: 10px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.cart-summary h3 {
-  font-size: 1.2rem;
-  color: #333;
+  margin-top: 20px;
 }
 
 .payment-btn {
-  padding: 10px 20px;
-  background-color: #4d97e1;
+  background-color: #28a745; /* Green for payment */
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
+  padding: 10px 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 .payment-btn:hover {
-  background-color: #3a7dc9;
+  background-color: #218838; /* Darker green on hover */
 }
 
-/* Responsive Design */
+/* Order History Styles */
+.order-history {
+  list-style-type: none;
+  padding: 0;
+}
+
+.order-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  background-color: #f9f9f9; /* Light background for orders */
+}
+
+.order-item h3 {
+  margin: 0;
+  color: #333; /* Darker color for order titles */
+}
+
+/* Order History Container */
+.order-history-container {
+  margin-top: 30px; /* Gap between cart and order history */
+  padding: 20px; /* Padding around the order history box */
+  border: 1px solid #ddd; /* Border around the order history box */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #fafafa; /* Light background for order history */
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
-  .cart-container, .section {
-    padding: 15px;
-    margin-top: 50px;
+  .cart-table th,
+  .cart-table td {
+    font-size: 14px;
+    padding: 4px;
   }
+
+  .quantity-control {
+    flex-direction: column;
+  }
+
+  .quantity-control button {
+    margin: 5px 0;
+    width: 100%; /* Full width on smaller screens */
+  }
+
   .cart-summary {
     flex-direction: column;
-    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .cart-summary .payment-btn {
+    width: 100%; /* Full width on smaller screens */
+    margin-top: 10px; /* Add some space above the button */
+  }
+
+  .section-title {
+    font-size: 20px; /* Slightly smaller title for mobile */
   }
 }

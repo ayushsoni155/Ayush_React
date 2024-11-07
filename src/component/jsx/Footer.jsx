@@ -53,9 +53,9 @@ const Footer = () => {
         </a>
         <span>Contact us</span>
         Ayush Soni +91-6266898048 <br />
-        Akash Mali +91-9893718536 <br />
+       // Akash Mali +91-9893718536 <br />
         Hitesh Baghel +91-7879025039<br />
-        Aarti Solanki +91-8819934644<br />
+        //Aarti Solanki +91-8819934644<br />
       </div>
     </div>
     <footer>

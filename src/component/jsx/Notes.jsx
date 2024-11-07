@@ -41,12 +41,11 @@ const Notes = () => {
   });
 
   const openPDF = (pdfUrl) => {
-    // if (isLoggedIn) {
-    //   window.open(pdfUrl, '_blank'); // Open the PDF in a new tab if logged in
-    // } else {
-    //   setShowLoginNotification(true); // Show notification if not logged in
-    // }
-     window.open(pdfUrl, '_blank'); 
+    if (isLoggedIn) {
+      window.open(pdfUrl, '_blank'); // Open the PDF in a new tab if logged in
+    } else {
+      setShowLoginNotification(true); // Show notification if not logged in
+    }
   };
 
   return (

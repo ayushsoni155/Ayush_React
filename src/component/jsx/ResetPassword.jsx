@@ -65,7 +65,7 @@ const ResetPassword = () => {
 
         try {
             // Send request to the backend to reset password
-            const response = await fetch('http://localhost:3000/reset-password', {
+            const response = await fetch('https://bytewise-server.vercel.app/api/reset-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

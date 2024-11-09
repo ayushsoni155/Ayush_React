@@ -131,6 +131,7 @@ const Login = () => {
                             name="enrolmentID"
                             value={formData.enrolmentID}
                             onChange={handleChange}
+                            style={{ textTransform: 'uppercase' }}
                             placeholder="Enter your enrollment number"
                             required
                         />

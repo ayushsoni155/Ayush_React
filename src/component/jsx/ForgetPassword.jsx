@@ -57,7 +57,7 @@ const ForgotPassword = () => {
 
         try {
             // Send request to the backend for verification
-            const response = await fetch('http://localhost:3000/forgot-password', {
+            const response = await fetch('https://bytewise-server.vercel.app/api/forgot-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

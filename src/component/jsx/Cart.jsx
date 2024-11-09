@@ -123,19 +123,39 @@ const Cart = () => {
     }
   };
 
+  // const saveOrder = async (orderDetails) => {
+  //   const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(orderDetails)
+  //   });
+  //   const data = await response.json();
+  //   console.log('Order saved:', data);
+  //   localStorage.removeItem('cart');
+  //   setCartItems([]); // Clear cart after order is saved
+  // };
   const saveOrder = async (orderDetails) => {
-    const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(orderDetails)
-    });
-    const data = await response.json();
-    console.log('Order saved:', data);
+  console.log('Saving order:', orderDetails);  // Log order details for debugging
+
+  const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(orderDetails),
+  });
+  
+  const data = await response.json();
+  console.log('Order saved:', data);
+  if (data.message === 'Order saved successfully') {
+    // Reset cart after successful order save
     localStorage.removeItem('cart');
     setCartItems([]); // Clear cart after order is saved
-  };
+  }
+};
+
 
   useEffect(() => {
     if (paymentSuccess) {

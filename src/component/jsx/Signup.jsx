@@ -85,7 +85,7 @@ const Signup = () => {
         }
 
         try {
-            const response = await fetch('https://bytewise-server.vercel.app/signup', {
+            const response = await fetch('https://bytewise-server.vercel.app/api/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -25,109 +25,109 @@ const Signup = () => {
     const [cookies, setCookie] = useCookies(['bytewiseCookies']); // Corrected
     const navigate = useNavigate();
 
+    // const handleChange = (event) => {
+    //     const { name, value } = event.target;
+
+    //     setFormData({
+    //         ...formData,
+    //         [name]: value
+    //     });
+
+    //     if (name === 'enrolmentID') {
+    //         setErrors((prevErrors) => ({
+    //             ...prevErrors,
+    //             enrolmentID: enrolmentRegex.test(value) ? '' : 'Invalid enrollment number'
+    //         }));
+    //     }
+
+    //     if (name === 'phone') {
+    //         setErrors((prevErrors) => ({
+    //             ...prevErrors,
+    //             phone: phoneRegex.test(value) ? '' : 'Invalid phone number'
+    //         }));
+    //     }
+
+    //     if (name === 'password') {
+    //         setErrors((prevErrors) => ({
+    //             ...prevErrors,
+    //             password: passwordRegex.test(value)
+    //                 ? ''
+    //                 : 'Password must be at least 8 characters long and contain both letters and numbers'
+    //         }));
+
+    //         if (value !== formData.confirmPassword) {
+    //             setErrors((prevErrors) => ({
+    //                 ...prevErrors,
+    //                 confirmPassword: 'Passwords do not match'
+    //             }));
+    //         } else {
+    //             setErrors((prevErrors) => ({
+    //                 ...prevErrors,
+    //                 confirmPassword: ''
+    //             }));
+    //         }
+    //     }
+
+    //     if (name === 'confirmPassword') {
+    //         setErrors((prevErrors) => ({
+    //             ...prevErrors,
+    //             confirmPassword: value !== formData.password ? 'Passwords do not match' : ''
+    //         }));
+    //     }
+    // };
     const handleChange = (event) => {
-        const { name, value } = event.target;
+    const { name, value } = event.target;
 
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+    // If the field is 'enrolmentID', convert the value to uppercase
+    const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
 
-        if (name === 'enrolmentID') {
+    setFormData({
+        ...formData,
+        [name]: updatedValue
+    });
+
+    if (name === 'enrolmentID') {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number'
+        }));
+    }
+
+    if (name === 'phone') {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            phone: phoneRegex.test(value) ? '' : 'Invalid phone number'
+        }));
+    }
+
+    if (name === 'password') {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            password: passwordRegex.test(value)
+                ? ''
+                : 'Password must be at least 8 characters long and contain both letters and numbers'
+        }));
+
+        if (value !== formData.confirmPassword) {
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                enrolmentID: enrolmentRegex.test(value) ? '' : 'Invalid enrollment number'
+                confirmPassword: 'Passwords do not match'
             }));
-        }
-
-        if (name === 'phone') {
+        } else {
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                phone: phoneRegex.test(value) ? '' : 'Invalid phone number'
+                confirmPassword: ''
             }));
         }
+    }
 
-        if (name === 'password') {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                password: passwordRegex.test(value)
-                    ? ''
-                    : 'Password must be at least 8 characters long and contain both letters and numbers'
-            }));
-
-            if (value !== formData.confirmPassword) {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    confirmPassword: 'Passwords do not match'
-                }));
-            } else {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    confirmPassword: ''
-                }));
-            }
-        }
-
-        if (name === 'confirmPassword') {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                confirmPassword: value !== formData.password ? 'Passwords do not match' : ''
-            }));
-        }
-    };
-//     const handleChange = (event) => {
-//     const { name, value } = event.target;
-
-//     // If the field is 'enrolmentID', convert the value to uppercase
-//     const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
-
-//     setFormData({
-//         ...formData,
-//         [name]: updatedValue
-//     });
-
-//     if (name === 'enrolmentID') {
-//         setErrors((prevErrors) => ({
-//             ...prevErrors,
-//             enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number'
-//         }));
-//     }
-
-//     if (name === 'phone') {
-//         setErrors((prevErrors) => ({
-//             ...prevErrors,
-//             phone: phoneRegex.test(value) ? '' : 'Invalid phone number'
-//         }));
-//     }
-
-//     if (name === 'password') {
-//         setErrors((prevErrors) => ({
-//             ...prevErrors,
-//             password: passwordRegex.test(value)
-//                 ? ''
-//                 : 'Password must be at least 8 characters long and contain both letters and numbers'
-//         }));
-
-//         if (value !== formData.confirmPassword) {
-//             setErrors((prevErrors) => ({
-//                 ...prevErrors,
-//                 confirmPassword: 'Passwords do not match'
-//             }));
-//         } else {
-//             setErrors((prevErrors) => ({
-//                 ...prevErrors,
-//                 confirmPassword: ''
-//             }));
-//         }
-//     }
-
-//     if (name === 'confirmPassword') {
-//         setErrors((prevErrors) => ({
-//             ...prevErrors,
-//             confirmPassword: value !== formData.password ? 'Passwords do not match' : ''
-//         }));
-//     }
-// };
+    if (name === 'confirmPassword') {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            confirmPassword: value !== formData.password ? 'Passwords do not match' : ''
+        }));
+    }
+};
 
 
     const handleSubmit = async (event) => {

@@ -16,7 +16,7 @@ const notesArray = [
         description: "It covers basic concepts of calculus, algebra, and geometry.", 
         image: '/Eng_M1.png', 
         branch: "CSE", 
-        pdfUrl:'/NotesPDF/M1Notes.pdf'
+        pdfUrl:'https://drive.google.com/file/d/1Z34d4G03P8yKTc7NpfoP6D7vEPAeXuA0/view?usp=drive_link'
     }, 
     { 
         name: "English for Communication", 

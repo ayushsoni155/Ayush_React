@@ -1,7 +1,7 @@
 /* Header Styling */
 header {
   background-color: #4d97e1;
-  padding: 10px 20px;
+  padding: 5px 10px;
   color: white;
   position: fixed;
   width: 100%;
@@ -12,6 +12,7 @@ header {
 
 /* Container for Flexbox Alignment */
 .container {
+  gap: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,18 +21,22 @@ header {
 }
 
 /* Logo Styling */
-.logo h1 {
-  font-size: 42px;
-  margin: 0;
-  font-weight: 800;
-  color: crimson;
+.logo {
+  display: flex;
+  flex-direction: row; /* Align the logo image and tagline side by side */
+  align-items: center; /* Vertically align both elements */
+}
+
+.logo-img {
+  width: 80px; /* Set a base width for the logo */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 10px; /* Space between logo and tagline */
 }
 
 #tagline {
-  font-size: 18px;
-  font-weight: 300;
-  color: #f0f0f0;
-  margin-top: -10px;
+  font-size: 22px;
+  font-weight: 400;
+  color: rgb(0, 48, 85);
 }
 
 /* Navigation Menu Styling */
@@ -197,6 +202,11 @@ nav ul li a:hover::after {
     display: block; /* Show the menu icon */
   }
 
+  /* Adjust logo size for mobile */
+  .logo-img {
+    width: 100px; /* Make the logo smaller on mobile */
+  }
+
   /* Adjust logo font size for mobile */
   .logo h1 {
     font-size: 36px;
@@ -220,6 +230,10 @@ nav ul li a:hover::after {
 }
 
 @media screen and (max-width: 480px) {
+  .logo-img {
+    width: 80px; /* Further decrease logo size for very small screens */
+  }
+
   .logo h1 {
     font-size: 32px; /* Further decrease logo size */
   }
@@ -234,11 +248,12 @@ nav ul li a:hover::after {
 
   #LoginBtn {
     font-size: 16px; /* Further reduce font size for smaller screens */
-    padding: 6px 12px; /* Adjust padding for smaller screens */
+    padding: 3px 6px; /* Adjust padding for smaller screens */
   }
 
   /* Adjust cart button size for mobile */
   #cartbtn {
+    
     font-size: 26px; /* Further adjust cart icon size for smaller screens */
   }
 }

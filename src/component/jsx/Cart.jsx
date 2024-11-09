@@ -17,7 +17,7 @@ const Cart = () => {
 
   const fetchOrderHistory = useCallback(async () => {
     try {
-      const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrollmentId=${userData.enrolmentID}`);
+      const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentId=${userData.enrolmentID}`);
       const data = await response.json();
       setOrderHistory(data);
     } catch (err) {

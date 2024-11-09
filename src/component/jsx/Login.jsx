@@ -64,7 +64,7 @@ const Login = () => {
         }
 
         try {
-            const response = await fetch('http://bytewise-server.vercel.app/api/login', {
+            const response = await fetch('https://bytewise-server.vercel.app/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

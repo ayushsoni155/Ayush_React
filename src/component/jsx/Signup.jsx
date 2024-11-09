@@ -227,7 +227,6 @@ const Signup = () => {
                             value={formData.enrolmentID}
                             onChange={handleChange}
                             placeholder="Enter your enrollment number"
-                            style={{ textTransform: 'uppercase' }}
                             required
                         />
 

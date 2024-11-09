@@ -25,28 +25,53 @@ const Login = () => {
         }
     }, [cookies, navigate]);
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
+    // const handleChange = (event) => {
+    //     const { name, value } = event.target;
 
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+    //     setFormData({
+    //         ...formData,
+    //         [name]: value
+    //     });
 
-        if (name === 'enrolmentID') {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                enrolmentID: enrolmentRegex.test(value) ? '' : 'Invalid enrollment number'
-            }));
-        }
+    //     if (name === 'enrolmentID') {
+    //         setErrors((prevErrors) => ({
+    //             ...prevErrors,
+    //             enrolmentID: enrolmentRegex.test(value) ? '' : 'Invalid enrollment number'
+    //         }));
+    //     }
 
-        if (name === 'password') {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                password: passwordRegex.test(value) ? '' : 'Password must be at least 8 characters long and contain both letters and numbers'
-            }));
-        }
-    };
+    //     if (name === 'password') {
+    //         setErrors((prevErrors) => ({
+    //             ...prevErrors,
+    //             password: passwordRegex.test(value) ? '' : 'Password must be at least 8 characters long and contain both letters and numbers'
+    //         }));
+    //     }
+    // };
+const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    // If the field is 'enrolmentID', convert the value to uppercase
+    const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
+
+    setFormData({
+        ...formData,
+        [name]: updatedValue
+    });
+
+    if (name === 'enrolmentID') {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number'
+        }));
+    }
+
+    if (name === 'password') {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            password: passwordRegex.test(value) ? '' : 'Password must be at least 8 characters long and contain both letters and numbers'
+        }));
+    }
+};
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -131,7 +156,6 @@ const Login = () => {
                             name="enrolmentID"
                             value={formData.enrolmentID}
                             onChange={handleChange}
-                            style={{ textTransform: 'uppercase' }}
                             placeholder="Enter your enrollment number"
                             required
                         />

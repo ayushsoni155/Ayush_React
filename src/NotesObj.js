@@ -50,7 +50,7 @@ const notesArray = [
         description: " It explores the fundamental principles of physics and their applications in engineering.", 
         image: '/Eng_Physics.png', 
          branch: "CSE", 
-        pdfUrl:'/NotesPDF/PhysicsNotes.pdf' 
+        pdfUrl:'https://drive.google.com/file/d/1WuAiPw9iZ3EMIPtQZTpOwPNZ1rWiIzmc/view?usp=drive_link' 
     }, 
     { 
         name: "Mathematics - II (M2)", 
@@ -59,7 +59,7 @@ const notesArray = [
         description: "It focuses on advanced calculus, differential equations, and vector analysis, essential for solving complex engineering problems.", 
         image: '/Eng_M2.png', 
          branch: "CSE",
-         pdfUrl:'/NotesPDF/M2Notes.pdf' 
+         pdfUrl:'https://drive.google.com/file/d/1ICvOmkRTF2QVTtl6RROXminywvjwtjdz/view?usp=drive_link' 
     }, 
     { 
         name: "Basic Mechanical Engineering", 
@@ -68,7 +68,7 @@ const notesArray = [
         description: "It introduces fundamental concepts of mechanics, thermodynamics, and material science.", 
         image: '/Eng_Mechanical.png', 
          branch: "CSE",
-         pdfUrl:'/NotesPDF/MechanicalNotes.pdf' 
+         pdfUrl:'https://drive.google.com/file/d/1fJRn-qMttQjn7KzBisP0qkMObQ9jlRAL/view?usp=drive_link' 
     }, 
     { 
         name: "Basic Civil Engineering & Mechanics", 
@@ -139,7 +139,7 @@ const notesArray = [
         description: "It covers advanced topics such as linear algebra, complex variables, and partial differential equations.", 
         image: '/Eng_M3.png',
 	branch: "CSE",
-    pdfUrl:'/NotesPDF/M3Notes.pdf' 
+    pdfUrl:'https://drive.google.com/file/d/1VL4ndNsNylp4RXSXhX8YYl6CeJ45zJCi/view?usp=drive_link' 
     }, 
     { 
         name: "Analysis and Design of Algorithms", 
@@ -157,7 +157,7 @@ const notesArray = [
         description: " It focuses on the systematic design, development, testing, and maintenance of software.", 
         image: '/Eng_SE.png', 
          branch: "CSE",
-         pdfUrl:'/NotesPDF/SENotes.pdf' 
+         pdfUrl:'https://drive.google.com/file/d/1ECE5lkA00msxqejUX7VsQyyy0Q2fpqI6/view?usp=drive_link' 
     }, 
     { 
         name: "Computer Organization & Architecture", 
@@ -175,7 +175,7 @@ const notesArray = [
         description: "It explains how a computer works by managing hardware, running programs, and handling tasks like memory and storage.", 
         image: '/Eng_OS.png', 
          branch: "CSE",
-         pdfUrl:'/NotesPDF/OSNotes.pdf' 
+         pdfUrl:'https://drive.google.com/file/d/1X6DIdCKEC8eEwkS6q7tFt5ly7i0RKLkT/view?usp=drive_link' 
     }, 
     { 
         name: "Theory of Computation", 

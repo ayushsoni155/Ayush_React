@@ -53,7 +53,7 @@ export default function Feedback() {
     };
 
     try {
-      const response = await fetch('http://localhost:3000/feedback-submit', {
+      const response = await fetch('https://bytewise-server.vercel.app/api/feedback-submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

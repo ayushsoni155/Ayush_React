@@ -13,7 +13,7 @@ export default function Feedback() {
   const [notification, setNotification] = useState({
     message: '',
     type: '',
-    visible: false
+    visible: false,
   });
 
   useEffect(() => {
@@ -37,11 +37,12 @@ export default function Feedback() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Check if user is logged in
     if (!cookies.bytewiseCookies || !cookies.bytewiseCookies.status) {
       setNotification({
         message: 'You must be logged in to submit feedback.',
         type: 'error',
-        visible: true
+        visible: true,
       });
       return;
     }
@@ -49,7 +50,7 @@ export default function Feedback() {
     const feedbackData = {
       name: formData.name,
       enrolmentID: formData.enrolmentID,
-      message: formData.message,
+      feedback: formData.message, // Backend expects 'feedback' field
     };
 
     try {
@@ -63,29 +64,27 @@ export default function Feedback() {
 
       if (response.ok) {
         setNotification({
-            message: 'Feedback submitted successfully.',
-            type: 'success',
-            visible: true
+          message: 'Feedback submitted successfully.',
+          type: 'success',
+          visible: true,
         });
         setFormData((prevData) => ({
-            ...prevData,
-            message: '',
+          ...prevData,
+          message: '',
         }));
-    } else {
-        console.log('Setting error notification');
+      } else {
         setNotification({
-            message: 'Error submitting feedback.',
-            type: 'error',
-            visible: true
+          message: 'Error submitting feedback.',
+          type: 'error',
+          visible: true,
         });
-    }
-    
+      }
     } catch (error) {
       console.error('Error submitting feedback:', error);
       setNotification({
         message: 'Error submitting feedback. Please try again later.',
         type: 'error',
-        visible: true
+        visible: true,
       });
     }
   };
@@ -116,7 +115,7 @@ export default function Feedback() {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="enrolment">Enrolment:</label>
+              <label htmlFor="enrolment">Enrolment ID:</label>
               <input
                 type="text"
                 id="enrolment"

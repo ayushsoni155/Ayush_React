@@ -123,39 +123,25 @@ const Cart = () => {
     }
   };
 
-  // const saveOrder = async (orderDetails) => {
-  //   const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(orderDetails)
-  //   });
-  //   const data = await response.json();
-  //   console.log('Order saved:', data);
-  //   localStorage.removeItem('cart');
-  //   setCartItems([]); // Clear cart after order is saved
-  // };
   const saveOrder = async (orderDetails) => {
-  console.log('Saving order:', orderDetails);  // Log order details for debugging
+    console.log('Saving order:', orderDetails);  // Log order details for debugging
 
-  const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(orderDetails),
-  });
-  
-  const data = await response.json();
-  console.log('Order saved:', data);
-  if (data.message === 'Order saved successfully') {
-    // Reset cart after successful order save
-    localStorage.removeItem('cart');
-    setCartItems([]); // Clear cart after order is saved
-  }
-};
-
+    const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(orderDetails),
+    });
+    
+    const data = await response.json();
+    console.log('Order saved:', data);
+    if (data.message === 'Order saved successfully') {
+      // Reset cart after successful order save
+      localStorage.removeItem('cart');
+      setCartItems([]); // Clear cart after order is saved
+    }
+  };
 
   useEffect(() => {
     if (paymentSuccess) {
@@ -163,6 +149,15 @@ const Cart = () => {
       setPaymentSuccess(false); // Reset payment success state
     }
   }, [paymentSuccess, fetchOrderHistory]);
+
+  // Helper function to format date as dd-mm-yyyy
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
 
   return (
     <div className="cart-container">
@@ -220,7 +215,7 @@ const Cart = () => {
               <li key={order.orderID} className="order-item">
                 <div>
                   <h3>Order ID: {order.orderID}</h3>
-                  <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
+                  <p>Date: {formatDate(order.order_date)}</p> {/* Format date as dd-mm-yyyy */}
                   <p>Total: ₹{order.total_price}</p>
                   <h4>Items:</h4>
                   <ul>

@@ -111,7 +111,9 @@ const Cart = () => {
           contact: userData?.phone || '9999999999'
         },
         theme: {
-          color: '#4d97e1'
+          color: '#4d97e1',
+          image: 'logo-transparent-png.png'  // Path to your logo image
+          
         }
       };
 

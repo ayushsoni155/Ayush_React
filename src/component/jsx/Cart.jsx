@@ -62,82 +62,85 @@ const Cart = () => {
 
   // Handle payment process
   const handlePayment = async () => {
-    if (!isLoggedIn) {
-      setShowLoginNotification(true);
+  if (!isLoggedIn) {
+    setShowLoginNotification(true);
+    return;
+  }
+
+  if (cartItems.length === 0) {
+    setNotification({ message: 'Your cart is empty. Please add items before proceeding.', type: 'warning', visible: true });
+    return;
+  }
+
+  if (!window.Razorpay) {
+    setNotification({ message: 'Razorpay SDK failed to load. Please check your internet connection.', type: 'error', visible: true });
+    return;
+  }
+
+  try {
+    const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: totalPrice * 100 }),
+    });
+    const order = await response.json();
+
+    if (!order || !order.id) {
+      console.error('Order ID not received from create-order API');
+      setNotification({ message: 'Error in creating order. Try again.', type: 'error', visible: true });
       return;
     }
 
-    if (cartItems.length === 0) {
-      setNotification({ message: 'Your cart is empty. Please add items before proceeding.', type: 'warning', visible: true });
-      return;
-    }
+    const options = {
+      key: 'rzp_test_7PpL3w409po5NZ',
+      amount: order.amount,
+      currency: 'INR',
+      name: 'ByteWise',
+      description: 'Thank you for shopping with ByteWise',
+      order_id: order.id,
+      handler: async (response) => {
+        if (response.razorpay_payment_id) {
+          const orderDetails = {
+            orderID: response.razorpay_order_id,
+            enrolmentID: userData.enrolmentID,
+            orderItems: cartItems.map(item => ({
+              Subject_code: item.Subject_code,
+              item_quantity: item.quantity,
+              item_price: item.Price * item.quantity,
+            })),
+            totalPrice: totalPrice,
+            transactionID: response.razorpay_payment_id,
+          };
 
-    if (!window.Razorpay) {
-      setNotification({ message: 'Razorpay SDK failed to load. Please check your internet connection.', type: 'error', visible: true });
-      return;
-    }
-
-    try {
-      const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ amount: totalPrice * 100 }),
-      });
-      const order = await response.json();
-
-      const options = {
-        key: 'rzp_test_7PpL3w409po5NZ',
-        amount: order.amount,
-        currency: 'INR',
-        name: 'ByteWise',
-        description: 'Thank you for shopping with ByteWise',
-        order_id: order.id,
-        method: ['upi', 'card'],
-        handler: async (response) => {
-          if (userData) {
-            const orderDetails = {
-              orderID: response.razorpay_order_id,
-              enrolmentID: userData.enrolmentID,
-              orderItems: cartItems.map(item => ({
-                Subject_code: item.Subject_code,
-                item_quantity: item.quantity,
-                item_price: item.Price * item.quantity,
-              })),
-              totalPrice: totalPrice,
-              transactionID: response.razorpay_payment_id,
-            };
-
-            try {
-              await saveOrder(orderDetails);
-              setNotification({ message: 'Payment successful!', type: 'success', visible: true });
-              setPaymentSuccess(true);
-            } catch (err) {
-              console.error('Error saving order:', err);
-              setNotification({ message: 'Error saving order.', type: 'error', visible: true });
-            }
-          } else {
-            console.log('User data not found.');
-            setNotification({ message: 'User data not found.', type: 'error', visible: true });
+          try {
+            await saveOrder(orderDetails);
+            setNotification({ message: 'Payment successful!', type: 'success', visible: true });
+            setPaymentSuccess(true);
+          } catch (err) {
+            console.error('Error saving order:', err);
+            setNotification({ message: 'Error saving order.', type: 'error', visible: true });
           }
-        },
-        prefill: {
-          name: userData?.name || 'User',
-          contact: userData?.phone || '9999999999',
-        },
-        theme: {
-          color: '#4d97e1',
-        },
-      };
+        } else {
+          console.log('Payment failed or was cancelled by the user');
+          setNotification({ message: 'Payment cancelled or failed.', type: 'error', visible: true });
+        }
+      },
+      prefill: {
+        name: userData?.name || 'User',
+        contact: userData?.phone || '9999999999',
+      },
+      theme: {
+        color: '#4d97e1',
+      },
+    };
 
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
-    } catch (error) {
-      console.error(error);
-      setNotification({ message: 'Error in payment.', type: 'error', visible: true });
-    }
-  };
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  } catch (error) {
+    console.error('Payment process failed:', error);
+    setNotification({ message: 'Error in payment.', type: 'error', visible: true });
+  }
+};
 
   // Save order details to the backend after payment
   const saveOrder = async (orderDetails) => {

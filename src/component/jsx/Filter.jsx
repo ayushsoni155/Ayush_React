@@ -2,6 +2,16 @@ import React from 'react';
 import '../css/Filter.css'; // If you want to style this component separately
 
 const Filter = ({ searchTerm, handleSearch, semester, handleSemesterChange, branch, handleBranchChange }) => {
+  
+  // This handles the search input, removing spaces and standardizing to uppercase
+  const handleSearchInput = (event) => {
+    const normalizedSearchTerm = event.target.value
+      .replace(/\s+/g, '')  // Remove all spaces
+      .toUpperCase();      // Convert to uppercase
+    
+    handleSearch(normalizedSearchTerm); // Call the parent handler with the normalized input
+  };
+
   return (
     <div className="filters">
       {/* Search Bar */}
@@ -9,7 +19,7 @@ const Filter = ({ searchTerm, handleSearch, semester, handleSemesterChange, bran
         type="text"
         placeholder="Search..."
         value={searchTerm}
-        onChange={handleSearch}
+        onChange={handleSearchInput} // Use the new normalized input handler
         className="search-bar"
       />
 

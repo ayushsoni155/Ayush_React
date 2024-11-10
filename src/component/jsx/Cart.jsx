@@ -16,17 +16,28 @@ const Cart = () => {
   const totalPrice = cartItems.reduce((total, item) => total + item.Price * item.quantity, 0);
 
   // Fetch order history
-  const fetchOrderHistory = useCallback(async () => {
-    if (!userData?.enrolmentID) return;
+ const fetchOrderHistory = async (enrolmentID) => {
+  try {
+    const response = await fetch(`https://bytewise-server.vercel.app/order-history?enrolmentID=${enrolmentID}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any other headers you may need
+      },
+      credentials: 'include', // Make sure credentials are sent
+    });
 
-    try {
-      const response = await fetch(`https://bytewise-server.vercel.app/order-history?enrolmentId=${userData.enrolmentID}`);
-      const data = await response.json();
-      setOrderHistory(data);
-    } catch (err) {
-      console.error('Order history fetch error:', err);
+    if (!response.ok) {
+      throw new Error('Failed to fetch order history');
     }
-  }, [userData]);
+
+    const data = await response.json();
+    return data; // Handle the response here
+  } catch (error) {
+    console.error('Order history fetch error:', error);
+    // Handle the error here
+  }
+};
 
   // Initializing cart and fetching order history when logged in
   useEffect(() => {

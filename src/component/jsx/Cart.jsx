@@ -12,6 +12,7 @@ const Cart = () => {
   const [orderHistory, setOrderHistory] = useState([]); // Order history state
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
   const totalPrice = cartItems.reduce((total, item) => total + item.Price * item.quantity, 0);
+  
 
   // Fetch order history from the backend
   const fetchOrderHistory = async (enrolmentID) => {
@@ -152,6 +153,16 @@ const Cart = () => {
   };
 
   return (
+     <div className="overlay">
+            <button className="close-button" onClick={() => navigate('/')}>X</button>
+            {notification && (
+                <Notification
+                    message={notification.message}
+                    type={notification.type}
+                    onClose={() => setNotification(null)}
+                />
+            )}
+
     <div className="cart-container">
       {/* Cart Section */}
       <div className="section">

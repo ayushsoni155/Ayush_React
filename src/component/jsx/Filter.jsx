@@ -41,7 +41,7 @@ const Filter = ({ searchTerm, handleSearch, semester, handleSemesterChange, bran
       <select value={branch} onChange={handleBranchChange} className="branch-selector">
         <option value="All">All Branches</option>
         <option value="CSE">Computer Science</option>
-        <option value="ECE">Electronics</option>
+{/*         <option value="ECE">Electronics</option> */}
         {/* Add more branch options as needed */}
       </select>
     </div>

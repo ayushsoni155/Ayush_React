@@ -4,7 +4,7 @@
   margin: auto;
   margin-top: 120px;
   padding: 20px;
-  font-family: 'Roboto', sans-serif;
+  font-family: Arial, sans-serif; /* Keep existing font */
   background-color: #f4f7fa; /* Light background */
 }
 
@@ -56,11 +56,12 @@
   background-color: #fafafa;
 }
 
-/* Quantity Control Styles */
+/* Quantity Control Styles (Buttons +,-) */
 .quantity-control {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px; /* Space between buttons */
 }
 
 .quantity-control button {
@@ -68,40 +69,47 @@
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 6px 12px;
-  cursor: pointer;
+  padding: 8px 12px;
   font-size: 16px;
+  cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
 }
 
 .quantity-control button:hover {
   background-color: #3b7db3;
-  transform: scale(1.05);
+  transform: scale(1.1); /* Slight scaling effect on hover */
 }
 
 .quantity-control button:disabled {
   background-color: #d1d1d1;
   cursor: not-allowed;
+  transform: scale(1); /* Disable hover effect when disabled */
 }
 
-/* Remove Button Styles */
-#remove-button {
-  background-color: #e74c3c;
+/* Remove Button Styles (Under the table) */
+.remove-btn {
+  background-color: #e74c3c; /* Red for remove action */
   color: white;
   border: none;
   border-radius: 8px;
   padding: 8px 15px;
+  font-size: 14px;
   cursor: pointer;
   font-weight: 500;
   transition: background-color 0.3s, transform 0.2s;
+  display: inline-block;
 }
 
-#remove-button:hover {
+.remove-btn:hover {
   background-color: #c0392b;
-  transform: scale(1.05);
+  transform: scale(1.05); /* Slight scaling effect on hover */
 }
 
-/* Summary Section */
+.remove-btn:focus {
+  outline: none;
+}
+
+/* Cart Summary Section */
 .cart-summary {
   display: flex;
   justify-content: space-between;
@@ -184,11 +192,11 @@
 
   .quantity-control {
     flex-direction: column;
-    gap: 5px;
+    gap: 5px; /* Space between buttons in column layout */
   }
 
   .quantity-control button {
-    width: 100%;
+    width: 100%; /* Full width for buttons on smaller screens */
     font-size: 18px;
   }
 

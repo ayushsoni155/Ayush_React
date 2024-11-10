@@ -153,14 +153,6 @@ const Cart = () => {
   };
 
   return (
-            {notification && (
-                <Notification
-                    message={notification.message}
-                    type={notification.type}
-                    onClose={() => setNotification(null)}
-                />
-            )}
-
     <div className="cart-container">
       {/* Cart Section */}
       <div className="section">

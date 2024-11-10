@@ -5,9 +5,10 @@ const Filter = ({ searchTerm, handleSearch, semester, handleSemesterChange, bran
   
   // This handles the search input, removing spaces and standardizing to uppercase
   const handleSearchInput = (event) => {
-    const normalizedSearchTerm = event.target.value
-      .replace(/\s+/g, '')  // Remove all spaces
-      .toUpperCase();      // Convert to uppercase
+    // Preventing unnecessary state manipulation directly within the handler
+    const userInput = event.target.value;
+    // Remove spaces and convert to uppercase before updating the state
+    const normalizedSearchTerm = userInput.replace(/\s+/g, '').toUpperCase();
     
     handleSearch(normalizedSearchTerm); // Call the parent handler with the normalized input
   };
@@ -18,8 +19,8 @@ const Filter = ({ searchTerm, handleSearch, semester, handleSemesterChange, bran
       <input
         type="text"
         placeholder="Search..."
-        value={searchTerm}
-        onChange={handleSearchInput} // Use the new normalized input handler
+        value={searchTerm} // Controlled input
+        onChange={handleSearchInput} // Update value while typing
         className="search-bar"
       />
 

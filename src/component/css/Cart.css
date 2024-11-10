@@ -2,26 +2,34 @@
 .cart-container {
   max-width: 1200px;
   margin: auto;
-  margin-top: 160px;
+  margin-top: 120px;
   padding: 20px;
-  font-family: Arial, sans-serif;
-  background:transparent;/* Background color for better contrast */
-  
-  }
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f7fa; /* Light background */
+}
 
 .section {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background-color: white;
-  border-radius: 8px;
+  border-radius: 12px;
   margin-bottom: 30px;
   padding: 30px;
+  transition: box-shadow 0.3s ease;
+}
+
+.section:hover {
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15); /* Subtle hover effect */
 }
 
 .section-title {
-  font-size: 24px;
+  font-size: 26px;
   margin-bottom: 15px;
-  color: #333; 
-
+  color: #333;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 5px;
 }
 
 /* Cart Table Styles */
@@ -29,24 +37,23 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-  
 }
 
 .cart-table th,
 .cart-table td {
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 12px;
   text-align: center;
 }
 
 .cart-table th {
-  background-color: #f4f4f4;
-  font-weight: bold;
-  color: #555; /* Slightly lighter for contrast */
+  background-color: #f7f7f7;
+  color: #555;
+  font-weight: 500;
 }
 
 .cart-item:hover {
-  background-color: #f1f1f1; /* Light gray on hover */
+  background-color: #fafafa;
 }
 
 /* Quantity Control Styles */
@@ -61,28 +68,37 @@
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 5px 10px;
+  padding: 6px 12px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .quantity-control button:hover {
-  background-color: #3b7db3; /* Darker shade on hover */
+  background-color: #3b7db3;
+  transform: scale(1.05);
+}
+
+.quantity-control button:disabled {
+  background-color: #d1d1d1;
+  cursor: not-allowed;
 }
 
 /* Remove Button Styles */
 #remove-button {
-  background-color: #e74c3c; /* Red for remove action */
+  background-color: #e74c3c;
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 5px 10px;
+  border-radius: 8px;
+  padding: 8px 15px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-weight: 500;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 #remove-button:hover {
-  background-color: #c0392b; /* Darker red on hover */
+  background-color: #c0392b;
+  transform: scale(1.05);
 }
 
 /* Summary Section */
@@ -91,48 +107,71 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  border-top: 2px solid #f0f0f0;
+  padding-top: 15px;
+}
+
+.cart-summary h3 {
+  font-size: 20px;
+  color: #333;
+  font-weight: 600;
 }
 
 .payment-btn {
-  background-color: #28a745; /* Green for payment */
+  background-color: #28a745;
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 10px 20px;
+  padding: 12px 30px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .payment-btn:hover {
-  background-color: #218838; /* Darker green on hover */
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.payment-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
 }
 
 /* Order History Styles */
 .order-history {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .order-item {
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 15px;
   margin-bottom: 10px;
-  border-radius: 4px;
-  background-color: #f9f9f9; /* Light background for orders */
+  border-radius: 8px;
+  background-color: #fafafa;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.order-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .order-item h3 {
   margin: 0;
-  color: #333; /* Darker color for order titles */
+  color: #333;
+  font-weight: 600;
 }
 
 /* Order History Container */
 .order-history-container {
-  margin-top: 30px; /* Gap between cart and order history */
-  padding: 20px; /* Padding around the order history box */
-  border: 1px solid #ddd; /* Border around the order history box */
-  border-radius: 8px; /* Rounded corners */
-  background-color: #fafafa; /* Light background for order history */
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fff;
 }
 
 /* Responsive Styles */
@@ -140,16 +179,17 @@
   .cart-table th,
   .cart-table td {
     font-size: 14px;
-    padding: 4px;
+    padding: 10px;
   }
 
   .quantity-control {
     flex-direction: column;
+    gap: 5px;
   }
 
   .quantity-control button {
-    margin: 5px 0;
-    width: 100%; /* Full width on smaller screens */
+    width: 100%;
+    font-size: 18px;
   }
 
   .cart-summary {
@@ -157,12 +197,26 @@
     align-items: flex-start;
   }
 
-  .cart-summary .payment-btn {
-    width: 100%; /* Full width on smaller screens */
-    margin-top: 10px; /* Add some space above the button */
+  .cart-summary h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .payment-btn {
+    width: 100%;
+    margin-top: 10px;
   }
 
   .section-title {
-    font-size: 20px; /* Slightly smaller title for mobile */
+    font-size: 22px;
+  }
+
+  /* Improved mobile layout for order history */
+  .order-item {
+    padding: 12px;
+  }
+
+  .order-item h3 {
+    font-size: 18px;
   }
 }

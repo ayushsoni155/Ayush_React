@@ -171,10 +171,12 @@ const Cart = () => {
                   <td>{item.name}</td>
                   <td>₹{item.Price}</td>
                   <td>
-                    <button className='.quantity-control' onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
+                    <div  className='.quantity-control' >
+                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
                     <span>{item.quantity}</span>
-                    <button className='.quantity-control' onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
-                  </td>
+                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                  </div>
+                    </td>
                   <td>₹{item.Price * item.quantity}</td>
                   <td><button id='remove-button' onClick={() => removeItem(item.id)}>Remove</button></td>
                 </tr>

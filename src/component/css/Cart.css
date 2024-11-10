@@ -2,34 +2,26 @@
 .cart-container {
   max-width: 1200px;
   margin: auto;
-  margin-top: 120px;
+  margin-top: 160px;
   padding: 20px;
-  font-family: Arial, sans-serif; /* Keep existing font */
-  background-color: #f4f7fa; /* Light background */
-}
+  font-family: Arial, sans-serif;
+  background:transparent;/* Background color for better contrast */
+  
+  }
 
 .section {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   background-color: white;
-  border-radius: 12px;
+  border-radius: 8px;
   margin-bottom: 30px;
   padding: 30px;
-  transition: box-shadow 0.3s ease;
-}
-
-.section:hover {
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15); /* Subtle hover effect */
 }
 
 .section-title {
-  font-size: 26px;
+  font-size: 24px;
   margin-bottom: 15px;
-  color: #333;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  border-bottom: 2px solid #e0e0e0;
-  padding-bottom: 5px;
+  color: #333; 
+
 }
 
 /* Cart Table Styles */
@@ -37,31 +29,31 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  
 }
 
 .cart-table th,
 .cart-table td {
   border: 1px solid #ddd;
-  padding: 12px;
+  padding: 10px;
   text-align: center;
 }
 
 .cart-table th {
-  background-color: #f7f7f7;
-  color: #555;
-  font-weight: 500;
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #555; /* Slightly lighter for contrast */
 }
 
 .cart-item:hover {
-  background-color: #fafafa;
+  background-color: #f1f1f1; /* Light gray on hover */
 }
 
-/* Quantity Control Styles (Buttons +,-) */
+/* Quantity Control Styles */
 .quantity-control {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px; /* Space between buttons */
 }
 
 .quantity-control button {
@@ -69,117 +61,78 @@
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 8px 12px;
-  font-size: 16px;
+  padding: 5px 10px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color 0.3s;
 }
 
 .quantity-control button:hover {
-  background-color: #3b7db3;
-  transform: scale(1.1); /* Slight scaling effect on hover */
+  background-color: #3b7db3; /* Darker shade on hover */
 }
 
-.quantity-control button:disabled {
-  background-color: #d1d1d1;
-  cursor: not-allowed;
-  transform: scale(1); /* Disable hover effect when disabled */
-}
-
-/* Remove Button Styles (Under the table) */
-.remove-btn {
+/* Remove Button Styles */
+#remove-button {
   background-color: #e74c3c; /* Red for remove action */
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 8px 15px;
-  font-size: 14px;
+  border-radius: 4px;
+  padding: 5px 10px;
   cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.3s, transform 0.2s;
-  display: inline-block;
+  transition: background-color 0.3s;
 }
 
-.remove-btn:hover {
-  background-color: #c0392b;
-  transform: scale(1.05); /* Slight scaling effect on hover */
+#remove-button:hover {
+  background-color: #c0392b; /* Darker red on hover */
 }
 
-.remove-btn:focus {
-  outline: none;
-}
-
-/* Cart Summary Section */
+/* Summary Section */
 .cart-summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
-  border-top: 2px solid #f0f0f0;
-  padding-top: 15px;
-}
-
-.cart-summary h3 {
-  font-size: 20px;
-  color: #333;
-  font-weight: 600;
 }
 
 .payment-btn {
-  background-color: #28a745;
+  background-color: #28a745; /* Green for payment */
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 12px 30px;
+  padding: 10px 20px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color 0.3s;
 }
 
 .payment-btn:hover {
-  background-color: #218838;
-  transform: scale(1.05);
-}
-
-.payment-btn:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
+  background-color: #218838; /* Darker green on hover */
 }
 
 /* Order History Styles */
 .order-history {
   list-style-type: none;
   padding: 0;
-  margin: 0;
 }
 
 .order-item {
   border: 1px solid #ddd;
-  padding: 15px;
+  padding: 10px;
   margin-bottom: 10px;
-  border-radius: 8px;
-  background-color: #fafafa;
-  transition: transform 0.2s, box-shadow 0.3s;
-}
-
-.order-item:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  background-color: #f9f9f9; /* Light background for orders */
 }
 
 .order-item h3 {
   margin: 0;
-  color: #333;
-  font-weight: 600;
+  color: #333; /* Darker color for order titles */
 }
 
 /* Order History Container */
 .order-history-container {
-  margin-top: 30px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  background-color: #fff;
+  margin-top: 30px; /* Gap between cart and order history */
+  padding: 20px; /* Padding around the order history box */
+  border: 1px solid #ddd; /* Border around the order history box */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #fafafa; /* Light background for order history */
 }
 
 /* Responsive Styles */
@@ -187,17 +140,16 @@
   .cart-table th,
   .cart-table td {
     font-size: 14px;
-    padding: 10px;
+    padding: 4px;
   }
 
   .quantity-control {
     flex-direction: column;
-    gap: 5px; /* Space between buttons in column layout */
   }
 
   .quantity-control button {
-    width: 100%; /* Full width for buttons on smaller screens */
-    font-size: 18px;
+    margin: 5px 0;
+    width: 100%; /* Full width on smaller screens */
   }
 
   .cart-summary {
@@ -205,26 +157,12 @@
     align-items: flex-start;
   }
 
-  .cart-summary h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-
-  .payment-btn {
-    width: 100%;
-    margin-top: 10px;
+  .cart-summary .payment-btn {
+    width: 100%; /* Full width on smaller screens */
+    margin-top: 10px; /* Add some space above the button */
   }
 
   .section-title {
-    font-size: 22px;
-  }
-
-  /* Improved mobile layout for order history */
-  .order-item {
-    padding: 12px;
-  }
-
-  .order-item h3 {
-    font-size: 18px;
+    font-size: 20px; /* Slightly smaller title for mobile */
   }
 }

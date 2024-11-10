@@ -6,16 +6,14 @@ import Notification from './Notification';
 
 const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);
-  const userData = cookies.bytewiseCookies;
-  const isLoggedIn = userData?.status === true;
-  const [cartItems, setCartItems] = useState([]);
-  const [orderHistory, setOrderHistory] = useState([]);
-  const [showLoginNotification, setShowLoginNotification] = useState(false);
+  const userData = cookies.bytewiseCookies;  // Retrieve user data from cookies
+  const isLoggedIn = userData?.status === true; // Check login status
+  const [cartItems, setCartItems] = useState([]); // Cart items state
+  const [orderHistory, setOrderHistory] = useState([]); // Order history state
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
   const totalPrice = cartItems.reduce((total, item) => total + item.Price * item.quantity, 0);
 
-  // Fetch order history
+  // Fetch order history from the backend
   const fetchOrderHistory = async (enrolmentID) => {
     try {
       const response = await fetch(`https://bytewise-server.vercel.app/order-history?enrolmentID=${enrolmentID}`, {
@@ -23,7 +21,7 @@ const Cart = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Ensure cookies are sent
+        credentials: 'include', // Ensure cookies are sent with the request
       });
 
       if (!response.ok) {
@@ -31,17 +29,15 @@ const Cart = () => {
       }
 
       const data = await response.json();
-
-      // Sort order history by order_date (descending)
-      const sortedOrders = data.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
-
-      setOrderHistory(sortedOrders); // Set sorted order history
+      const sortedOrders = data.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));  // Sort orders by date
+      setOrderHistory(sortedOrders);
     } catch (error) {
-      console.error('Order history fetch error:', error);
+      console.error('Error fetching order history:', error);
+      setNotification({ message: 'Error fetching order history', type: 'error', visible: true });
     }
   };
 
-  // Initializing cart and fetching order history when logged in
+  // Fetch cart and order history on mount
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
@@ -49,7 +45,7 @@ const Cart = () => {
     }
 
     if (isLoggedIn && userData?.enrolmentID) {
-      fetchOrderHistory(userData.enrolmentID); // Fetch order history if logged in
+      fetchOrderHistory(userData.enrolmentID);  // Fetch order history if logged in
     }
   }, [isLoggedIn, userData]);
 
@@ -60,9 +56,9 @@ const Cart = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
-  // Update quantity of cart item
+  // Update item quantity in cart
   const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return; // Prevents quantity from going below 1
+    if (newQuantity < 1) return;  // Prevent quantity from going below 1
     const updatedCart = cartItems.map(item =>
       item.id === id ? { ...item, quantity: newQuantity } : item
     );
@@ -70,15 +66,10 @@ const Cart = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
-  // Handle payment using Razorpay
+  // Handle Razorpay payment
   const handlePayment = async () => {
     if (!isLoggedIn) {
-      setShowLoginNotification(true);
-      return;
-    }
-
-    if (!window.Razorpay) {
-      setNotification({ message: 'Razorpay SDK failed to load. Please check your internet connection.', type: 'error', visible: true });
+      setNotification({ message: 'Please log in to proceed with payment.', type: 'warning', visible: true });
       return;
     }
 
@@ -88,41 +79,36 @@ const Cart = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount: totalPrice * 100 }),
+        body: JSON.stringify({ amount: totalPrice * 100 }),  // Send total amount (converted to paise)
       });
       const order = await response.json();
 
+      // Razorpay payment options
       const options = {
-        key: 'rzp_test_7PpL3w409po5NZ',
+        key: 'rzp_test_7PpL3w409po5NZ',  // Your Razorpay API key
         amount: order.amount,
         currency: 'INR',
         name: 'ByteWise',
         description: 'Thank you for shopping with ByteWise',
         order_id: order.id,
-        method: ['upi', 'card'],
         handler: async (response) => {
-          if (userData) {
-            const orderDetails = {
-              orderID: response.razorpay_order_id,
-              enrolmentID: userData.enrolmentID,
-              orderItems: cartItems.map(item => ({
-                Subject_code: item.Subject_code,
-                item_quantity: item.quantity,
-                item_price: item.Price * item.quantity,
-              })),
-              totalPrice: totalPrice,
-              transactionID: response.razorpay_payment_id,
-            };
-            try {
-              await saveOrder(orderDetails);
-              setNotification({ message: 'Payment successful!', type: 'success', visible: true });
-              setPaymentSuccess(true);
-            } catch (err) {
-              console.error('Save order error:', err);
-              setNotification({ message: 'Error saving order.', type: 'error', visible: true });
-            }
-          } else {
-            setNotification({ message: 'User data not found.', type: 'error', visible: true });
+          const orderDetails = {
+            orderID: response.razorpay_order_id,
+            enrolmentID: userData.enrolmentID,
+            orderItems: cartItems.map(item => ({
+              Subject_code: item.Subject_code,
+              item_quantity: item.quantity,
+              item_price: item.Price * item.quantity,
+            })),
+            totalPrice: totalPrice,
+            transactionID: response.razorpay_payment_id,
+          };
+
+          try {
+            await saveOrder(orderDetails);  // Save order to the server
+            setNotification({ message: 'Payment successful!', type: 'success', visible: true });
+          } catch (error) {
+            setNotification({ message: 'Error saving order', type: 'error', visible: true });
           }
         },
         prefill: {
@@ -131,19 +117,18 @@ const Cart = () => {
         },
         theme: {
           color: '#4d97e1',
-          image: 'logo-transparent-png.png', // Path to your logo image
         },
       };
 
       const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
+      paymentObject.open();  // Open Razorpay payment modal
     } catch (error) {
-      console.error(error);
-      setNotification({ message: 'Error in payment.', type: 'error', visible: true });
+      console.error('Error during payment:', error);
+      setNotification({ message: 'Payment failed. Please try again.', type: 'error', visible: true });
     }
   };
 
-  // Save order to the database
+  // Save order to the server
   const saveOrder = async (orderDetails) => {
     const response = await fetch('https://bytewise-server.vercel.app/save-order', {
       method: 'POST',
@@ -153,18 +138,9 @@ const Cart = () => {
       body: JSON.stringify(orderDetails),
     });
     const data = await response.json();
-    console.log('Order saved:', data);
     localStorage.removeItem('cart');
-    setCartItems([]); // Clear cart after order is saved
+    setCartItems([]);  // Clear cart after order is saved
   };
-
-  // Fetch order history after successful payment
-  useEffect(() => {
-    if (paymentSuccess) {
-      fetchOrderHistory(userData.enrolmentID); // Fetch order history after payment
-      setPaymentSuccess(false); // Reset payment success state
-    }
-  }, [paymentSuccess, userData.enrolmentID]);
 
   return (
     <div className="cart-container">
@@ -186,20 +162,16 @@ const Cart = () => {
             </thead>
             <tbody>
               {cartItems.map(item => (
-                <tr key={item.id} className="cart-item">
+                <tr key={item.id}>
                   <td>{item.name}</td>
                   <td>₹{item.Price}</td>
                   <td>
-                    <div className="quantity-control">
-                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
-                    </div>
+                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
+                    <span>{item.quantity}</span>
+                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                   </td>
                   <td>₹{item.Price * item.quantity}</td>
-                  <td>
-                    <button onClick={() => removeItem(item.id)} id="remove-button">Remove</button>
-                  </td>
+                  <td><button onClick={() => removeItem(item.id)}>Remove</button></td>
                 </tr>
               ))}
             </tbody>
@@ -212,43 +184,24 @@ const Cart = () => {
       </div>
 
       {/* Order History Section */}
-      <div className="section order-history-container">
+      <div className="section">
         <h2 className="section-title">Order History</h2>
         {orderHistory.length === 0 ? (
           <p>No past orders found.</p>
         ) : (
-          <ul className="order-history">
+          <ul>
             {orderHistory.map(order => (
-              <li key={order.orderID} className="order-item">
-                <div>
-                  <h3>Order ID: {order.orderID}</h3>
-                  <p>Date: {new Date(order.order_date).toLocaleDateString()} {new Date(order.order_date).toLocaleTimeString()}</p>
-                  <p>Total: ₹{order.total_price}</p>
-                  <h4>Items:</h4>
-                  <ul>
-                    {order.items.map((item, index) => (
-                      <li key={index}>
-                        <p>Subject Code: {item.subject_code}</p>
-                        <p>Quantity: {item.item_quantity}</p>
-                        <p>Price: ₹{item.item_price}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <li key={order.orderID}>
+                <p>Order ID: {order.orderID}</p>
+                <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
+                <p>Total: ₹{order.total_price}</p>
               </li>
             ))}
           </ul>
         )}
       </div>
 
-      {showLoginNotification && (
-        <Notification
-          message="Please log in to proceed with your order."
-          type="warning"
-          onClose={() => setShowLoginNotification(false)}
-        />
-      )}
-
+      {/* Notifications */}
       {notification.visible && (
         <Notification
           message={notification.message}

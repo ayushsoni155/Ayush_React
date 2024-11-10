@@ -15,9 +15,12 @@ const Cart = () => {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const totalPrice = cartItems.reduce((total, item) => total + item.Price * item.quantity, 0);
 
+  // Fetch order history
   const fetchOrderHistory = useCallback(async () => {
+    if (!userData?.enrolmentID) return;
+
     try {
-      const response = await fetch(`http://bytewise-server.vercel.app/order-history?enrollmentId=${userData.enrolmentID}`);
+      const response = await fetch(`https://bytewise-server.vercel.app/order-history?enrolmentId=${userData.enrolmentID}`);
       const data = await response.json();
       setOrderHistory(data);
     } catch (err) {
@@ -25,6 +28,7 @@ const Cart = () => {
     }
   }, [userData]);
 
+  // Initializing cart and fetching order history when logged in
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
@@ -36,12 +40,14 @@ const Cart = () => {
     }
   }, [isLoggedIn, userData, fetchOrderHistory]);
 
+  // Remove item from cart
   const removeItem = (id) => {
     const updatedCart = cartItems.filter(item => item.id !== id);
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
+  // Update quantity of cart item
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return; // Prevents quantity from going below 1
     const updatedCart = cartItems.map(item =>
@@ -51,6 +57,7 @@ const Cart = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
+  // Handle payment using Razorpay
   const handlePayment = async () => {
     if (!isLoggedIn) {
       setShowLoginNotification(true);
@@ -63,7 +70,7 @@ const Cart = () => {
     }
 
     try {
-      const response = await fetch('http://bytewise-server.vercel.app/create-order', {
+      const response = await fetch('https://bytewise-server.vercel.app/create-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -124,8 +131,9 @@ const Cart = () => {
     }
   };
 
+  // Save order to the database
   const saveOrder = async (orderDetails) => {
-    const response = await fetch('http://bytewise-server.vercel.app/save-order', {
+    const response = await fetch('https://bytewise-server.vercel.app/save-order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -138,6 +146,7 @@ const Cart = () => {
     setCartItems([]); // Clear cart after order is saved
   };
 
+  // Fetch order history after successful payment
   useEffect(() => {
     if (paymentSuccess) {
       fetchOrderHistory();

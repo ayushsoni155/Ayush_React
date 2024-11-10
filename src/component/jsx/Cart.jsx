@@ -82,65 +82,73 @@ const Cart = () => {
 
   // Handle Razorpay payment
   const handlePayment = async () => {
-    if (!isLoggedIn) {
-      setNotification({ message: 'Please log in to proceed with payment.', type: 'warning', visible: true });
-      return;
-    }
+  if (!isLoggedIn) {
+    setNotification({ message: 'Please log in to proceed with payment.', type: 'warning', visible: true });
+    return;
+  }
 
-    try {
-      const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ amount: totalPrice * 100 }),  // Send total amount (converted to paise)
-      });
-      const order = await response.json();
+  try {
+    const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ amount: totalPrice * 100 }),  // Send total amount (converted to paise)
+    });
+    const order = await response.json();
 
-      // Razorpay payment options
-      const options = {
-        key: 'rzp_test_7PpL3w409po5NZ',  // Your Razorpay API key
-        amount: order.amount,
-        currency: 'INR',
-        name: 'ByteWise',
-        description: 'Thank you for shopping with ByteWise',
-        order_id: order.id,
-        handler: async (response) => {
-          const orderDetails = {
-            orderID: response.razorpay_order_id,
-            enrolmentID: userData.enrolmentID,
-            orderItems: cartItems.map(item => ({
-              Subject_code: item.Subject_code,
-              item_quantity: item.quantity,
-              item_price: item.Price * item.quantity,
-            })),
-            totalPrice: totalPrice,
-            transactionID: response.razorpay_payment_id,
-          };
+    // Razorpay payment options
+    const options = {
+      key: 'rzp_test_7PpL3w409po5NZ',  // Your Razorpay API key
+      amount: order.amount,
+      currency: 'INR',
+      name: 'ByteWise',
+      description: 'Thank you for shopping with ByteWise',
+      order_id: order.id,
+      handler: async (response) => {
+        const orderDetails = {
+          orderID: response.razorpay_order_id,
+          enrolmentID: userData.enrolmentID,
+          orderItems: cartItems.map(item => ({
+            Subject_code: item.Subject_code,
+            item_quantity: item.quantity,
+            item_price: item.Price * item.quantity,
+          })),
+          totalPrice: totalPrice,
+          transactionID: response.razorpay_payment_id,
+        };
 
-          try {
-            await saveOrder(orderDetails);  // Save order to the server
-            setNotification({ message: 'Payment successful!', type: 'success', visible: true });
-          } catch (error) {
-            setNotification({ message: 'Error saving order', type: 'error', visible: true });
-          }
-        },
-        prefill: {
-          name: userData?.name || 'User',
-          contact: userData?.phone || '9999999999',
-        },
-        theme: {
-          color: '#4d97e1',
-        },
-      };
+        try {
+          await saveOrder(orderDetails);  // Save order to the server
+          setNotification({ message: 'Payment successful!', type: 'success', visible: true });
 
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();  // Open Razorpay payment modal
-    } catch (error) {
-      console.error('Error during payment:', error);
-      setNotification({ message: 'Payment failed. Please try again.', type: 'error', visible: true });
-    }
-  };
+          // Clear cart and update order history
+          localStorage.removeItem('cart');
+          setCartItems([]);  // Clear cart state
+          
+          // Refresh page to load updated order history
+          window.location.reload();  // Reload the page
+        } catch (error) {
+          setNotification({ message: 'Error saving order', type: 'error', visible: true });
+        }
+      },
+      prefill: {
+        name: userData?.name || 'User',
+        contact: userData?.phone || '9999999999',
+      },
+      theme: {
+        color: '#4d97e1',
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();  // Open Razorpay payment modal
+  } catch (error) {
+    console.error('Error during payment:', error);
+    setNotification({ message: 'Payment failed. Please try again.', type: 'error', visible: true });
+  }
+};
+
 
   // Save order to the server
   const saveOrder = async (orderDetails) => {

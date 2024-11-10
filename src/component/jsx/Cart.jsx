@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import '../css/Cart.css';
@@ -16,28 +16,30 @@ const Cart = () => {
   const totalPrice = cartItems.reduce((total, item) => total + item.Price * item.quantity, 0);
 
   // Fetch order history
- const fetchOrderHistory = async (enrolmentID) => {
-  try {
-    const response = await fetch(`https://bytewise-server.vercel.app/order-history?enrolmentID=${enrolmentID}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        // Add any other headers you may need
-      },
-      credentials: 'include', // Make sure credentials are sent
-    });
+  const fetchOrderHistory = async (enrolmentID) => {
+    try {
+      const response = await fetch(`https://bytewise-server.vercel.app/order-history?enrolmentID=${enrolmentID}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Ensure cookies are sent
+      });
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch order history');
+      if (!response.ok) {
+        throw new Error('Failed to fetch order history');
+      }
+
+      const data = await response.json();
+
+      // Sort order history by order_date (descending)
+      const sortedOrders = data.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
+
+      setOrderHistory(sortedOrders); // Set sorted order history
+    } catch (error) {
+      console.error('Order history fetch error:', error);
     }
-
-    const data = await response.json();
-    return data; // Handle the response here
-  } catch (error) {
-    console.error('Order history fetch error:', error);
-    // Handle the error here
-  }
-};
+  };
 
   // Initializing cart and fetching order history when logged in
   useEffect(() => {
@@ -46,10 +48,10 @@ const Cart = () => {
       setCartItems(JSON.parse(storedCart));
     }
 
-    if (isLoggedIn) {
-      fetchOrderHistory();
+    if (isLoggedIn && userData?.enrolmentID) {
+      fetchOrderHistory(userData.enrolmentID); // Fetch order history if logged in
     }
-  }, [isLoggedIn, userData, fetchOrderHistory]);
+  }, [isLoggedIn, userData]);
 
   // Remove item from cart
   const removeItem = (id) => {
@@ -84,9 +86,9 @@ const Cart = () => {
       const response = await fetch('https://bytewise-server.vercel.app/create-order', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount: totalPrice * 100 })
+        body: JSON.stringify({ amount: totalPrice * 100 }),
       });
       const order = await response.json();
 
@@ -106,10 +108,10 @@ const Cart = () => {
               orderItems: cartItems.map(item => ({
                 Subject_code: item.Subject_code,
                 item_quantity: item.quantity,
-                item_price: item.Price * item.quantity
+                item_price: item.Price * item.quantity,
               })),
               totalPrice: totalPrice,
-              transactionID: response.razorpay_payment_id
+              transactionID: response.razorpay_payment_id,
             };
             try {
               await saveOrder(orderDetails);
@@ -120,18 +122,17 @@ const Cart = () => {
               setNotification({ message: 'Error saving order.', type: 'error', visible: true });
             }
           } else {
-            console.log('User data not found.');
             setNotification({ message: 'User data not found.', type: 'error', visible: true });
           }
         },
         prefill: {
           name: userData?.name || 'User',
-          contact: userData?.phone || '9999999999'
+          contact: userData?.phone || '9999999999',
         },
         theme: {
           color: '#4d97e1',
-          image: 'logo-transparent-png.png'  // Path to your logo image
-        }
+          image: 'logo-transparent-png.png', // Path to your logo image
+        },
       };
 
       const paymentObject = new window.Razorpay(options);
@@ -147,9 +148,9 @@ const Cart = () => {
     const response = await fetch('https://bytewise-server.vercel.app/save-order', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(orderDetails)
+      body: JSON.stringify(orderDetails),
     });
     const data = await response.json();
     console.log('Order saved:', data);
@@ -160,10 +161,10 @@ const Cart = () => {
   // Fetch order history after successful payment
   useEffect(() => {
     if (paymentSuccess) {
-      fetchOrderHistory();
+      fetchOrderHistory(userData.enrolmentID); // Fetch order history after payment
       setPaymentSuccess(false); // Reset payment success state
     }
-  }, [paymentSuccess, fetchOrderHistory]);
+  }, [paymentSuccess, userData.enrolmentID]);
 
   return (
     <div className="cart-container">
@@ -221,7 +222,7 @@ const Cart = () => {
               <li key={order.orderID} className="order-item">
                 <div>
                   <h3>Order ID: {order.orderID}</h3>
-                  <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
+                  <p>Date: {new Date(order.order_date).toLocaleDateString()} {new Date(order.order_date).toLocaleTimeString()}</p>
                   <p>Total: ₹{order.total_price}</p>
                   <h4>Items:</h4>
                   <ul>

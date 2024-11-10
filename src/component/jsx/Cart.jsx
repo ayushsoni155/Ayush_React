@@ -17,7 +17,7 @@ const Cart = () => {
 
   const fetchOrderHistory = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:3000/order-history?enrollmentId=${userData.enrolmentID}`);
+      const response = await fetch(`http://bytewise-server.vercel.app/order-history?enrollmentId=${userData.enrolmentID}`);
       const data = await response.json();
       setOrderHistory(data);
     } catch (err) {
@@ -63,7 +63,7 @@ const Cart = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/create-order', {
+      const response = await fetch('http://bytewise-server.vercel.app/create-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -125,7 +125,7 @@ const Cart = () => {
   };
 
   const saveOrder = async (orderDetails) => {
-    const response = await fetch('http://localhost:3000/save-order', {
+    const response = await fetch('http://bytewise-server.vercel.app/save-order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

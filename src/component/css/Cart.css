@@ -50,13 +50,12 @@
 }
 
 /* Quantity Control Styles */
-.quantity-control {
+td button {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.quantity-control button {
+td button {
   background-color: #4d97e1; /* Primary button color */
   color: white;
   border: none;
@@ -66,7 +65,7 @@
   transition: background-color 0.3s;
 }
 
-.quantity-control button:hover {
+td button:hover {
   background-color: #3b7db3; /* Darker shade on hover */
 }
 

@@ -75,7 +75,7 @@ const Notes = () => {
             </div>
           ))
         ) : (
-          <p className="no-notes">No notes found based on your filter.</p>
+          <h2>No notes found based on your search.</h2>
         )}
       </div>
 

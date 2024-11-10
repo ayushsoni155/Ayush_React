@@ -25,19 +25,22 @@ const Cart = () => {
       const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${userData.enrolmentID}`);
       const data = await response.json();
 
+      console.log('Order History Response:', data); // Debug log to check the response data
+
       if (Array.isArray(data)) {
         const sortedOrders = data.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
         setOrderHistory(sortedOrders);
       } else {
-        console.error('Invalid order history data');
-        setOrderHistory([]);  // Ensure we reset order history if data is invalid
+        console.error('Invalid order history data', data); // Log error if data is not an array
+        setOrderHistory([]);  // Reset order history in case of invalid data
       }
     } catch (err) {
-      console.error('Error fetching order history:', err);
-      setOrderHistory([]);  // Fallback to an empty array if there's an error
+      console.error('Error fetching order history:', err); // Log any error
+      setOrderHistory([]); // Fallback to an empty array if there's an error
     }
   }, [userData]);
 
+  // Fetch cart items from localStorage on initial load
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
@@ -45,25 +48,33 @@ const Cart = () => {
     }
 
     if (isLoggedIn) {
-      fetchOrderHistory();
+      fetchOrderHistory();  // Fetch order history if logged in
     }
   }, [isLoggedIn, fetchOrderHistory]);
 
+  // Remove item from cart
   const removeItem = (id) => {
     const updatedCart = cartItems.filter(item => item.id !== id);
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
+  // Update item quantity in cart
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return; // Prevent going below 1
-    const updatedCart = cartItems.map(item => 
+    const updatedCart = cartItems.map(item =>
       item.id === id ? { ...item, quantity: newQuantity } : item
     );
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
+  // Show notifications with specific messages and types
+  const showNotification = (message, type) => {
+    setNotification({ message, type, visible: true });
+  };
+
+  // Handle the payment process
   const handlePayment = async () => {
     if (!isLoggedIn) {
       setShowLoginNotification(true);
@@ -93,17 +104,14 @@ const Cart = () => {
         return;
       }
 
-      initiatePayment(order);
+      initiatePayment(order);  // Initiate payment with the order data
     } catch (error) {
       console.error('Payment process failed:', error);
       showNotification('Error in payment.', 'error');
     }
   };
 
-  const showNotification = (message, type) => {
-    setNotification({ message, type, visible: true });
-  };
-
+  // Initiate Razorpay payment
   const initiatePayment = (order) => {
     const options = {
       key: 'rzp_test_7PpL3w409po5NZ',
@@ -151,6 +159,7 @@ const Cart = () => {
     paymentObject.open();
   };
 
+  // Save the order details after successful payment
   const saveOrder = async (orderDetails) => {
     try {
       const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
@@ -162,7 +171,7 @@ const Cart = () => {
       const data = await response.json();
       if (data.message === 'Order saved successfully') {
         localStorage.removeItem('cart');
-        setCartItems([]); // Clear cart after successful order
+        setCartItems([]);  // Clear cart after successful order
       }
     } catch (err) {
       console.error('Error saving order:', err);
@@ -170,6 +179,7 @@ const Cart = () => {
     }
   };
 
+  // Fetch order history after successful payment
   useEffect(() => {
     if (paymentSuccess) {
       fetchOrderHistory();
@@ -177,6 +187,7 @@ const Cart = () => {
     }
   }, [paymentSuccess, fetchOrderHistory]);
 
+  // Format the order date and time
   const formatDateTime = (dateStr) => {
     const date = new Date(dateStr);
     const day = String(date.getDate()).padStart(2, '0');
@@ -233,7 +244,7 @@ const Cart = () => {
       </div>
 
       {/* Order History Section */}
-      {isLoggedIn && orderHistory.length > 0 && (
+      {isLoggedIn && orderHistory.length > 0 ? (
         <div className="section">
           <h2 className="section-title">Order History</h2>
           <table className="order-history-table">
@@ -257,6 +268,8 @@ const Cart = () => {
             </tbody>
           </table>
         </div>
+      ) : (
+        isLoggedIn && <p>No previous orders found.</p>
       )}
 
       {/* Notification */}

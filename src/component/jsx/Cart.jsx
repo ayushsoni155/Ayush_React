@@ -61,6 +61,11 @@ const Cart = () => {
       return;
     }
 
+    if (cartItems.length === 0) {
+      setNotification({ message: 'Your cart is empty. Please add items before proceeding.', type: 'warning', visible: true });
+      return;
+    }
+
     if (!window.Razorpay) {
       setNotification({ message: 'Razorpay SDK failed to load. Please check your internet connection.', type: 'error', visible: true });
       return;
@@ -117,7 +122,6 @@ const Cart = () => {
         theme: {
           color: '#4d97e1',
           image: 'logo-transparent-png.png'  // Path to your logo image
-          
         }
       };
 
@@ -208,7 +212,7 @@ const Cart = () => {
         )}
         <div className="cart-summary">
           <h3>Total Price: ₹{totalPrice}</h3>
-          <button onClick={handlePayment} className="payment-btn">Go for payment</button>
+          <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>Go for payment</button>
         </div>
       </div>
 

@@ -19,7 +19,11 @@ const Cart = () => {
     try {
       const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${userData.enrolmentID}`);
       const data = await response.json();
-      setOrderHistory(data);
+      
+      // Sort orders by order_date (most recent first)
+      const sortedOrders = data.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
+      
+      setOrderHistory(sortedOrders);
     } catch (err) {
       console.error('Order history fetch error:', err);
     }
@@ -152,13 +156,15 @@ const Cart = () => {
     }
   }, [paymentSuccess, fetchOrderHistory]);
 
-  // Helper function to format date as dd-mm-yyyy
-  const formatDate = (dateStr) => {
+  // Helper function to format date as dd-mm-yyyy hh:mm
+  const formatDateTime = (dateStr) => {
     const date = new Date(dateStr);
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
   };
 
   return (
@@ -217,7 +223,7 @@ const Cart = () => {
               <li key={order.orderID} className="order-item">
                 <div>
                   <h3>Order ID: {order.orderID}</h3>
-                  <p>Date: {formatDate(order.order_date)}</p> {/* Format date as dd-mm-yyyy */}
+                  <p>Date: {formatDateTime(order.order_date)}</p> {/* Format date and time as dd-mm-yyyy hh:mm */}
                   <p>Total: ₹{order.total_price}</p>
                   <h4>Items:</h4>
                   <ul>

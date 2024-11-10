@@ -256,7 +256,7 @@ const Cart = () => {
       {showLoginNotification && (
         <Notification
           message="Please log in to proceed with payment."
-          type="info"
+          type="warning"
           onClose={() => setShowLoginNotification(false)}
         />
       )}

@@ -265,8 +265,7 @@
 //   );
 // };
 
-// export default Cart;
-import React, { useState, useEffect, useCallback } from 'react';
+// export default Caimport React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import '../css/Cart.css';
@@ -287,10 +286,10 @@ const Cart = () => {
     try {
       const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${userData.enrolmentID}`);
       const data = await response.json();
-      
+
       // Sort orders by order_date (most recent first)
       const sortedOrders = data.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
-      
+
       setOrderHistory(sortedOrders);
     } catch (err) {
       console.error('Order history fetch error:', err);
@@ -330,27 +329,21 @@ const Cart = () => {
     }
 
     if (cartItems.length === 0) {
-      setNotification({
-        message: 'Your cart is empty. Please add items before proceeding.',
-        type: 'warning',
-        visible: true
-      });
+      setNotification({ message: 'Your cart is empty. Please add items before proceeding.', type: 'warning', visible: true });
       return;
     }
 
     if (!window.Razorpay) {
-      setNotification({
-        message: 'Razorpay SDK failed to load. Please check your internet connection.',
-        type: 'error',
-        visible: true
-      });
+      setNotification({ message: 'Razorpay SDK failed to load. Please check your internet connection.', type: 'error', visible: true });
       return;
     }
 
     try {
       const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({ amount: totalPrice * 100 })
       });
       const order = await response.json();
@@ -376,29 +369,17 @@ const Cart = () => {
               totalPrice: totalPrice,
               transactionID: response.razorpay_payment_id
             };
-
             try {
               await saveOrder(orderDetails);
-              setNotification({
-                message: 'Payment successful!',
-                type: 'success',
-                visible: true
-              });
+              setNotification({ message: 'Payment successful!', type: 'success', visible: true });
               setPaymentSuccess(true);
             } catch (err) {
               console.error('Save order error:', err);
-              setNotification({
-                message: 'Error saving order.',
-                type: 'error',
-                visible: true
-              });
+              setNotification({ message: 'Error saving order.', type: 'error', visible: true });
             }
           } else {
-            setNotification({
-              message: 'User data not found.',
-              type: 'error',
-              visible: true
-            });
+            console.log('User data not found.');
+            setNotification({ message: 'User data not found.', type: 'error', visible: true });
           }
         },
         prefill: {
@@ -407,7 +388,7 @@ const Cart = () => {
         },
         theme: {
           color: '#4d97e1',
-          image: 'logo-transparent-png.png'
+          image: 'logo-transparent-png.png'  // Path to your logo image
         }
       };
 
@@ -415,22 +396,23 @@ const Cart = () => {
       paymentObject.open();
     } catch (error) {
       console.error(error);
-      setNotification({
-        message: 'Error in payment.',
-        type: 'error',
-        visible: true
-      });
+      setNotification({ message: 'Error in payment.', type: 'error', visible: true });
     }
   };
 
   const saveOrder = async (orderDetails) => {
+    console.log('Saving order:', orderDetails);  // Log order details for debugging
+
     const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(orderDetails),
     });
 
     const data = await response.json();
+    console.log('Order saved:', data);
     if (data.message === 'Order saved successfully') {
       // Reset cart after successful order save
       localStorage.removeItem('cart');
@@ -445,6 +427,7 @@ const Cart = () => {
     }
   }, [paymentSuccess, fetchOrderHistory]);
 
+  // Helper function to format date as dd-mm-yyyy hh:mm
   const formatDateTime = (dateStr) => {
     const date = new Date(dateStr);
     const day = String(date.getDate()).padStart(2, '0');
@@ -453,11 +436,6 @@ const Cart = () => {
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     return `${day}-${month}-${year} ${hours}:${minutes}`;
-  };
-
-  // Close notification handler
-  const handleCloseNotification = () => {
-    setNotification(prev => ({ ...prev, visible: false }));
   };
 
   return (
@@ -516,7 +494,7 @@ const Cart = () => {
               <li key={order.orderID} className="order-item">
                 <div>
                   <h3>Order ID: {order.orderID}</h3>
-                  <p>Date: {formatDateTime(order.order_date)}</p>
+                  <p>Date: {formatDateTime(order.order_date)}</p> {/* Format date and time as dd-mm-yyyy hh:mm */}
                   <p>Total: ₹{order.total_price}</p>
                   <h4>Items:</h4>
                   <ul>
@@ -535,7 +513,6 @@ const Cart = () => {
         )}
       </div>
 
-      {/* Notifications */}
       {showLoginNotification && (
         <Notification
           message="Please log in to proceed with your order."
@@ -548,7 +525,7 @@ const Cart = () => {
         <Notification
           message={notification.message}
           type={notification.type}
-          onClose={handleCloseNotification}
+          onClose={() => setNotification({ ...notification, visible: false })}
         />
       )}
     </div>

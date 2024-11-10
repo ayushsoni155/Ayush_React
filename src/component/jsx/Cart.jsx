@@ -6,7 +6,7 @@ import Notification from './Notification';
 
 const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);
-  const userData = cookies.bytewiseCookies;  // Retrieve user data from cookies
+  const userData = cookies.bytewiseCookies; // Retrieve user data from cookies
   const isLoggedIn = userData?.status === true; // Check login status
   const [cartItems, setCartItems] = useState([]); // Cart items state
   const [orderHistory, setOrderHistory] = useState([]); // Order history state
@@ -16,7 +16,7 @@ const Cart = () => {
   // Fetch order history from the backend
   const fetchOrderHistory = async (enrolmentID) => {
     try {
-      const response = await fetch(`https://bytewise-server.vercel.app/order-history?enrolmentID=${enrolmentID}`, {
+      const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${enrolmentID}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +29,21 @@ const Cart = () => {
       }
 
       const data = await response.json();
-      const sortedOrders = data.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));  // Sort orders by date
+
+      // Sort orders by date
+      const sortedOrders = data.sort((a, b) => {
+        const dateA = new Date(a.order_date);
+        const dateB = new Date(b.order_date);
+        
+        // Check for invalid dates and fallback if necessary
+        if (isNaN(dateA) || isNaN(dateB)) {
+          console.warn('Invalid order date detected:', a.order_date, b.order_date);
+          return 0; // If invalid, leave order as is
+        }
+
+        return dateB - dateA;  // Sort in descending order (most recent first)
+      });
+
       setOrderHistory(sortedOrders);
     } catch (error) {
       console.error('Error fetching order history:', error);
@@ -45,7 +59,7 @@ const Cart = () => {
     }
 
     if (isLoggedIn && userData?.enrolmentID) {
-      fetchOrderHistory(userData.enrolmentID);  // Fetch order history if logged in
+      fetchOrderHistory(userData.enrolmentID); // Fetch order history if logged in
     }
   }, [isLoggedIn, userData]);
 
@@ -58,7 +72,7 @@ const Cart = () => {
 
   // Update item quantity in cart
   const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;  // Prevent quantity from going below 1
+    if (newQuantity < 1) return; // Prevent quantity from going below 1
     const updatedCart = cartItems.map(item =>
       item.id === id ? { ...item, quantity: newQuantity } : item
     );
@@ -74,7 +88,7 @@ const Cart = () => {
     }
 
     try {
-      const response = await fetch('https://bytewise-server.vercel.app/create-order', {
+      const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -130,7 +144,7 @@ const Cart = () => {
 
   // Save order to the server
   const saveOrder = async (orderDetails) => {
-    const response = await fetch('https://bytewise-server.vercel.app/save-order', {
+    const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -191,10 +205,10 @@ const Cart = () => {
         ) : (
           <ul>
             {orderHistory.map(order => (
-              <li key={order.orderID}>
-                <p>Order ID: {order.orderID}</p>
-                <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
-                <p>Total: ₹{order.total_price}</p>
+              <li key={order.orderID} className="order-item">
+                <p><strong>Order ID:</strong> {order.orderID}</p>
+                <p><strong>Date:</strong> {new Date(order.order_date).toLocaleDateString() || 'Date not available'}</p>
+                <p><strong>Total:</strong> ₹{order.total_price}</p>
               </li>
             ))}
           </ul>

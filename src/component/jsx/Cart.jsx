@@ -24,7 +24,7 @@ const Cart = () => {
     try {
       const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${userData.enrolmentID}`);
       const data = await response.json();
-      
+
       if (Array.isArray(data)) {
         const sortedOrders = data.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
         setOrderHistory(sortedOrders);
@@ -233,48 +233,35 @@ const Cart = () => {
       </div>
 
       {/* Order History Section */}
-      <div className="section order-history-container">
-        <h2 className="section-title">Order History</h2>
-        {orderHistory.length === 0 ? (
-          <p>No past orders found.</p>
-        ) : (
-          <ul className="order-history">
-            {orderHistory.map(order => (
-              <li key={order.orderID} className="order-item">
-                <div>
-                  <h3>Order ID: {order.orderID}</h3>
-                  <p>Date: {formatDateTime(order.order_date)}</p>
-                  <p>Total Price: ₹{order.totalPrice}</p>
-                  <div>
-                    <h4>Items:</h4>
-                    <ul>
-                      {order.orderItems.map((item, index) => (
-                        <li key={index}>{item.Subject_code} - Quantity: {item.item_quantity} - ₹{item.item_price}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      {/* Notifications */}
-      {showLoginNotification && (
-        <Notification
-          message="Please log in to proceed with payment."
-          type="warning"
-          onClose={() => setShowLoginNotification(false)}
-        />
+      {isLoggedIn && orderHistory.length > 0 && (
+        <div className="section">
+          <h2 className="section-title">Order History</h2>
+          <table className="order-history-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orderHistory.map(order => (
+                <tr key={order._id}>
+                  <td>{order.order_id}</td>
+                  <td>{formatDateTime(order.order_date)}</td>
+                  <td>₹{order.totalPrice}</td>
+                  <td>{order.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
+      {/* Notification */}
       {notification.visible && (
-        <Notification
-          message={notification.message}
-          type={notification.type}
-          onClose={() => setNotification(prev => ({ ...prev, visible: false }))}
-        />
+        <Notification message={notification.message} type={notification.type} />
       )}
     </div>
   );

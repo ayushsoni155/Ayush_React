@@ -21,18 +21,20 @@ const BuyLabManual = () => {
 
   // Filter logic for the lab manuals
   const filteredManuals = labManualsObj.filter(manual => {
-    const matchesName = manual.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      manual.Subject_code.toUpperCase().includes(searchTerm.toUpperCase());
+    // Normalize the search term by removing spaces and converting it to uppercase
+    const normalizedSearchTerm = searchTerm.replace(/\s+/g, '').toUpperCase();
+    const matchesName = manual.name.toLowerCase().includes(normalizedSearchTerm.toLowerCase()) || 
+      manual.Subject_code.replace(/\s+/g, '').toUpperCase().includes(normalizedSearchTerm);
     const matchesSemester = semester === 'All' || manual.Sem === semester;
     const matchesBranch = branch === 'All' || manual.branch === branch;
     return matchesName && matchesSemester && matchesBranch;
   });
 
   // Handlers for filter changes
-  const handleSearch = (e) => {
+  const handleSearch = (term) => {
     setSemester('All');
     setBranch('All');
-    setSearchTerm(e.target.value);
+    setSearchTerm(term); // Update the search term directly
   };
 
   const handleSemesterChange = (e) => {
@@ -78,17 +80,21 @@ const BuyLabManual = () => {
       />
 
       <div className="lab-manuals-container">
-        {filteredManuals.map((manual, index) => (
-          <div className="manual-card" key={index}>
-            <img src={manual.image} alt={manual.name} className="manual-image" />
-            <div className="manual-content">
-              <h3 className="manual-title">{manual.name}</h3>
-              <p className="manual-description">{manual.description}</p>
-              <p className="manual-Price"><b>Price: ₹{manual.Price}</b></p>
-              <button onClick={() => addToCart(manual)} className="add-to-cart-button">Add to Cart</button>
+        {filteredManuals.length > 0 ? (
+          filteredManuals.map((manual, index) => (
+            <div className="manual-card" key={index}>
+              <img src={manual.image} alt={manual.name} className="manual-image" />
+              <div className="manual-content">
+                <h3 className="manual-title">{manual.name}</h3>
+                <p className="manual-description">{manual.description}</p>
+                <p className="manual-Price"><b>Price: ₹{manual.Price}</b></p>
+                <button onClick={() => addToCart(manual)} className="add-to-cart-button">Add to Cart</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="no-manuals">No lab manuals found based on your filter.</p>
+        )}
       </div>
     </div>
   );

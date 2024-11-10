@@ -1,3 +1,4 @@
+// Cart.js (Frontend for displaying cart and order history)
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -21,7 +22,7 @@ const Cart = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Ensure cookies are sent with the request
+        credentials: 'include',
       });
 
       if (!response.ok) {
@@ -29,22 +30,7 @@ const Cart = () => {
       }
 
       const data = await response.json();
-
-      // Sort orders by date
-      const sortedOrders = data.sort((a, b) => {
-        const dateA = new Date(a.order_date);
-        const dateB = new Date(b.order_date);
-        
-        // Check for invalid dates and fallback if necessary
-        if (isNaN(dateA) || isNaN(dateB)) {
-          console.warn('Invalid order date detected:', a.order_date, b.order_date);
-          return 0; // If invalid, leave order as is
-        }
-
-        return dateB - dateA;  // Sort in descending order (most recent first)
-      });
-
-      setOrderHistory(sortedOrders);
+      setOrderHistory(data);
     } catch (error) {
       console.error('Error fetching order history:', error);
       setNotification({ message: 'Error fetching order history', type: 'error', visible: true });
@@ -82,73 +68,70 @@ const Cart = () => {
 
   // Handle Razorpay payment
   const handlePayment = async () => {
-  if (!isLoggedIn) {
-    setNotification({ message: 'Please log in to proceed with payment.', type: 'warning', visible: true });
-    return;
-  }
+    if (!isLoggedIn) {
+      setNotification({ message: 'Please log in to proceed with payment.', type: 'warning', visible: true });
+      return;
+    }
 
-  try {
-    const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ amount: totalPrice * 100 }),  // Send total amount (converted to paise)
-    });
-    const order = await response.json();
+    try {
+      const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ amount: totalPrice * 100 }),  // Send total amount (converted to paise)
+      });
+      const order = await response.json();
 
-    // Razorpay payment options
-    const options = {
-      key: 'rzp_test_7PpL3w409po5NZ',  // Your Razorpay API key
-      amount: order.amount,
-      currency: 'INR',
-      name: 'ByteWise',
-      description: 'Thank you for shopping with ByteWise',
-      order_id: order.id,
-      handler: async (response) => {
-        const orderDetails = {
-          orderID: response.razorpay_order_id,
-          enrolmentID: userData.enrolmentID,
-          orderItems: cartItems.map(item => ({
-            Subject_code: item.Subject_code,
-            item_quantity: item.quantity,
-            item_price: item.Price * item.quantity,
-          })),
-          totalPrice: totalPrice,
-          transactionID: response.razorpay_payment_id,
-        };
+      // Razorpay payment options
+      const options = {
+        key: 'rzp_test_7PpL3w409po5NZ',  // Your Razorpay API key
+        amount: order.amount,
+        currency: 'INR',
+        name: 'ByteWise',
+        description: 'Thank you for shopping with ByteWise',
+        order_id: order.id,
+        handler: async (response) => {
+          const orderDetails = {
+            orderID: response.razorpay_order_id,
+            enrolmentID: userData.enrolmentID,
+            orderItems: cartItems.map(item => ({
+              Subject_code: item.Subject_code,
+              item_quantity: item.quantity,
+              item_price: item.Price * item.quantity,
+            })),
+            totalPrice: totalPrice,
+            transactionID: response.razorpay_payment_id,
+          };
 
-        try {
-          await saveOrder(orderDetails);  // Save order to the server
-          setNotification({ message: 'Payment successful!', type: 'success', visible: true });
+          try {
+            await saveOrder(orderDetails);  // Save order to the server
+            setNotification({ message: 'Payment successful!', type: 'success', visible: true });
 
-          // Clear cart and update order history
-          localStorage.removeItem('cart');
-          setCartItems([]);  // Clear cart state
-          
-          // Refresh page to load updated order history
-          window.location.reload();  // Reload the page
-        } catch (error) {
-          setNotification({ message: 'Error saving order', type: 'error', visible: true });
-        }
-      },
-      prefill: {
-        name: userData?.name || 'User',
-        contact: userData?.phone || '9999999999',
-      },
-      theme: {
-        color: '#4d97e1',
-      },
-    };
+            // Clear cart and fetch updated order history
+            localStorage.removeItem('cart');
+            setCartItems([]);
+            fetchOrderHistory(userData.enrolmentID);  // Re-fetch order history after payment
+          } catch (error) {
+            setNotification({ message: 'Error saving order', type: 'error', visible: true });
+          }
+        },
+        prefill: {
+          name: userData?.name || 'User',
+          contact: userData?.phone || '9999999999',
+        },
+        theme: {
+          color: '#4d97e1',
+        },
+      };
 
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();  // Open Razorpay payment modal
-  } catch (error) {
-    console.error('Error during payment:', error);
-    setNotification({ message: 'Payment failed. Please try again.', type: 'error', visible: true });
-  }
-};
-
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();  // Open Razorpay payment modal
+    } catch (error) {
+      console.error('Error during payment:', error);
+      setNotification({ message: 'Payment failed. Please try again.', type: 'error', visible: true });
+    }
+  };
 
   // Save order to the server
   const saveOrder = async (orderDetails) => {
@@ -206,33 +189,33 @@ const Cart = () => {
       </div>
 
       {/* Order History Section */}
-<div className="section">
-  <h2 className="section-title">Order History</h2>
-  {orderHistory.length === 0 ? (
-    <p>No past orders found.</p>
-  ) : (
-    <ul>
-      {orderHistory.map(order => (
-        <li key={order.orderID} className="order-item">
-          <p><strong>Order ID:</strong> {order.orderID}</p>
-          <p><strong>Date:</strong> {new Date(order.order_date).toLocaleDateString() || 'Date not available'}</p>
-          <p><strong>Total:</strong> ₹{order.total_price}</p>
-          <h4>Order Items:</h4>
+      <div className="section">
+        <h2 className="section-title">Order History</h2>
+        {orderHistory.length === 0 ? (
+          <p>No past orders found.</p>
+        ) : (
           <ul>
-            {order.items.map(item => (
-              <li key={item.order_itemsID}>
-                <p><strong>Subject Code:</strong> {item.subject_code}</p>
-                <p><strong>Quantity:</strong> {item.item_quantity}</p>
-                <p><strong>Price:</strong> ₹{item.item_price}</p>
+            {orderHistory.map(order => (
+              <li key={order.orderID} className="order-item">
+                <p><strong>Order ID:</strong> {order.orderID}</p>
+                <p><strong>Date:</strong> {new Date(order.order_date).toLocaleDateString() || 'Date not available'}</p>
+                <p><strong>Total:</strong> ₹{order.total_price}</p>
+                <h4>Order Items:</h4>
+                <ul>
+                  {order.items.map(item => (
+                    <li key={item.order_itemsID}>
+                      <p><strong>Subject Code:</strong> {item.subject_code}</p>
+                      <p><strong>Quantity:</strong> {item.item_quantity}</p>
+                      <p><strong>Price:</strong> ₹{item.item_price}</p>
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ul>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
-
+        )}
+      </div>
+    </div>
   );
 };
 

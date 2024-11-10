@@ -5,8 +5,8 @@ import courses from '../../coursesObj';  // Import the courses data
 const CourseSection = () => {
   return (
     <div className="course-container">
-      <h1>Microsoft Free Online Courses</h1>
-      <p>Complete the following courses to earn certifications:</p>
+      <h1>Free Online Courses from Leading Platforms</h1> {/* Updated title */}
+      <p>Complete the following courses to earn certifications from top organizations:</p>
       <div className="course-grid">
         {courses.map((course, index) => (
           <div key={index} className="course-card">
@@ -16,6 +16,7 @@ const CourseSection = () => {
             <p className="course-description">{course.description}</p>
             <p className="course-duration">Duration: {course.duration}</p>
             <p className="course-difficulty">Difficulty: {course.difficulty}</p>
+            <p className="course-organization">Organization: {course.organization}</p> {/* Displaying the organization */}
             <a href={course.link} className="course-link" target="_blank" rel="noopener noreferrer">
               <button className="course-btn">Start Course</button>
             </a>
@@ -23,7 +24,7 @@ const CourseSection = () => {
         ))}
       </div>
       <p className="course-note">
-        <strong>Note:</strong> Sign up with your Gmail account to complete the course.
+        <strong>Note:</strong> Sign up with your Gmail account to complete the course (depending on the platform).
       </p>
     </div>
   );

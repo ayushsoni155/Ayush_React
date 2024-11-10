@@ -12,6 +12,7 @@ import Profile from './component/jsx/Profile';
 import ForgotPassword from './component/jsx/ForgetPassword';
 import ResetPassword from './component/jsx/ResetPassword';
 import Feedback from './component/jsx/Feedback';
+import CourseSection from './component/jsx/CourseSection';
 
 
 const App = () => {
@@ -29,7 +30,7 @@ const App = () => {
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/forgot-password' element={<ForgotPassword/>}/>
         <Route path='/reset-password' element={<ResetPassword/>}/>
-        
+        <Route path='/courses' element={<CourseSection/>}/>
         
       </Routes>
       <Feedback/>

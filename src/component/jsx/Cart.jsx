@@ -204,9 +204,9 @@ const Cart = () => {
                 <ul>
                   {order.items.map(item => (
                     <li key={item.order_itemsID}>
-                      <p><strong>Subject Code:</strong> {item.subject_code}</p>
-                      <p><strong>Quantity:</strong> {item.item_quantity}</p>
-                      <p><strong>Price:</strong> ₹{item.item_price}</p>
+                      <p>Subject Code:{item.subject_code}</p>
+                      <p>Quantity:{item.item_quantity}</p>
+                      <p>Price:₹{item.item_price}</p>
                     </li>
                   ))}
                 </ul>

@@ -30,10 +30,11 @@ const Cart = () => {
         setOrderHistory(sortedOrders);
       } else {
         console.error('Invalid order history data');
+        setOrderHistory([]);  // Ensure we reset order history if data is invalid
       }
     } catch (err) {
       console.error('Error fetching order history:', err);
-      setOrderHistory([]); // Handle errors gracefully
+      setOrderHistory([]);  // Fallback to an empty array if there's an error
     }
   }, [userData]);
 

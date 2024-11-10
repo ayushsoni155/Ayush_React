@@ -93,7 +93,7 @@ const BuyLabManual = () => {
             </div>
           ))
         ) : (
-          <p className="no-manuals">No lab manuals found based on your search.</p>
+          <h2> className="no-manuals">No lab manuals found based on your search.</h2>
         )}
       </div>
     </div>

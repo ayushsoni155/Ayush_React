@@ -59,7 +59,7 @@ const Footer = () => {
       </div>
     </div>
     <footer>
-    <p>© 2024 www.ByteWise.com. All Rights Reserved.</p>
+    <p>© 2024 ByteWise24.vercel.app. All Rights Reserved.</p>
   </footer>
 
       </>

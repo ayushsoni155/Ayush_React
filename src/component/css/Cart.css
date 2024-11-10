@@ -8,6 +8,26 @@
   background:transparent;/* Background color for better contrast */
   
   }
+/* Payment Button Styles */
+.payment-btn {
+  background-color: #28a745; /* Green for payment */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.payment-btn:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Disabled Payment Button Styles */
+.payment-btn:disabled {
+  background-color: #cccccc; /* Light gray when disabled */
+  cursor: not-allowed;
+}
 
 .section {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

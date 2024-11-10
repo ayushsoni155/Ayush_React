@@ -1,4 +1,3 @@
-// Cart.js (Frontend for displaying cart and order history)
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -68,6 +67,11 @@ const Cart = () => {
 
   // Handle Razorpay payment
   const handlePayment = async () => {
+    if (cartItems.length === 0) {
+      setNotification({ message: 'Your cart is empty. Please add items to proceed.', type: 'warning', visible: true });
+      return;
+    }
+
     if (!isLoggedIn) {
       setNotification({ message: 'Please log in to proceed with payment.', type: 'warning', visible: true });
       return;
@@ -171,12 +175,12 @@ const Cart = () => {
                   <td>{item.name}</td>
                   <td>₹{item.Price}</td>
                   <td>
-                    <div  className='.quantity-control' >
-                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
-                    <span>{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
-                  </div>
-                    </td>
+                    <div className='quantity-control'>
+                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                    </div>
+                  </td>
                   <td>₹{item.Price * item.quantity}</td>
                   <td><button id='remove-button' onClick={() => removeItem(item.id)}>Remove</button></td>
                 </tr>
@@ -186,7 +190,9 @@ const Cart = () => {
         )}
         <div className="cart-summary">
           <h3>Total Price: ₹{totalPrice}</h3>
-          <button onClick={handlePayment} className="payment-btn">Go for payment</button>
+          <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>
+            Go for payment
+          </button>
         </div>
       </div>
 

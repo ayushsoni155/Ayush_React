@@ -1,3 +1,7 @@
+e answer.
+
+jsx
+Copy code
 import React, { useState } from 'react';
 import '../css/LogSign.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,81 +15,51 @@ const Signup = () => {
         sem: '',
         phone: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        recoveryQuestion: '',
+        recoveryAnswer: '' // New field for recovery answer
     });
 
     const [notification, setNotification] = useState(null);
-    const [errors, setErrors] = useState({ enrolmentID: '', phone: '', password: '', confirmPassword: '' });
+    const [errors, setErrors] = useState({ enrolmentID: '', phone: '', password: '', confirmPassword: '', recoveryAnswer: '' });
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     
     const enrolmentRegex = /^0704CS\d{6,7}$/;
     const phoneRegex = /^[6789]\d{9}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
-    const [cookies, setCookie] = useCookies(['bytewiseCookies']); // Corrected
+    const [cookies, setCookie] = useCookies(['bytewiseCookies']);
     const navigate = useNavigate();
 
-    // const handleChange = (event) => {
-    //     const { name, value } = event.target;
+    const recoveryQuestions = [
+        'What is your mother\'s maiden name?',
+        'What is the name of your first pet?',
+        'What is the name of your favorite teacher?',
+        'What is the city where you were born?'
+    ];
 
-    //     setFormData({
-    //         ...formData,
-    //         [name]: value
-    //     });
-
-    //     if (name === 'enrolmentID') {
-    //         setErrors((prevErrors) => ({
-    //             ...prevErrors,
-    //             enrolmentID: enrolmentRegex.test(value) ? '' : 'Invalid enrollment number'
-    //         }));
-    //     }
-
-    //     if (name === 'phone') {
-    //         setErrors((prevErrors) => ({
-    //             ...prevErrors,
-    //             phone: phoneRegex.test(value) ? '' : 'Invalid phone number'
-    //         }));
-    //     }
-
-    //     if (name === 'password') {
-    //         setErrors((prevErrors) => ({
-    //             ...prevErrors,
-    //             password: passwordRegex.test(value)
-    //                 ? ''
-    //                 : 'Password must be at least 8 characters long and contain both letters and numbers'
-    //         }));
-
-    //         if (value !== formData.confirmPassword) {
-    //             setErrors((prevErrors) => ({
-    //                 ...prevErrors,
-    //                 confirmPassword: 'Passwords do not match'
-    //             }));
-    //         } else {
-    //             setErrors((prevErrors) => ({
-    //                 ...prevErrors,
-    //                 confirmPassword: ''
-    //             }));
-    //         }
-    //     }
-
-    //     if (name === 'confirmPassword') {
-    //         setErrors((prevErrors) => ({
-    //             ...prevErrors,
-    //             confirmPassword: value !== formData.password ? 'Passwords do not match' : ''
-    //         }));
-    //     }
-    // };
     const handleChange = (event) => {
-    const { name, value } = event.target;
+        const { name, value } = event.target;
 
-    // If the field is 'enrolmentID', convert the value to uppercase
-    const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
+        const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
 
-    setFormData({
-        ...formData,
-        [name]: updatedValue
-    });
+        setFormData({
+            ...formData,
+            [name]: updatedValue
+        });
 
+        // Validation for recovery answer
+        if (name === 'recoveryAnswer' && value.trim().length < 3) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                recoveryAnswer: 'Recovery answer must be at least 3 characters long'
+            }));
+        } else {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                recoveryAnswer: ''
+            }));
+        }
     if (name === 'enrolmentID') {
         setErrors((prevErrors) => ({
             ...prevErrors,
@@ -130,10 +104,10 @@ const Signup = () => {
 };
 
 
-    const handleSubmit = async (event) => {
+ const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (errors.enrolmentID || errors.phone || errors.password || errors.confirmPassword) {
+        if (errors.enrolmentID || errors.phone || errors.password || errors.confirmPassword || errors.recoveryAnswer) {
             setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
             return;
         }
@@ -164,7 +138,9 @@ const Signup = () => {
                     sem: '',
                     phone: '',
                     password: '',
-                    confirmPassword: ''
+                    confirmPassword: '',
+                    recoveryQuestion: '',
+                    recoveryAnswer: '' // Reset recovery fields
                 });
                 navigate('/');
             } else {
@@ -288,6 +264,35 @@ const Signup = () => {
                                 {confirmPasswordVisible ? 'Hide' : 'Show'}
                             </button>
                         </div>
+
+                        {/* Recovery Question */}
+                        <label htmlFor="recoveryQuestion">Select a Recovery Question</label>
+                        <select
+                            id="recoveryQuestion"
+                            name="recoveryQuestion"
+                            value={formData.recoveryQuestion}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="" disabled>Select a recovery question</option>
+                            {recoveryQuestions.map((question, index) => (
+                                <option key={index} value={question}>{question}</option>
+                            ))}
+                        </select>
+
+                        {/* Recovery Answer */}
+                        <label htmlFor="recoveryAnswer">Answer to Recovery Question</label>
+                        {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
+                        <input
+                            type="text"
+                            id="recoveryAnswer"
+                            name="recoveryAnswer"
+                            value={formData.recoveryAnswer}
+                            onChange={handleChange}
+                            placeholder="Enter your answer"
+                            required
+                        />
+
                         <button type="submit" className="login-button">Signup</button>
                         <span>Already have an account? </span>
                         <Link to="/login">Login</Link>

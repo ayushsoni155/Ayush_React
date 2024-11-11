@@ -1,7 +1,3 @@
-e answer.
-
-jsx
-Copy code
 import React, { useState } from 'react';
 import '../css/LogSign.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,7 +17,13 @@ const Signup = () => {
     });
 
     const [notification, setNotification] = useState(null);
-    const [errors, setErrors] = useState({ enrolmentID: '', phone: '', password: '', confirmPassword: '', recoveryAnswer: '' });
+    const [errors, setErrors] = useState({
+        enrolmentID: '',
+        phone: '',
+        password: '',
+        confirmPassword: '',
+        recoveryAnswer: ''
+    });
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     
@@ -40,15 +42,59 @@ const Signup = () => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-
         const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
 
+        // Update form data
         setFormData({
             ...formData,
             [name]: updatedValue
         });
 
-        // Validation for recovery answer
+        // Validation logic
+        if (name === 'enrolmentID') {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number'
+            }));
+        }
+
+        if (name === 'phone') {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                phone: phoneRegex.test(value) ? '' : 'Invalid phone number'
+            }));
+        }
+
+        if (name === 'password') {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                password: passwordRegex.test(value)
+                    ? ''
+                    : 'Password must be at least 8 characters long and contain both letters and numbers'
+            }));
+
+            // Password matching check
+            if (value !== formData.confirmPassword) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    confirmPassword: 'Passwords do not match'
+                }));
+            } else {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    confirmPassword: ''
+                }));
+            }
+        }
+
+        if (name === 'confirmPassword') {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                confirmPassword: value !== formData.password ? 'Passwords do not match' : ''
+            }));
+        }
+
+        // Recovery Answer Validation
         if (name === 'recoveryAnswer' && value.trim().length < 3) {
             setErrors((prevErrors) => ({
                 ...prevErrors,
@@ -60,53 +106,12 @@ const Signup = () => {
                 recoveryAnswer: ''
             }));
         }
-    if (name === 'enrolmentID') {
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number'
-        }));
-    }
+    };
 
-    if (name === 'phone') {
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            phone: phoneRegex.test(value) ? '' : 'Invalid phone number'
-        }));
-    }
-
-    if (name === 'password') {
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            password: passwordRegex.test(value)
-                ? ''
-                : 'Password must be at least 8 characters long and contain both letters and numbers'
-        }));
-
-        if (value !== formData.confirmPassword) {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                confirmPassword: 'Passwords do not match'
-            }));
-        } else {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                confirmPassword: ''
-            }));
-        }
-    }
-
-    if (name === 'confirmPassword') {
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            confirmPassword: value !== formData.password ? 'Passwords do not match' : ''
-        }));
-    }
-};
-
-
- const handleSubmit = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
+        // Ensure there are no errors before submitting
         if (errors.enrolmentID || errors.phone || errors.password || errors.confirmPassword || errors.recoveryAnswer) {
             setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
             return;
@@ -132,6 +137,8 @@ const Signup = () => {
                     phone: formData.phone,
                     status: true // Set status to true on success
                 }, { path: '/', maxAge: 3600 });
+                
+                // Clear form data
                 setFormData({
                     enrolmentID: '',
                     name: '',
@@ -140,30 +147,22 @@ const Signup = () => {
                     password: '',
                     confirmPassword: '',
                     recoveryQuestion: '',
-                    recoveryAnswer: '' // Reset recovery fields
+                    recoveryAnswer: ''
                 });
+
                 navigate('/');
             } else {
                 setNotification({ message: data.message || 'Error signing up', type: 'error' });
-                setCookie('bytewiseCookies', {
-                    status: false // Set status to false on failure
-                }, { path: '/', maxAge: 3600 });
+                setCookie('bytewiseCookies', { status: false }, { path: '/', maxAge: 3600 });
             }
         } catch (error) {
             setNotification({ message: 'Server error! Please try again.', type: 'error' });
-            setCookie('bytewiseCookies', {
-                status: false // Set status to false on exception
-            }, { path: '/', maxAge: 3600 });
+            setCookie('bytewiseCookies', { status: false }, { path: '/', maxAge: 3600 });
         }
     };
 
-    const togglePasswordVisibility = () => {
-        setPasswordVisible((prev) => !prev);
-    };
-        
-    const toggleConfirmPasswordVisibility = () => {
-        setConfirmPasswordVisible((prev) => !prev);
-    };
+    const togglePasswordVisibility = () => setPasswordVisible(prev => !prev);
+    const toggleConfirmPasswordVisibility = () => setConfirmPasswordVisible(prev => !prev);
 
     return (
         <div className="overlay">
@@ -194,6 +193,7 @@ const Signup = () => {
                             autoComplete='name'
                             required
                         />
+
                         <label htmlFor="enrolmentID">Enrollment Number</label>
                         {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
                         <input
@@ -232,6 +232,7 @@ const Signup = () => {
                                 <option key={index + 1} value={index + 1}>Semester {index + 1}</option>
                             ))}
                         </select>
+
                         <label htmlFor="password">Password</label>
                         {errors.password && <p className="error-text">{errors.password}</p>}
                         <div className="password-input">
@@ -248,6 +249,7 @@ const Signup = () => {
                                 {passwordVisible ? 'Hide' : 'Show'}
                             </button>
                         </div>
+
                         <label htmlFor="confirmPassword">Confirm Password</label>
                         {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
                         <div className="password-input">
@@ -265,7 +267,6 @@ const Signup = () => {
                             </button>
                         </div>
 
-                        {/* Recovery Question */}
                         <label htmlFor="recoveryQuestion">Select a Recovery Question</label>
                         <select
                             id="recoveryQuestion"
@@ -280,7 +281,6 @@ const Signup = () => {
                             ))}
                         </select>
 
-                        {/* Recovery Answer */}
                         <label htmlFor="recoveryAnswer">Answer to Recovery Question</label>
                         {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
                         <input

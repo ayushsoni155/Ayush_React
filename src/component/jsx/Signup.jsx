@@ -108,58 +108,66 @@ const Signup = () => {
         }
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+   const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        // Ensure there are no errors before submitting
-        if (errors.enrolmentID || errors.phone || errors.password || errors.confirmPassword || errors.recoveryAnswer) {
-            setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
-            return;
-        }
+    // Ensure there are no errors before submitting
+    if (errors.enrolmentID || errors.phone || errors.password || errors.confirmPassword || errors.recoveryAnswer) {
+        setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
+        return;
+    }
 
-        try {
-            const response = await fetch('https://bytewise-server.vercel.app/api/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+    // Include recovery question and answer in formData
+    const formDataWithRecovery = { 
+        ...formData,
+        recoveryQuestion: formData.recoveryQuestion, 
+        recoveryAnswer: formData.recoveryAnswer 
+    };
+
+    try {
+        const response = await fetch('https://bytewise-server.vercel.app/api/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formDataWithRecovery),  // Send updated formData with recovery question and answer
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            setNotification({ message: 'Signup successful!', type: 'success' });
+            setCookie('bytewiseCookies', {
+                enrolmentID: formData.enrolmentID,
+                name: formData.name,
+                sem: formData.sem,
+                phone: formData.phone,
+                status: true // Set status to true on success
+            }, { path: '/', maxAge: 3600 });
+            
+            // Clear form data
+            setFormData({
+                enrolmentID: '',
+                name: '',
+                sem: '',
+                phone: '',
+                password: '',
+                confirmPassword: '',
+                recoveryQuestion: '',
+                recoveryAnswer: ''
             });
 
-            const data = await response.json();
-
-            if (response.ok) {
-                setNotification({ message: 'Signup successful!', type: 'success' });
-                setCookie('bytewiseCookies', {
-                    enrolmentID: formData.enrolmentID,
-                    name: formData.name,
-                    sem: formData.sem,
-                    phone: formData.phone,
-                    status: true // Set status to true on success
-                }, { path: '/', maxAge: 3600 });
-                
-                // Clear form data
-                setFormData({
-                    enrolmentID: '',
-                    name: '',
-                    sem: '',
-                    phone: '',
-                    password: '',
-                    confirmPassword: '',
-                    recoveryQuestion: '',
-                    recoveryAnswer: ''
-                });
-
-                navigate('/');
-            } else {
-                setNotification({ message: data.message || 'Error signing up', type: 'error' });
-                setCookie('bytewiseCookies', { status: false }, { path: '/', maxAge: 3600 });
-            }
-        } catch (error) {
-            setNotification({ message: 'Server error! Please try again.', type: 'error' });
+            navigate('/');
+        } else {
+            setNotification({ message: data.message || 'Error signing up', type: 'error' });
             setCookie('bytewiseCookies', { status: false }, { path: '/', maxAge: 3600 });
         }
-    };
+    } catch (error) {
+        setNotification({ message: 'Server error! Please try again.', type: 'error' });
+        setCookie('bytewiseCookies', { status: false }, { path: '/', maxAge: 3600 });
+    }
+};
+
 
     const togglePasswordVisibility = () => setPasswordVisible(prev => !prev);
     const toggleConfirmPasswordVisibility = () => setConfirmPasswordVisible(prev => !prev);

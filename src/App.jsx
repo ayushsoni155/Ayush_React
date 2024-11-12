@@ -14,6 +14,7 @@ import ResetPassword from './component/jsx/ResetPassword';
 import Feedback from './component/jsx/Feedback';
 import CourseSection from './component/jsx/CourseSection';
 import TermsAndConditions from './component/jsx/TermsAndConditions';
+import PrivacyPolicy from './component/jsx/PrivacyPolicy';
 
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
         <Route path='/reset-password' element={<ResetPassword/>}/>
         <Route path='/courses' element={<CourseSection/>}/>
         <Route path='/t&c' element={<TermsAndConditions/>}/>
+        <Route path='/PrivacyPolicy' element={<PrivacyPolicy/>}/>
         
       </Routes>
       <Feedback/>

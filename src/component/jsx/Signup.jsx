@@ -34,10 +34,11 @@ const Signup = () => {
     const navigate = useNavigate();
 
     const recoveryQuestions = [
-        'What is your mother\'s maiden name?',
-        'What is the name of your first pet?',
-        'What is the name of your favorite teacher?',
-        'What is the city where you were born?'
+            "Who is your best friend?", 
+            "Who is your favorite person?",
+            "What is the name of your favorite teacher?",
+            "What city were you born in?",
+            "What is your favorite dish?"
     ];
 
     const handleChange = (event) => {

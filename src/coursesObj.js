@@ -1,4 +1,5 @@
 
+
 const coursesObj = [
   {
     title: "Get Started with AI Fundamentals",
@@ -6,7 +7,8 @@ const coursesObj = [
     description: "Learn the basics of AI and how it impacts various industries.",
     duration: "2 hours",
     difficulty: "Beginner",
-    organization: "Microsoft"
+    organization: "Microsoft",
+     image: '/CoursesIMG/get-started-ai-fundamentals.svg'
   },
   {
     title: "Data Analytics with Microsoft",
@@ -14,7 +16,8 @@ const coursesObj = [
     description: "Explore the key concepts in data analytics and tools used for analysis.",
     duration: "4 hours",
     difficulty: "Intermediate",
-    organization: "Microsoft"
+    organization: "Microsoft",
+     image: '/CoursesIMG/overview-data-analysis-power-bi.svg'
   },
   {
     title: "Get Started with Power BI",
@@ -22,7 +25,8 @@ const coursesObj = [
     description: "Learn how to create and share interactive reports with Power BI.",
     duration: "3 hours",
     difficulty: "Beginner",
-    organization: "Microsoft"
+    organization: "Microsoft",
+     image: '/CoursesIMG/get-started-power-bi.svg'
   },
   {
     title: "Intro to Git",
@@ -30,7 +34,8 @@ const coursesObj = [
     description: "Understand the version control system and start using Git.",
     duration: "2 hours",
     difficulty: "Beginner",
-    organization: "Microsoft"
+    organization: "Microsoft",
+     image: '/CoursesIMG/introduction-to-git-badge.svg'
   },
   {
     title: "Describe Cloud Service Types",
@@ -38,7 +43,8 @@ const coursesObj = [
     description: "Learn about different types of cloud services like IaaS, PaaS, and SaaS.",
     duration: "2.5 hours",
     difficulty: "Intermediate",
-    organization: "Microsoft"
+    organization: "Microsoft",
+     image: '/CoursesIMG/describe-cloud-service-types.svg'
   },
   {
     title: "Benefits of Using Cloud Services",
@@ -46,7 +52,8 @@ const coursesObj = [
     description: "Understand the key benefits of adopting cloud services in modern businesses.",
     duration: "1.5 hours",
     difficulty: "Beginner",
-    organization: "Microsoft"
+    organization: "Microsoft",
+     image: '/CoursesIMG/describe-benefits-use-cloud-services.svg'
   }
 ];
 

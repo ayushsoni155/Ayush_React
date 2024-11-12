@@ -48,29 +48,37 @@ const Login = () => {
     //     }
     // };
 const handleChange = (event) => {
-    const { name, value } = event.target;
+  const { name, value } = event.target;
 
-    // If the field is 'enrolmentID', convert the value to uppercase
-    const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
+  // If the field is 'enrolmentID', convert the value to uppercase
+  const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
 
-    setFormData({
-        ...formData,
-        [name]: updatedValue
-    });
+  // Validate input fields
+  if (name === 'enrolmentID') {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number',
+    }));
+  }
 
-    if (name === 'enrolmentID') {
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number'
-        }));
-    }
+  if (name === 'phone') {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      phone: phoneRegex.test(updatedValue) ? '' : 'Invalid phone number',
+    }));
+  }
 
-    if (name === 'password') {
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            password: passwordRegex.test(value) ? '' : 'Password must be at least 8 characters long and contain both letters and numbers'
-        }));
-    }
+  if (name === 'recoveryAnswer') {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      recoveryAnswer: updatedValue ? '' : 'Please provide an answer to the recovery question.',
+    }));
+  }
+
+  setFormData({
+    ...formData,
+    [name]: updatedValue,
+  });
 };
 
     const handleSubmit = async (event) => {

@@ -4,6 +4,7 @@
   align-items: center;
   margin: 0px 10px 20px 10px;
   gap: 15px; /* Increased gap for better spacing */
+  flex-wrap: wrap;
 }
 
 /* Search bar styling */
@@ -53,12 +54,14 @@
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
+  .filters{
+    gap: 2px;
+  }
   .search-bar {
-    width: 40%; /* Adjust width for smaller screens */
+    width: 98%; /* Adjust width for smaller screens */
   }
   
   .semester-selector, .branch-selector {
-  
-    width: 25%;
+    width: 49%;
   }
 }

@@ -3,8 +3,7 @@ import '../css/Footer.css'; // Import the CSS file for styling
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  
-const scrollToTop = () => {
+  const scrollToTop = () => {
     window.scrollTo(0, 0);  // Scrolls to the top of the page
   }
   return (

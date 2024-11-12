@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import '../css/LogSign.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -48,37 +49,29 @@ const Login = () => {
     //     }
     // };
 const handleChange = (event) => {
-  const { name, value } = event.target;
+    const { name, value } = event.target;
 
-  // If the field is 'enrolmentID', convert the value to uppercase
-  const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
+    // If the field is 'enrolmentID', convert the value to uppercase
+    const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
 
-  // Validate input fields
-  if (name === 'enrolmentID') {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number',
-    }));
-  }
+    setFormData({
+        ...formData,
+        [name]: updatedValue
+    });
 
-  if (name === 'phone') {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      phone: phoneRegex.test(updatedValue) ? '' : 'Invalid phone number',
-    }));
-  }
+    if (name === 'enrolmentID') {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number'
+        }));
+    }
 
-  if (name === 'recoveryAnswer') {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      recoveryAnswer: updatedValue ? '' : 'Please provide an answer to the recovery question.',
-    }));
-  }
-
-  setFormData({
-    ...formData,
-    [name]: updatedValue,
-  });
+    if (name === 'password') {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            password: passwordRegex.test(value) ? '' : 'Password must be at least 8 characters long and contain both letters and numbers'
+        }));
+    }
 };
 
     const handleSubmit = async (event) => {

@@ -1,11 +1,10 @@
-
-import '../css/TermsAndConditions.css'
+import '../css/TermsAndConditions.css';
 
 const TermsAndConditions = () => {
   return (
     <div className="terms-container">
       <h1>Terms and Conditions</h1>
-      
+      <p>Last Updated: November 12, 2024</p>
       <div className="terms-content">
         <h2>1. Introduction</h2>
         <p>
@@ -33,10 +32,21 @@ const TermsAndConditions = () => {
 
         <h2>4. Contacting Developers</h2>
         <p>
-          If you experience any issues with your order, including the need for a refund or return (though not possible under these terms), please contact the developers at telegram<strong>@ayushsoni155</strong>. We are here to help resolve any concerns as best as possible within the limitations of our policy.
+          If you experience any issues with your order, including the need for a refund or return (though not possible under these terms), please contact the developers at telegram <strong>@ayushsoni155</strong>. We are here to help resolve any concerns as best as possible within the limitations of our policy.
         </p>
-        
-        <h2>5. Agreement</h2>
+
+        <h2>5. Operational Address</h2>
+        <p>
+          Our operational address is as follows:
+        </p>
+        <ul>
+          <li><strong>Bytewise</strong></li>
+          <p id='paddress'><b>MIT Campus, Behind Air Strip, Dewas Rd,<br/>
+           Ujjain, Madhya Pradesh 456001,
+          India.</b></p>
+        </ul>
+
+        <h2>6. Agreement</h2>
         <p>
           By purchasing from our website, you agree to abide by these terms and conditions. If you do not agree with these terms, please do not proceed with any purchase.
         </p>

@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import '../css/TermsAndConditions.css'
 
-const TermsAndConditions = () => {
-  const [isAgreed, setIsAgreed] = useState(false);
-
-  const handleAgreeChange = (event) => {
-    setIsAgreed(event.target.checked);
-  };
 
   return (
     <div className="terms-container">

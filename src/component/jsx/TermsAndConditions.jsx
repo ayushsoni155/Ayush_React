@@ -24,7 +24,7 @@ const TermsAndConditions = () => {
         </p>
         <ul>
           <li>All purchases are final. There will be no refunds, returns, or cancellations after you have completed the purchase.</li>
-          <li>If you encounter any issues related to your purchase, please contact our developers directly at <strong>support@bytewise.com</strong> for assistance.</li>
+          <li>If you encounter any issues related to your purchase, please contact our developers directly at <strong>Ayush soni(+91-6266898048) or Hitesh baghel(+91-7879025039)</strong> for assistance.</li>
         </ul>
 
         <h2>3. Delivery of Lab Manuals</h2>
@@ -39,31 +39,13 @@ const TermsAndConditions = () => {
 
         <h2>4. Contacting Developers</h2>
         <p>
-          If you experience any issues with your order, including the need for a refund or return (though not possible under these terms), please contact the developers at <strong>support@bytewise.com</strong>. We are here to help resolve any concerns as best as possible within the limitations of our policy.
+          If you experience any issues with your order, including the need for a refund or return (though not possible under these terms), please contact the developers at <strong>Ayush soni(+91-6266898048) or Hitesh baghel(+91-7879025039)</strong>. We are here to help resolve any concerns as best as possible within the limitations of our policy.
         </p>
         
         <h2>5. Agreement</h2>
         <p>
           By purchasing from our website, you agree to abide by these terms and conditions. If you do not agree with these terms, please do not proceed with any purchase.
         </p>
-      </div>
-
-      <div className="terms-agree">
-        <input
-          type="checkbox"
-          id="agreeCheckbox"
-          checked={isAgreed}
-          onChange={handleAgreeChange}
-        />
-        <label htmlFor="agreeCheckbox">
-          I have read and agree to the terms and conditions.
-        </label>
-      </div>
-
-      <div className="terms-submit">
-        <button disabled={!isAgreed} onClick={() => alert('Thank you for agreeing to the terms!')}>
-          Proceed with Purchase
-        </button>
       </div>
     </div>
   );

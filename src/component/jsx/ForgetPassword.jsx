@@ -16,7 +16,7 @@ const ForgotPassword = () => {
   const [userID, setUserID] = useState(null); // Store user ID for password reset
   const navigate = useNavigate();
 
-  const enrolmentRegex = /^0704CS\d{6}$/;
+  const enrolmentRegex = /^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
   const phoneRegex = /^[6-9]\d{9}$/;
 
   const handleChange = (event) => {

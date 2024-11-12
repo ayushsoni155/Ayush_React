@@ -33,7 +33,7 @@ const TermsAndConditions = () => {
 
         <h2>4. Contacting Developers</h2>
         <p>
-          If you experience any issues with your order, including the need for a refund or return (though not possible under these terms), please contact the developers at telegram <strong>@ayushsoni155</strong>. We are here to help resolve any concerns as best as possible within the limitations of our policy.
+          If you experience any issues with your order, including the need for a refund or return (though not possible under these terms), please contact the developers at telegram<strong>@ayushsoni155</strong>. We are here to help resolve any concerns as best as possible within the limitations of our policy.
         </p>
         
         <h2>5. Agreement</h2>

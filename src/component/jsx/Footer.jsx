@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/Footer.css'; // Import the CSS file for styling
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -60,6 +61,7 @@ const Footer = () => {
     </div>
     <footer>
     <p>© 2024 ByteWise24.vercel.app. All Rights Reserved.</p>
+    <Link to="/t&c">Terms and conditions</Link>
   </footer>
 
       </>

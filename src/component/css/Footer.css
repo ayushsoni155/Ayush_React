@@ -29,7 +29,9 @@
   align-items: center;
   text-align: center;
 }
-
+footer p{
+  color: white;
+}
 #c1 span {
   font-size: 2rem;
   font-weight: bold;
@@ -111,6 +113,7 @@ footer a {
   color: white;
   font-weight: bold;
   transition: color 0.3s ease;
+  margin: 10px;
 }
 
 footer a:hover {
@@ -163,7 +166,7 @@ footer a:hover {
   }
 
   footer {
-    font-size: 0.5rem;
+    font-size: 0.7rem;
     padding: 10px;
   }
 }

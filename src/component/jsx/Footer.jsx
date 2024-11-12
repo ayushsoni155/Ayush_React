@@ -3,6 +3,10 @@ import '../css/Footer.css'; // Import the CSS file for styling
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
+  
+const scrollToTop = () => {
+    window.scrollTo(0, 0);  // Scrolls to the top of the page
+  }
   return (
     <>
     <div id="contact">
@@ -61,7 +65,7 @@ const Footer = () => {
     </div>
     <footer>
     <p>© 2024 ByteWise24.vercel.app. All Rights Reserved.</p>
-    <Link to="/t&c">Terms and conditions</Link>
+    <Link to="/t&c" onClick={scrollToTop}>Terms and conditions</Link>
   </footer>
 
       </>

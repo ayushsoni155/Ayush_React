@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
       <div className="privacy-policy-content">
         <h2>1. Introduction</h2>
         <p>
-          At [Your Company Name], we are committed to protecting your privacy. This Privacy Policy outlines how we collect, use, and protect your personal information when you visit our website or use our services.
+          At Bytewise, we are committed to protecting your privacy. This Privacy Policy outlines how we collect, use, and protect your personal information when you visit our website or use our services.
         </p>
 
         <h2>2. Information We Collect</h2>
@@ -17,8 +17,7 @@ const PrivacyPolicy = () => {
           We collect personal information when you use our services or interact with our website. This information may include:
         </p>
         <ul>
-          <li>Your name, email address, phone number, and payment details.</li>
-          <li>Usage data, such as IP address, browser type, and device information.</li>
+          <li>Your name, enrollment ID, phone number, and payment details.</li>
           <li>Cookies and tracking technologies to improve your user experience.</li>
         </ul>
 

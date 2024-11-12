@@ -19,36 +19,40 @@ const ForgotPassword = () => {
   const enrolmentRegex = /^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
   const phoneRegex = /^[6-9]\d{9}$/;
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+ const handleChange = (event) => {
+  const { name, value } = event.target;
 
-    // Validate input fields
-    if (name === 'enrolmentID') {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        enrolmentID: enrolmentRegex.test(value) ? '' : 'Invalid enrollment number',
-      }));
-    }
+  // If the field is 'enrolmentID', convert the value to uppercase
+  const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
 
-    if (name === 'phone') {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        phone: phoneRegex.test(value) ? '' : 'Invalid phone number',
-      }));
-    }
+  // Validate input fields
+  if (name === 'enrolmentID') {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number',
+    }));
+  }
 
-    if (name === 'recoveryAnswer') {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        recoveryAnswer: value ? '' : 'Please provide an answer to the recovery question.',
-      }));
-    }
+  if (name === 'phone') {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      phone: phoneRegex.test(updatedValue) ? '' : 'Invalid phone number',
+    }));
+  }
 
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  if (name === 'recoveryAnswer') {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      recoveryAnswer: updatedValue ? '' : 'Please provide an answer to the recovery question.',
+    }));
+  }
+
+  setFormData({
+    ...formData,
+    [name]: updatedValue,
+  });
+};
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();

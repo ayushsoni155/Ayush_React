@@ -1,6 +1,7 @@
 .terms-container {
     max-width: 800px;
     margin: 0 auto;
+    margin-top: 100px;
     padding: 20px;
     font-family: Arial, sans-serif;
   }
@@ -9,21 +10,5 @@
     margin-top: 20px;
   }
   
-  .terms-agree {
-    margin-top: 20px;
-  }
-  
-  .terms-submit button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .terms-submit button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
+
   

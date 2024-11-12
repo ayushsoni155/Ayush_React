@@ -6,7 +6,7 @@ const coursesObj = [
     description: "Learn the basics of AI and how it impacts various industries.",
     duration: "2 hours",
     difficulty: "Beginner",
-     organization: "Microsoft"
+     organization: "Microsoft",
   },
   {
     title: "Data Analytics with Microsoft",

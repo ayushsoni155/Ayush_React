@@ -18,7 +18,7 @@ const TermsAndConditions = () => {
         </p>
         <ul>
           <li>All purchases are final. There will be no refunds, returns, or cancellations after you have completed the purchase.</li>
-          <li>If you encounter any issues related to your purchase, please contact our developers directly at <strong>support@bytewise.com</strong> for assistance.</li>
+          <li>If you encounter any issues related to your purchase, please contact our developers directly at telegram <strong>@ayushsoni155</strong> for assistance.</li>
         </ul>
 
         <h2>3. Delivery of Lab Manuals</h2>
@@ -33,7 +33,7 @@ const TermsAndConditions = () => {
 
         <h2>4. Contacting Developers</h2>
         <p>
-          If you experience any issues with your order, including the need for a refund or return (though not possible under these terms), please contact the developers at <strong>support@bytewise.com</strong>. We are here to help resolve any concerns as best as possible within the limitations of our policy.
+          If you experience any issues with your order, including the need for a refund or return (though not possible under these terms), please contact the developers at telegram <strong>@ayushsoni155</strong>. We are here to help resolve any concerns as best as possible within the limitations of our policy.
         </p>
         
         <h2>5. Agreement</h2>

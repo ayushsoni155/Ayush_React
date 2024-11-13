@@ -169,7 +169,7 @@ body:hover {
 
   #aboutUS {
     flex-direction: column;
-    text-align: center;
+   
   }
 
   #aboutUS img {
@@ -196,5 +196,6 @@ body:hover {
 
   #aboutUS p {
     font-size: 1.4rem;
+
   }
 }

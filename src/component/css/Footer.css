@@ -46,8 +46,9 @@ footer p{
   flex-direction: column;
   justify-content: center;
   text-align: left;
-  font-size: 1.2rem;
+  font-size: 2rem;
   padding-left: 20px;
+  color:#4d97e1;
 }
 
 #c2 span {

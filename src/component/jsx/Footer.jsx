@@ -65,7 +65,7 @@ const Footer = () => {
     <footer>
     <p>© 2024 ByteWise24.vercel.app. All Rights Reserved.</p>
     <Link to="/t&c" onClick={scrollToTop}>Terms and conditions</Link>
-    <Link to="/PrivacyPolicy" onClick={scrollToTop}>PrivacyPolicy</Link>
+    <Link to="/PrivacyPolicy" onClick={scrollToTop}>Privacy Policy</Link>
   </footer>
 
       </>

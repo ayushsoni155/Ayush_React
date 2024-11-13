@@ -1,24 +1,15 @@
 const notesArray = [ 
-    // { 
-    //     name: "Engineering Chemistry", 
-    //     Subject_code: "BT101", 
-    //     Sem: "1st", 
-    //     description: "It focuses on the study of chemical principles and their applications in engineering.", 
-    //     image: '/Eng_Chemistry.png', 
-    //     branch: "CSE",
-    //     pdfUrl:'/NotesPDF/temp.pdf'
-        
-    // }, 
-	 { 
+    { 
         name: "Engineering Chemistry", 
-        Subject_code: ["BT101","AD101"], 
+        Subject_code: "BT101", 
         Sem: "1st", 
         description: "It focuses on the study of chemical principles and their applications in engineering.", 
         image: '/Eng_Chemistry.png', 
-        branch: ["CSE","AIDS"],
+        branch: "CSE",
         pdfUrl:'/NotesPDF/temp.pdf'
         
     }, 
+
     { 
         name: "Mathematics - I (M1)", 
         Subject_code: "BT102", 

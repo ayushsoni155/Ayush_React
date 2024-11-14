@@ -17,7 +17,7 @@ body {
 /* Landing Page Container */
 .landing-page {
   color: #4d97e1;
-  padding: 40px 20px;
+  padding: 20px 20px;
   max-width: 1200px;
   margin: 0 auto;
   margin-top: 60px;
@@ -26,9 +26,8 @@ body {
 /* Hero Section */
 .hero {
   display: flex;
-  justify-content: flex-start; /* Align items to the left */
   align-items: center;
-  padding: 40px 20px;
+  padding: 20px 20px;
   gap: 20px;
   flex-wrap: wrap;
   text-align: left; /* Ensure the text is left-aligned */
@@ -47,6 +46,7 @@ body {
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 10px;
   transition: color 0.3s ease, transform 0.3s ease;
+  justify-content: flex-start;
 }
 
 #heading:hover {
@@ -60,6 +60,7 @@ body {
   color: crimson;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
+   justify-content: flex-start;
 }
 
 #HeadingTagline {
@@ -70,7 +71,7 @@ body {
   display: inline-block;
   white-space: nowrap;
   opacity: 0;
-  animation: fadeIn 3s ease-out infinite;
+  animation: fadeIn 2s ease-out infinite;
 }
 
 @keyframes fadeIn {
@@ -150,6 +151,7 @@ body {
 
   #heading {
     font-size: 80px;
+    align-
   }
 
   #HeadingTagline {
@@ -187,6 +189,7 @@ body {
 @media (max-width: 480px) {
   #heading {
     font-size: 60px;
+     justify-content: flex-start;
   }
 
   #heading2 {

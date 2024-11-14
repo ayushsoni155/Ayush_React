@@ -75,6 +75,15 @@ body:hover {
   opacity: 0;
   animation: fadeIn 3s ease-out infinite;
 }
+#heading2{
+  font-size: 50px;
+  font-weight: 800;
+  color: crimson;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  white-space: nowrap;
+ }
+
 
 #HeadingTagline:hover {
   color: darkred;

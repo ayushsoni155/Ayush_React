@@ -22,17 +22,10 @@ body:hover {
 .landing-page {
   color: #4d97e1;
   padding: 40px 20px;
-  /* border-radius: 20px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); */
-  transition: box-shadow 0.3s ease;
   max-width: 1200px;
   margin: 0 auto;
   margin-top: 60px;
 }
-
-/* .landing-page:hover {
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
-} */
 
 /* Hero Section */
 .hero {
@@ -76,10 +69,27 @@ body:hover {
   transition: color 0.3s ease;
   color: crimson;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  white-space: nowrap;
+  transition: all 1s ease-in-out;
+  opacity: 0;
+  animation: fadeIn 3s ease-out infinite;
 }
 
 #HeadingTagline:hover {
   color: darkred;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .hero-image {
@@ -92,7 +102,6 @@ body:hover {
   object-fit: contain;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-radius: 15px;
-  /* filter: drop-shadow(0.5px 0.5px 15px #4d97e1); */
 }
 
 .hero-image img:hover {
@@ -127,7 +136,6 @@ body:hover {
   font-size: 1.6rem;
   line-height: 1.8;
   max-width: 600px;
-  transition: color 0.3s ease;
 }
 
 #aboutUS img {
@@ -169,8 +177,7 @@ body:hover {
 
   #aboutUS {
     flex-direction: column;
-padding: 20px;
-   
+    padding: 20px;
   }
 
   #aboutUS img {
@@ -186,10 +193,11 @@ padding: 20px;
   .landing-page {
     margin-top: 30px;
   }
+
   #aboutUS {
-padding: 10px;
-   
+    padding: 10px;
   }
+
   #HeadingTagline {
     font-size: 30px;
   }
@@ -200,6 +208,5 @@ padding: 10px;
 
   #aboutUS p {
     font-size: 1.4rem;
-
   }
 }

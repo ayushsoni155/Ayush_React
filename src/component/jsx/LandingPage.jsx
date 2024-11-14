@@ -36,8 +36,8 @@ const LandingPage = () => {
       <section className="hero">
         <div className="hero-content">
           <h1 id="heading">Welcome, {name}</h1>
-          <p id="heading2">To ByteWise, We provide you</p>
-          <span id="HeadingTagline">{tagline}</span>
+          <p id="heading2">To ByteWise, We provide you
+          <span id="HeadingTagline">{tagline}</span></p>
         </div>
 
         <div className="hero-image">
@@ -47,8 +47,6 @@ const LandingPage = () => {
 
       <section id="aboutUs">
         <h2 id="aboutUsHeading">About Us</h2>
-        <div className="about-us-content">
-          <img className="LandingPageImg" src="/LandingPageimg2.png" alt="About Us Illustration" />
           <p>
             ByteWise is your ultimate toolkit for engineering success, offering an extensive collection of study
             materials tailored to meet the needs of engineering students. Our platform provides comprehensive notes,
@@ -58,7 +56,6 @@ const LandingPage = () => {
             your academic journey. With a user-friendly interface and a dedicated section for easy downloads, ByteWise
             empowers you to excel in your studies and build a solid foundation for your career.
           </p>
-        </div>
       </section>
     </div>
   );

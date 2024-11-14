@@ -1,12 +1,15 @@
 import React from 'react';
 import '../css/LandingPage.css'; // Import CSS for styling
+import { useState } from 'react';
 
 const LandingPage = () => {
+  const [name, setName] = useState('User');
+  setName
   return (
     <div className="landing-page">
       <section className="hero">
         <div className="hero-content">
-          <b id="heading">ByteWise</b>
+          <b id="heading">Welcome, {name} to ByteWise</b>
           <br />
           <span id="HeadingTagline">Your toolkit for engineering success</span>
         </div>

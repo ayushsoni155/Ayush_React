@@ -186,7 +186,10 @@ padding: 20px;
   .landing-page {
     margin-top: 30px;
   }
-
+  #aboutUS {
+padding: 10px;
+   
+  }
   #HeadingTagline {
     font-size: 30px;
   }

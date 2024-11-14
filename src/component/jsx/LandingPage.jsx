@@ -17,9 +17,9 @@ const LandingPage = () => {
     <div className="landing-page">
       <section className="hero">
         <div className="hero-content">
-          <b id="heading">Welcome, {name} to ByteWise</b>
+          <b id="heading">Welcome {name},</b>
           <br />
-          <span id="HeadingTagline">Your toolkit for engineering success</span>
+          <span id="HeadingTagline">To ByteWise</span>
         </div>
 
         <div className="hero-image">

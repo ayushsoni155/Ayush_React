@@ -26,17 +26,16 @@ body {
 /* Hero Section */
 .hero {
   display: flex;
-  align-items: center;
-  padding: 20px 20px;
+  flex-direction: column; /* Ensure content stacks vertically */
+  align-items: flex-start; /* Left-align items */
   gap: 20px;
-  flex-wrap: wrap;
-  text-align: left; /* Ensure the text is left-aligned */
+  padding: 20px 20px;
+  text-align: left; /* Ensure text is left-aligned */
 }
 
 .hero-content {
   flex: 1;
   max-width: 600px;
-  padding-right: 20px;
 }
 
 #heading {
@@ -46,7 +45,6 @@ body {
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 10px;
   transition: color 0.3s ease, transform 0.3s ease;
-  justify-content: flex-start;
 }
 
 #heading:hover {
@@ -60,7 +58,6 @@ body {
   color: crimson;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
-   justify-content: flex-start;
 }
 
 #HeadingTagline {
@@ -144,14 +141,12 @@ body {
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
   .hero {
-    flex-direction: column; /* Stack the content vertically */
-    align-items: flex-start; /* Left-align items */
-    gap: 20px;
+    padding: 20px;
+    gap: 15px;
   }
 
   #heading {
     font-size: 80px;
-    align-
   }
 
   #HeadingTagline {
@@ -169,16 +164,16 @@ body {
 }
 
 @media (max-width: 768px) {
-  .hero-content {
-    max-width: 100%; /* Allow hero content to take full width */
-  }
-
   #heading {
     font-size: 70px;
   }
 
   #HeadingTagline {
     font-size: 35px;
+  }
+
+  .hero-content {
+    max-width: 100%; /* Allow hero content to take full width */
   }
 
   #aboutUS p {
@@ -189,7 +184,6 @@ body {
 @media (max-width: 480px) {
   #heading {
     font-size: 60px;
-     justify-content: flex-start;
   }
 
   #heading2 {

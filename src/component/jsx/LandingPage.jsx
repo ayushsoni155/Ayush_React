@@ -1,10 +1,18 @@
 import React from 'react';
 import '../css/LandingPage.css'; // Import CSS for styling
 import { useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { useEffect } from 'react';
 
 const LandingPage = () => {
   const [name, setName] = useState('User');
-  setName
+const [cookies, setCookie] = useCookies(['bytewiseCookies']);
+useEffect(() => {
+        const userData = cookies.bytewiseCookies;
+        if (userData && userData.status) { // Check if user is logged in
+            setName=userData.name;
+        }
+    }, [cookies, navigate]);
   return (
     <div className="landing-page">
       <section className="hero">

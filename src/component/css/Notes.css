@@ -12,12 +12,10 @@
   padding: 20px;
   margin-top: 0px;
   font-family: "Stylish", serif;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Same shadow style */
+  
 }
 
-.notes-container:hover {
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2); /* Same hover shadow */
-}
+
 
 /* Individual note card styling */
 .note-card {

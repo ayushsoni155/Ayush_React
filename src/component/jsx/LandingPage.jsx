@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie';
 import '../css/LandingPage.css'; // Import CSS for styling
 
 const LandingPage = () => {
-  const [name, setName] = useState('User');
+  const [name, setName] = useState('');
   const [cookies] = useCookies(['bytewiseCookies']);
 
   useEffect(() => {
@@ -17,9 +17,9 @@ const LandingPage = () => {
     <div className="landing-page">
       <section className="hero">
         <div className="hero-content">
-          <b id="heading">Welcome {name},</b>
+          <b id="heading">Welcome,{name}</b>
           <br />
-          <span id="HeadingTagline">To ByteWise</span>
+          <span id="HeadingTagline">To ByteWise,We provide you </span>
         </div>
 
         <div className="hero-image">

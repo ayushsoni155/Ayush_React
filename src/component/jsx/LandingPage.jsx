@@ -23,7 +23,7 @@ const LandingPage = () => {
         const nextIndex = (currentIndex + 1) % taglines.length;
         return taglines[nextIndex];
       });
-    }, 3000);
+    }, 2000);
 
     // Clear interval on component unmount
     return () => clearInterval(interval);

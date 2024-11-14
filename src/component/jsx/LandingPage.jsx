@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie';
 import '../css/LandingPage.css'; // Import CSS for styling
 
 const LandingPage = () => {
-  const [name, setName] = useState('');
+  const [name, setName] = useState('');  // State for the first name
   const [cookies] = useCookies(['bytewiseCookies']);
   const [tagline, setTagline] = useState('Free Notes');
   
@@ -13,10 +13,12 @@ const LandingPage = () => {
   useEffect(() => {
     const userData = cookies.bytewiseCookies;
     if (userData && userData.status) { // Check if user is logged in
-      setName(userData.name);
+      const fullName = userData.name;
+      const firstName = fullName.split(' ')[0]; // Get only the first name (before space)
+      setName(firstName);  // Set only the first name
     }
     
-    // Rotating the tagline every 3 seconds
+    // Rotating the tagline every 2 seconds
     const interval = setInterval(() => {
       setTagline((prevTagline) => {
         const currentIndex = taglines.indexOf(prevTagline);
@@ -35,7 +37,7 @@ const LandingPage = () => {
         <div className="hero-content">
           <b id="heading">Welcome, {name}</b>
           <br />
-        <span id='heading2'>To ByteWise, We provide you</span> <span id="HeadingTagline"> {tagline}</span>
+          <span id="heading2">To ByteWise, We provide you</span> <span id="HeadingTagline"> {tagline}</span>
         </div>
 
         <div className="hero-image">

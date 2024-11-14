@@ -35,7 +35,7 @@ const LandingPage = () => {
         <div className="hero-content">
           <b id="heading">Welcome, {name}</b>
           <br />
-          <span id="HeadingTagline">To ByteWise, We provide you {tagline}</span>
+         To ByteWise, We provide you <span id="HeadingTagline"> {tagline}</span>
         </div>
 
         <div className="hero-image">

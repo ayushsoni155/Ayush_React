@@ -15,7 +15,8 @@ const LandingPage = () => {
     if (userData && userData.status) { // Check if user is logged in
       const fullName = userData.name;
       const firstName = fullName.split(' ')[0]; // Get only the first name (before space)
-      setName(firstName);  // Set only the first name
+      const perfectName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+      setName(perfectName);  // Set only the first name
     }
     
     // Rotating the tagline every 2 seconds
@@ -35,7 +36,7 @@ const LandingPage = () => {
     <div className="landing-page">
       <section className="hero">
         <div className="hero-content">
-          <h1 id="heading">Welcome, {name}</h1>
+          <h1 id="heading">Welcome {name},</h1>
           <p id="heading2">To ByteWise, We provide you
           <span id="HeadingTagline">{tagline}</span></p>
         </div>

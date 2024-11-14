@@ -5,21 +5,37 @@ import '../css/LandingPage.css'; // Import CSS for styling
 const LandingPage = () => {
   const [name, setName] = useState('');
   const [cookies] = useCookies(['bytewiseCookies']);
+  const [tagline, setTagline] = useState('Free Notes');
+  
+  // Array of taglines to rotate
+  const taglines = ['Free Notes', 'Free Courses', 'Affordable Lab Manuals'];
 
   useEffect(() => {
     const userData = cookies.bytewiseCookies;
     if (userData && userData.status) { // Check if user is logged in
       setName(userData.name);
     }
+    
+    // Rotating the tagline every 3 seconds
+    const interval = setInterval(() => {
+      setTagline((prevTagline) => {
+        const currentIndex = taglines.indexOf(prevTagline);
+        const nextIndex = (currentIndex + 1) % taglines.length;
+        return taglines[nextIndex];
+      });
+    }, 3000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(interval);
   }, [cookies]);
 
   return (
     <div className="landing-page">
       <section className="hero">
         <div className="hero-content">
-          <b id="heading">Welcome,{name}</b>
+          <b id="heading">Welcome, {name}</b>
           <br />
-          <span id="HeadingTagline">To ByteWise,We provide you </span>
+          <span id="HeadingTagline">To ByteWise, We provide you {tagline}</span>
         </div>
 
         <div className="hero-image">

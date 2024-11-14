@@ -14,11 +14,7 @@ body {
   transition: background-color 0.3s ease;
 }
 
-body:hover {
-  background-color: #e3e3e8;
-}
-
-/* Landing Page Background */
+/* Landing Page Container */
 .landing-page {
   color: #4d97e1;
   padding: 40px 20px;
@@ -32,30 +28,24 @@ body:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: 40px 20px;
   gap: 40px;
   flex-wrap: wrap;
+  text-align: center;
 }
 
 .hero-content {
   flex: 1;
   max-width: 600px;
-  text-align: left;
-  transition: transform 0.3s ease;
-}
-
-.hero-content:hover {
-  transform: translateY(-10px);
 }
 
 #heading {
-  font-size: 100px;
-  margin: 0;
+  font-size: 90px;
   font-weight: 800;
-  transition: color 0.3s ease, transform 0.3s ease;
   color: #4d97e1;
-  -webkit-text-stroke: 0.000001rem black;
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 #heading:hover {
@@ -63,42 +53,29 @@ body:hover {
   transform: scale(1.05);
 }
 
+#heading2 {
+  font-size: 40px;
+  font-weight: 800;
+  color: crimson;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
 #HeadingTagline {
   font-size: 50px;
   font-weight: 800;
-  transition: color 0.3s ease;
   color: crimson;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   display: inline-block;
   white-space: nowrap;
-  transition: all 1s ease-in-out;
   opacity: 0;
   animation: fadeIn 3s ease-out infinite;
 }
-#heading2{
-  font-size: 50px;
-  font-weight: 800;
-  color: crimson;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-  display: inline-block;
-  white-space: nowrap;
- }
-
-
-#HeadingTagline:hover {
-  color: darkred;
-}
 
 @keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .hero-image {
@@ -118,56 +95,54 @@ body:hover {
 }
 
 /* About Us Section */
-#aboutUsHeading {
+#aboutUs {
+  padding: 40px 20px;
   text-align: center;
+}
+
+#aboutUsHeading {
   font-size: 48px;
-  margin-top: 60px;
   color: crimson;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
+  margin-bottom: 40px;
 }
 
 #aboutUsHeading:hover {
   transform: scale(1.1);
 }
 
-#aboutUS {
+.about-us-content {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 40px;
-  padding: 40px;
   flex-wrap: wrap;
   margin-top: 30px;
+}
+
+#aboutUS img {
+  max-width: 400px;
+  height: auto;
+  border-radius: 15px;
+  filter: drop-shadow(0.5px 0.5px 8px #4d97e1);
+  transition: transform 0.3s ease;
+}
+
+#aboutUS img:hover {
+  transform: scale(1.05) rotate(2deg);
 }
 
 #aboutUS p {
   font-size: 1.6rem;
   line-height: 1.8;
   max-width: 600px;
-}
-
-#aboutUS img {
-  max-width: 400px;
-  height: auto;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 15px;
-  filter: drop-shadow(0.5px 0.5px 8px #4d97e1);
-}
-
-#aboutUS img:hover {
-  transform: scale(1.1) rotate(2deg);
+  color: #555;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
   .hero {
     flex-direction: column;
-    text-align: center;
-  }
-
-  .hero-content {
-    margin: 0;
   }
 
   #heading {
@@ -177,20 +152,28 @@ body:hover {
   #HeadingTagline {
     font-size: 40px;
   }
-}
 
-@media (max-width: 768px) {
-  .landing-page {
-    margin-top: 20px;
+  .hero-image img {
+    max-width: 90%;
   }
 
   #aboutUS {
     flex-direction: column;
     padding: 20px;
   }
+}
 
-  #aboutUS img {
-    max-width: 100%;
+@media (max-width: 768px) {
+  #heading {
+    font-size: 70px;
+  }
+
+  #HeadingTagline {
+    font-size: 35px;
+  }
+
+  #aboutUS p {
+    font-size: 1.5rem;
   }
 }
 
@@ -199,16 +182,12 @@ body:hover {
     font-size: 60px;
   }
 
-  .landing-page {
-    margin-top: 30px;
-  }
-
-  #aboutUS {
-    padding: 10px;
+  #heading2 {
+    font-size: 30px;
   }
 
   #HeadingTagline {
-    font-size: 30px;
+    font-size: 28px;
   }
 
   #aboutUsHeading {
@@ -217,5 +196,13 @@ body:hover {
 
   #aboutUS p {
     font-size: 1.4rem;
+  }
+
+  .hero-content {
+    padding: 0 10px;
+  }
+
+  .landing-page {
+    margin-top: 20px;
   }
 }

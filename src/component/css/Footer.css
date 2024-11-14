@@ -1,6 +1,6 @@
 /* General Styling for Footer Section */
 #contact {
-  margin-top: 100px;
+  margin-top: 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;

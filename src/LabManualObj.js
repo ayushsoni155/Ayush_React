@@ -6,7 +6,7 @@ const labManualsObj = [
     Sem: "1st",
     branch: "CSE",
     Subject_code: "BT101",
-    Price: 50,
+    Price: 5,
     image: "/Eng_Chemistry.png"
   },
   {

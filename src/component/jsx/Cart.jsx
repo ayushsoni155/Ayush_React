@@ -83,9 +83,10 @@ const Cart = () => {
       const order = await response.json();
 
       const options = {
-        key: 'rzp_test_7PpL3w409po5NZ',
+        key: 'rzp_live_BD3KEEZCSWSCBd',
         amount: order.amount,
         currency: 'INR',
+        image: 'logo-transparent-png.png',
         name: 'ByteWise',
         description: 'Thank you for shopping with ByteWise',
         order_id: order.id,

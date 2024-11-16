@@ -1,8 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import '../css/LandingPage.css'; // Import CSS for styling
+import Product from '../jsx/Product';
 
 const LandingPage = () => {
+  const notesArray = [ 
+    { 
+        name: "Engineering Chemistry", 
+        Subject_code: "BT101", 
+        Sem: "1st", 
+        description: "It focuses on the study of chemical principles and their applications in engineering.", 
+        image: '/Eng_Chemistry.png', 
+        branch: "CSE",
+        pdfUrl:'/NotesPDF/temp.pdf'
+        
+    }, 
+    { 
+        name: "Mathematics - I (M1)", 
+        Subject_code: "BT102", 
+        Sem: "1st", 
+        description: "It covers basic concepts of calculus, algebra, and geometry.", 
+        image: '/Eng_M1.png', 
+        branch: "CSE", 
+        pdfUrl:'/NotesPDF/M1Notes.pdf'
+    }, 
+    { 
+        name: "English for Communication", 
+        Subject_code: "BT103", 
+        Sem: "1st", 
+        description: "It focuses on improving language skills like speaking, writing, listening, and reading.", 
+        image: '/Eng_EnglishForCommunication.png', 
+        branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+    }, 
+    { 
+        name: "Basic Electrical and Electronics Engineering", 
+        Subject_code: "BT104", 
+        Sem: "1st", 
+        description: "It covers fundamental concepts of electricity, circuits, electrical machines, and electronic devices.", 
+        image: '/Eng_Beee.png', 
+         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+    }, 
+    { 
+        name: "Engineering Graphics", 
+        Subject_code: "BT105", 
+        Sem: "1st", 
+        description: " It teaches the basics of technical drawing, including projections, drafting, and visualization of objects.", 
+        image: '/Eng_Ed.png',  
+        branch: "CSE",
+        pdfUrl:'/NotesPDF/EDNotes.pdf' 
+    }
+  ]
+
   const [name, setName] = useState('');  // State for the first name
   const [cookies] = useCookies(['bytewiseCookies']);
   const [tagline, setTagline] = useState('Free Notes');
@@ -45,7 +93,10 @@ const LandingPage = () => {
           <img className="LandingPageImg" src="/LandingPageimg4.png" alt="Education Illustration" />
         </div>
       </section>
-
+     <section id='products'>
+     <Product products={notesArray}/>
+      
+     </section>
       <section id="aboutUs">
         <h2 id="aboutUsHeading">About Us</h2>
           <p>

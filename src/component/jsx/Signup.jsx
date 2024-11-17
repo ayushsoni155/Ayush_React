@@ -216,17 +216,18 @@ const Signup = () => {
                         />
 
                         <label htmlFor="phone">Phone Number</label>
-                        {errors.phone && <p className="error-text">{errors.phone}</p>}
-                        <input
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            placeholder="Enter your phone number"
-                            autoComplete='phone'
-                            required
-                        />
+<p className="info-text">Please provide a correct phone number. Incorrect details may lead to issues with payments.</p>
+{errors.phone && <p className="error-text">{errors.phone}</p>}
+<input
+    type="tel"
+    id="phone"
+    name="phone"
+    value={formData.phone}
+    onChange={handleChange}
+    placeholder="Enter your phone number"
+    autoComplete="phone"
+    required
+/>
 
                         <label htmlFor="sem">Select Semester</label>
                         <select

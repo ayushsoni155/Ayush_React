@@ -216,7 +216,7 @@ const Signup = () => {
                         />
 
                         <label htmlFor="phone">Phone Number</label>
-<p className="info-text">Please provide a correct phone number. Incorrect details may lead to issues with payments.</p>
+<p className="info-text">Note:-Please provide a correct phone number. Incorrect details may lead to issues with payments.</p>
 {errors.phone && <p className="error-text">{errors.phone}</p>}
 <input
     type="tel"

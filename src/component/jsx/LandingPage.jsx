@@ -1,104 +1,102 @@
-import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import '../css/LandingPage.css'; // Import CSS for styling
-import Product from '../jsx/Product';
-
-const LandingPage = () => {
-  const notesArray = [ 
-    { 
-        name: "Engineering Chemistry", 
-        Subject_code: "BT101", 
-        Sem: "1st", 
-        description: "It focuses on the study of chemical principles and their applications in engineering.", 
-        image: '/Eng_Chemistry.png', 
-        branch: "CSE",
-        pdfUrl:'/NotesPDF/temp.pdf'
-        
-    }, 
-    { 
-        name: "Mathematics - I (M1)", 
-        Subject_code: "BT102", 
-        Sem: "1st", 
-        description: "It covers basic concepts of calculus, algebra, and geometry.", 
-        image: '/Eng_M1.png', 
-        branch: "CSE", 
-        pdfUrl:'/NotesPDF/M1Notes.pdf'
-    }, 
-    { 
-        name: "English for Communication", 
-        Subject_code: "BT103", 
-        Sem: "1st", 
-        description: "It focuses on improving language skills like speaking, writing, listening, and reading.", 
-        image: '/Eng_EnglishForCommunication.png', 
-        branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
-    }, 
-    { 
-        name: "Basic Electrical and Electronics Engineering", 
-        Subject_code: "BT104", 
-        Sem: "1st", 
-        description: "It covers fundamental concepts of electricity, circuits, electrical machines, and electronic devices.", 
-        image: '/Eng_Beee.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
-    }, 
-    { 
-        name: "Engineering Graphics", 
-        Subject_code: "BT105", 
-        Sem: "1st", 
-        description: " It teaches the basics of technical drawing, including projections, drafting, and visualization of objects.", 
-        image: '/Eng_Ed.png',  
-        branch: "CSE",
-        pdfUrl:'/NotesPDF/EDNotes.pdf' 
-    }
-  ]
-
-  const [name, setName] = useState('');  // State for the first name
-  const [cookies] = useCookies(['bytewiseCookies']);
-  const [tagline, setTagline] = useState('Free Notes');
+  import React, { useEffect, useState } from 'react';
+  import { useCookies } from 'react-cookie';
+  import Typed from 'typed.js';
+  import '../css/LandingPage.css'; // Import CSS for styling
+  import Product from '../jsx/Product';
   
-  // Array of taglines to rotate
-  const taglines = ['Free Notes', 'Free Courses', 'Affordable Lab Manuals'];
-
-  useEffect(() => {
-    const userData = cookies.bytewiseCookies;
-    if (userData && userData.status) { // Check if user is logged in
-      const fullName = userData.name;
-      const firstName = fullName.split(' ')[0]; // Get only the first name (before space)
-      const perfectName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
-      setName(perfectName);  // Set only the first name
-    }
-    
-    // Rotating the tagline every 2 seconds
-    const interval = setInterval(() => {
-      setTagline((prevTagline) => {
-        const currentIndex = taglines.indexOf(prevTagline);
-        const nextIndex = (currentIndex + 1) % taglines.length;
-        return taglines[nextIndex];
-      });
-    }, 3000);
-
-    // Clear interval on component unmount
-    return () => clearInterval(interval);
-  }, [cookies]);
-
-  return (
-    <div className="landing-page">
-      <section className="hero">
-        <div className="hero-content">
-          <h1 id="heading">Welcome {name},</h1>
-          <p id="heading2">To ByteWise, We provide you
-          <span id="HeadingTagline">{tagline}</span></p>
-        </div>
-
-        <div className="hero-image">
-          <img className="LandingPageImg" src="/LandingPageimg4.png" alt="Education Illustration" />
-        </div>
-      </section>
-     <section id='products'>
-     <Product products={notesArray}/>
-      
-     </section>
-      <section id="aboutUs">
-        <h2 id="aboutUsHeading">About Us</h2>
+  const LandingPage = () => {
+    const notesArray =[ 
+      { 
+          name: "Engineering Chemistry", 
+          Subject_code: "BT101", 
+          Sem: "1st", 
+          description: "It focuses on the study of chemical principles and their applications in engineering.", 
+          image: '/Eng_Chemistry.png', 
+          branch: "CSE",
+          pdfUrl:'/NotesPDF/temp.pdf'
+          
+      }, 
+      { 
+          name: "Mathematics - I (M1)", 
+          Subject_code: "BT102", 
+          Sem: "1st", 
+          description: "It covers basic concepts of calculus, algebra, and geometry.", 
+          image: '/Eng_M1.png', 
+          branch: "CSE", 
+          pdfUrl:'/NotesPDF/M1Notes.pdf'
+      }, 
+      { 
+          name: "English for Communication", 
+          Subject_code: "BT103", 
+          Sem: "1st", 
+          description: "It focuses on improving language skills like speaking, writing, listening, and reading.", 
+          image: '/Eng_EnglishForCommunication.png', 
+          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+      }, 
+      { 
+          name: "Basic Electrical and Electronics Engineering", 
+          Subject_code: "BT104", 
+          Sem: "1st", 
+          description: "It covers fundamental concepts of electricity, circuits, electrical machines, and electronic devices.", 
+          image: '/Eng_Beee.png', 
+           branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+      }, 
+      { 
+          name: "Engineering Graphics", 
+          Subject_code: "BT105", 
+          Sem: "1st", 
+          description: " It teaches the basics of technical drawing, including projections, drafting, and visualization of objects.", 
+          image: '/Eng_Ed.png',  
+          branch: "CSE",
+          pdfUrl:'/NotesPDF/EDNotes.pdf' 
+      }
+    ]
+    const [name, setName] = useState('');
+    const [cookies] = useCookies(['bytewiseCookies']);
+  
+    useEffect(() => {
+      const userData = cookies.bytewiseCookies;
+      if (userData && userData.status) {
+        const fullName = userData.name;
+        const firstName = fullName.split(' ')[0];
+        const perfectName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+        setName(perfectName);
+      }
+  
+      // Initialize Typed.js
+      const options = {
+        strings: ['Free Notes', 'Free Courses', 'Affordable Lab Manuals'],
+        typeSpeed: 100,
+        backSpeed: 50,
+        loop: true,
+      };
+  
+      const typed = new Typed('#HeadingTagline', options);
+  
+      // Cleanup to destroy Typed.js instance
+      return () => {
+        typed.destroy();
+      };
+    }, [cookies]);
+  
+    return (
+      <div className="landing-page">
+        <section className="hero">
+          <div className="hero-content">
+            <h1 id="heading">Welcome {name},</h1>
+            <p id="heading2">
+              To ByteWise, We provide you<br/> <span id="HeadingTagline"></span>
+            </p>
+          </div>
+          <div className="hero-image">
+            <img className="LandingPageImg" src="/LandingPageimg4.png" alt="Education Illustration" />
+          </div>
+        </section>
+        <section id="products">
+          <Product products={notesArray} />
+        </section>
+        <section id="aboutUs">
+          <h2 id="aboutUsHeading">About Us</h2>
           <p>
             ByteWise is your ultimate toolkit for engineering success, offering an extensive collection of study
             materials tailored to meet the needs of engineering students. Our platform provides comprehensive notes,
@@ -108,9 +106,10 @@ const LandingPage = () => {
             your academic journey. With a user-friendly interface and a dedicated section for easy downloads, ByteWise
             empowers you to excel in your studies and build a solid foundation for your career.
           </p>
-      </section>
-    </div>
-  );
-};
-
-export default LandingPage;
+        </section>
+      </div>
+    );
+  };
+  
+  export default LandingPage;
+  

@@ -50,7 +50,7 @@
 .product-card {
   background: #f4f4f9;
   border-radius: 10px;
-  box-shadow: 1px 1px 10px #1e1d1d; /* Same shadow as buylabmanual.css */
+  border: 1px solid gray;
   transition: transform 0.3s, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
@@ -62,10 +62,10 @@
   padding: 20px;
 }
 
-.product-card:hover {
-  box-shadow: 7px 7px 25px #1e1d1d;
+/* .product-card:hover {
+ 
   transform: translateY(-10px);
-}
+} */
 
 .product-image {
   width: 100%;
@@ -94,6 +94,10 @@
 
 /* Responsive design */
 @media screen and (max-width: 600px) {
+  #productSection{
+    margin-top: 80px;
+  }
+  
   .product-slider {
       display: block;
   }

@@ -89,7 +89,7 @@ body {
 }
 
 /* Products Section */
-#products {
+/* #products {
   padding: 40px 20px;
   text-align: center;
 }
@@ -103,7 +103,7 @@ body {
 #products p {
   font-size: 20px;
   color: #555;
-}
+} */
 
 /* About Us Section */
 #aboutUs {
@@ -133,7 +133,6 @@ body {
 
 #aboutUs p {
   font-size: 28px;
-  color: #555;
   max-width: 800px;
   margin: 0 auto;
   line-height: 1.8;
@@ -180,7 +179,7 @@ body {
   }
 
   .landing-page {
-    margin-top: 60px;
+    margin-top: 80px;
   }
 
   .hero {

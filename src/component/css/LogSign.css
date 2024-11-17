@@ -146,7 +146,11 @@ a {
   position: relative;
   width: 100%;
 }
-
+.info-text {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 5px;
+}
 /* Password input field */
 .password-input input {
   width: 100%;

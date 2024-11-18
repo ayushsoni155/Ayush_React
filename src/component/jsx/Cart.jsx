@@ -67,7 +67,7 @@ const Cart = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/create-order', {
+      const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: totalPrice * 100 }),
@@ -118,7 +118,7 @@ const Cart = () => {
   };
 
   const saveOrder = async (orderDetails) => {
-    const response = await fetch('http://localhost:3000/save-order', {
+    const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(orderDetails),

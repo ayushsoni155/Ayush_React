@@ -207,7 +207,7 @@ const Cart = () => {
 <div className="section">
   <h2 className="section-title">Order History (Delivered)</h2>
   {completedOrders.length === 0 ? (
-    <p>No orders found.</p>
+    <p>No Past orders found.</p>
   ) : (
     <ul className="order-list">
       {completedOrders.map(order => (

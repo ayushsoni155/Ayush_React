@@ -65,9 +65,9 @@ const PrivacyPolicy = () => {
           If you have any questions about this Privacy Policy, please contact us at:
         </p>
         <p>
-          Phone: +91-6266898048 <br />
-          Telegram: @ayushsoni155<br/>
-          Address: MIT Campus, Behind Air Strip, Dewas Rd, Ujjain, Madhya Pradesh 456001 
+          Telegram: <a href='https://t.me/Bytewise24'> @Bytewise24</a><br />
+          G-Mail: <a href='https://mail.google.com/mail/u/0/#drafts?compose=CllgCKCGlsnmpTKBhxghbxFMSrNPnrpNpxHqvFPFJbNJnxDwWGgrzBKsSzCFRxdkLdTMpplQCnq'> bytewise24.pvt@gmail.com</a><br/>
+          Instgram: <a href='https://www.instagram.com/bytewise24.pvt/profilecard/?igsh=MTN0eHYybW54ZThsaQ=='>bytewise24.pvt</a>
         </p>
       </div>
     </div>

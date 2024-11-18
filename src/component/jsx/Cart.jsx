@@ -75,25 +75,25 @@ const Cart = () => {
       const order = await response.json();
 
       const options = {
-        key: 'rzp_test_7PpL3w409po5NZ',
-        amount: order.amount,
-        currency: 'INR',
-        name: 'ByteWise',
-        description: 'Thank you for shopping with ByteWise',
-        order_id: order.id,
-        handler: async (response) => {
-          const orderDetails = {
-            orderID: response.razorpay_order_id,
-            enrolmentID: userData.enrolmentID,
-            orderItems: cartItems.map(item => ({
-              Subject_code: item.Subject_code,
-              item_quantity: item.quantity,
-              item_price: item.Price * item.quantity,
-            })),
-            totalPrice,
-            transactionID: response.razorpay_payment_id,
-          };
-
+  key: 'rzp_live_BD3KEEZCSWSCBd',
+  amount: order.amount,
+  currency: 'INR',
+  image: 'logo-transparent-png.png',
+  name: 'ByteWise',
+  description: 'Thank you for shopping with ByteWise',
+  order_id: order.id,
+  handler: async (response) => {
+    const orderDetails = {
+      orderID: response.razorpay_order_id,
+      enrolmentID: userData.enrolmentID,
+      orderItems: cartItems.map(item => ({
+        Subject_code: item.Subject_code,
+        item_quantity: item.quantity,
+        item_price: item.Price * item.quantity,
+      })),
+      totalPrice: totalPrice,
+      transactionID: response.razorpay_payment_id,
+    };
           try {
             await saveOrder(orderDetails);
             setNotification({ message: 'Payment successful!', type: 'success', visible: true });

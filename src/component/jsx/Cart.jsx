@@ -8,6 +8,7 @@ const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);
   const userData = cookies.bytewiseCookies;
   const isLoggedIn = userData?.status === true;
+   const enrolmentID = userData?.enrolmentID; 
   const [cartItems, setCartItems] = useState([]);
   const [pendingOrders, setPendingOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);

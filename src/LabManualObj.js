@@ -8,19 +8,9 @@ const labManualsObj = [
     Subject_code: "BT101",
     Price: 1,
     image: "/Eng_Chemistry.png"
-  },
+  },
   {
     id: 2,
-    name: "English for Communication",
-    description: "it helps to increase the communication skills",
-    Sem: "1st",
-    branch: "CSE",
-    Subject_code: "BT103",
-    Price: 50,
-    image: "/Eng_EnglishForCommunication.png"
-  },
-  {
-    id: 3,
     name: "Basic Electrical & Electronics Engineering",
     description: "it shows how the electric or electronic items work",
     Sem: "1st",
@@ -30,7 +20,7 @@ const labManualsObj = [
     image: "/Eng_Beee.png"
   },
   {
-    id: 4,
+    id: 3,
     name: "Manufacturing practice",
     description: "it teaches about how the things are made out of raw materials",
     Sem: "1st",
@@ -40,7 +30,7 @@ const labManualsObj = [
     image: "/Eng_MP.png"
   },
   {
-    id: 5,
+    id: 4,
     name: "Engineering Physics",
     description: "it teaches about fundamental concept of physics",
     Sem: "2nd",
@@ -50,7 +40,7 @@ const labManualsObj = [
     image: "/Eng_Physics.png"
   },
   {
-    id: 6,
+    id: 5,
     name: "Basic Machenical Engineering",
     description: "it introduces the fundamental concepts of machenics",
     Sem: "2nd",
@@ -60,7 +50,7 @@ const labManualsObj = [
     image: "/Eng_Mechanical.png"
   },
   {
-    id: 7,
+    id: 6,
     name: "Basic Civil Engineering & Mechanics",
     description: "it covers the fundamental concepts of civil engineering",
     Sem: "2nd",
@@ -70,7 +60,7 @@ const labManualsObj = [
     image: "/Eng_Civil.png"
   },
   {
-    id: 8,
+    id: 7,
     name: "Basic Computer Engineering",
     description: "it teaches about C++ programming language",
     Sem: "2nd",
@@ -80,7 +70,7 @@ const labManualsObj = [
     image: "/Eng_BasicComputer.png"
   },
   {
-    id: 9,
+    id: 8,
     name: "Data Structure",
     description: "it makes you strong to build the concept of any program",
     Sem: "3rd",
@@ -90,7 +80,7 @@ const labManualsObj = [
     image: "/Eng_DSA.png"
   },
   {
-    id: 10,
+    id: 9,
     name: "Digital System",
     description: "how logic gates & digital signals perform their tasks",
     Sem: "3rd",
@@ -100,7 +90,7 @@ const labManualsObj = [
     image: "/Eng_DigitalSystem.png"
   },
   {
-    id: 11,
+    id: 10,
     name: "Object Oriented Programming & Methodology",
     description: "it's focused on the concepts of Object Oriented Programming",
     Sem: "3rd",
@@ -110,7 +100,7 @@ const labManualsObj = [
     image: "/Eng_OOP.png"
   },
   {
-    id: 12,
+    id: 11,
     name: "Analysis Design of Algorithm",
     description: "it teaches how algorithms are written",
     Sem: "4th",
@@ -120,7 +110,7 @@ const labManualsObj = [
     image: "/Eng_ADA.png"
   },
   {
-    id: 13,
+    id: 12,
     name: "Software engineering",
     description: "it shows how software is built",
     Sem: "4th",
@@ -130,7 +120,7 @@ const labManualsObj = [
     image: "/Eng_SE.png"
   },
   {
-    id: 14,
+    id: 13,
     name: "Computer Org. & Architecture",
     description: "it talks about the architecture of a computer system",
     Sem: "4th",
@@ -140,7 +130,7 @@ const labManualsObj = [
     image: "/Eng_COA.png"
   },
   {
-    id: 15,
+    id: 14,
     name: "Operating System",
     description: "it covers how the operating systems work",
     Sem: "4th",
@@ -150,7 +140,7 @@ const labManualsObj = [
     image: "/Eng_OS.png"
   },
   {
-    id: 16,
+    id: 15,
     name: "JAVA",
     description: "To learn the programming language JAVA",
     Sem: "4th",
@@ -160,7 +150,7 @@ const labManualsObj = [
     image: "/Eng_Java.png"
   },
   {
-    id: 17,
+    id: 16,
     name: "Theory of Computation",
     description: "it studies how computers are solving the problems",
     Sem: "5th",
@@ -170,7 +160,7 @@ const labManualsObj = [
     image: "/Eng_TOC.png"
   },
   {
-    id: 18,
+    id: 17,
     name: "Database Management Systems",
     description: "it studies how to make databases",
     Sem: "5th",
@@ -180,7 +170,7 @@ const labManualsObj = [
     image: "/Eng_DBMS.png"
   },
   {
-    id: 19,
+    id: 18,
     name: "Linux",
     description: "it studies about installation of Linux OS",
     Sem: "5th",
@@ -190,7 +180,7 @@ const labManualsObj = [
     image: "/Eng_Linux.png"
   },
   {
-    id: 20,
+    id: 19,
     name: "Python",
     description: "learn the programming language Python",
     Sem: "5th",
@@ -200,7 +190,7 @@ const labManualsObj = [
     image: "/Eng_Python.png"
   },
   {
-    id: 21,
+    id: 20,
     name: "Machine Learning",
     description: "Learn the concepts of machine learning",
     Sem: "6th",
@@ -220,7 +210,7 @@ const labManualsObj = [
     image: "/Eng_ComputerNetwork.png"
   },
   {
-    id: 23,
+    id: 22,
     name: "Data Analytics",
     description: "it focuses on how data is transferred between others",
     Sem: "6th",
@@ -230,7 +220,7 @@ const labManualsObj = [
     image: "/Eng_DataAnalytics.png"
   },
   {
-    id: 24,
+    id: 23,
     name: "Skill Development",
     description: "To develop your skills",
     Sem: "6th",
@@ -240,7 +230,7 @@ const labManualsObj = [
     image: "/Eng_SkillDevelopment.png"
   },
   {
-    id: 25,
+    id: 24,
     name: "Big Data",
     description: "it teaches how big forms of data are stored, managed, or analyzed",
     Sem: "7th",
@@ -250,7 +240,7 @@ const labManualsObj = [
     image: "/Eng_BigData.png"
   },
   {
-    id: 26,
+    id: 25,
     name: "Data Mining & warehousing",
     description: "",
     Sem: "7th",

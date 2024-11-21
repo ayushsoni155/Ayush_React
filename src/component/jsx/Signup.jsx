@@ -145,7 +145,7 @@ const Signup = () => {
                 sem: formData.sem,
                 phone: formData.phone,
                 status: true // Set status to true on success
-            }, { path: '/', maxAge: 3600 });
+            }, { path: '/', maxAge: 1296000 });
             
             // Clear form data
             setFormData({
@@ -162,11 +162,11 @@ const Signup = () => {
             navigate('/');
         } else {
             setNotification({ message: data.message || 'Error signing up', type: 'error' });
-            setCookie('bytewiseCookies', { status: false }, { path: '/', maxAge: 3600 });
+            setCookie('bytewiseCookies', { status: false }, { path: '/', maxAge: 1296000 });
         }
     } catch (error) {
         setNotification({ message: 'Server error! Please try again.', type: 'error' });
-        setCookie('bytewiseCookies', { status: false }, { path: '/', maxAge: 3600 });
+        setCookie('bytewiseCookies', { status: false }, { path: '/', maxAge: 1296000 });
     }
 };
 

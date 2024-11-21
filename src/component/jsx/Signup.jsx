@@ -144,7 +144,7 @@ const Signup = () => {
                 sem: formData.sem,
                 phone: formData.phone,
                 status: true // Set status to true on success
-            }, { path: '/', maxAge: 3600 });
+            }, { path: '/', maxAge: 1296000});
             
             // Clear form data
             setFormData({

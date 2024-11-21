@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import '../css/LogSign.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -144,7 +145,7 @@ const Signup = () => {
                 sem: formData.sem,
                 phone: formData.phone,
                 status: true // Set status to true on success
-            }, { path: '/', maxAge: 1296000});
+            }, { path: '/', maxAge: 3600 });
             
             // Clear form data
             setFormData({

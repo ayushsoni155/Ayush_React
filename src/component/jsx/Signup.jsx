@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import '../css/LogSign.css';
 import { Link, useNavigate } from 'react-router-dom';
-import Notification from './Notification';
+import Notification from './Notification'; 
 import { useCookies } from 'react-cookie';
 
 const Signup = () => {
@@ -13,127 +14,164 @@ const Signup = () => {
         password: '',
         confirmPassword: '',
         recoveryQuestion: '',
-        recoveryAnswer: ''
+        recoveryAnswer: '' // New field for recovery answer
     });
 
     const [notification, setNotification] = useState(null);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({
+        enrolmentID: '',
+        phone: '',
+        password: '',
+        confirmPassword: '',
+        recoveryAnswer: ''
+    });
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-
-    const enrolmentRegex = /^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
+    
+    const enrolmentRegex = /^0704CS\d{6,7}$/;
     const phoneRegex = /^[6789]\d{9}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
-
     const [cookies, setCookie] = useCookies(['bytewiseCookies']);
     const navigate = useNavigate();
 
     const recoveryQuestions = [
-        "Who is your best friend?",
-        "Who is your favorite person?",
-        "What is the name of your favorite teacher?",
-        "What city were you born in?",
-        "What is your favorite dish?"
+        'What is your mother\'s maiden name?',
+        'What is the name of your first pet?',
+        'What is the name of your favorite teacher?',
+        'What is the city where you were born?'
     ];
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
 
-        setFormData((prevFormData) => ({
-            ...prevFormData,
+        // Update form data
+        setFormData({
+            ...formData,
             [name]: updatedValue
-        }));
+        });
 
         // Validation logic
-        const newErrors = { ...errors };
-
         if (name === 'enrolmentID') {
-            newErrors.enrolmentID = enrolmentRegex.test(updatedValue)
-                ? ''
-                : 'Invalid enrollment number';
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number'
+            }));
         }
 
         if (name === 'phone') {
-            newErrors.phone = phoneRegex.test(value) ? '' : 'Invalid phone number';
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                phone: phoneRegex.test(value) ? '' : 'Invalid phone number'
+            }));
         }
 
         if (name === 'password') {
-            newErrors.password = passwordRegex.test(value)
-                ? ''
-                : 'Password must be at least 8 characters long and contain both letters and numbers';
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                password: passwordRegex.test(value)
+                    ? ''
+                    : 'Password must be at least 8 characters long and contain both letters and numbers'
+            }));
+
+            // Password matching check
+            if (value !== formData.confirmPassword) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    confirmPassword: 'Passwords do not match'
+                }));
+            } else {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    confirmPassword: ''
+                }));
+            }
         }
 
         if (name === 'confirmPassword') {
-            newErrors.confirmPassword =
-                value !== formData.password ? 'Passwords do not match' : '';
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                confirmPassword: value !== formData.password ? 'Passwords do not match' : ''
+            }));
         }
 
-        if (name === 'recoveryAnswer') {
-            newErrors.recoveryAnswer =
-                value.trim().length < 3
-                    ? 'Recovery answer must be at least 3 characters long'
-                    : '';
+        // Recovery Answer Validation
+        if (name === 'recoveryAnswer' && value.trim().length < 3) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                recoveryAnswer: 'Recovery answer must be at least 3 characters long'
+            }));
+        } else {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                recoveryAnswer: ''
+            }));
         }
-
-        setErrors(newErrors);
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+   const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        // Check for any existing errors
-        const hasErrors = Object.values(errors).some((error) => error);
-        if (hasErrors) {
-            setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
-            return;
-        }
+    // Ensure there are no errors before submitting
+    if (errors.enrolmentID || errors.phone || errors.password || errors.confirmPassword || errors.recoveryAnswer) {
+        setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
+        return;
+    }
 
-        try {
-            const response = await fetch('https://bytewise-server.vercel.app/api/signup', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+    // Include recovery question and answer in formData
+    const formDataWithRecovery = { 
+        ...formData,
+        recoveryQuestion: formData.recoveryQuestion, 
+        recoveryAnswer: formData.recoveryAnswer 
+    };
+
+    try {
+        const response = await fetch('https://bytewise-server.vercel.app/api/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formDataWithRecovery),  // Send updated formData with recovery question and answer
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            setNotification({ message: 'Signup successful!', type: 'success' });
+            setCookie('bytewiseCookies', {
+                enrolmentID: formData.enrolmentID,
+                name: formData.name,
+                sem: formData.sem,
+                phone: formData.phone,
+                status: true // Set status to true on success
+            }, { path: '/', maxAge: 3600 });
+            
+            // Clear form data
+            setFormData({
+                enrolmentID: '',
+                name: '',
+                sem: '',
+                phone: '',
+                password: '',
+                confirmPassword: '',
+                recoveryQuestion: '',
+                recoveryAnswer: ''
             });
 
-            const data = await response.json();
-
-            if (response.ok) {
-                setNotification({ message: 'Signup successful!', type: 'success' });
-                setCookie(
-                    'bytewiseCookies',
-                    {
-                        enrolmentID: formData.enrolmentID,
-                        name: formData.name,
-                        sem: formData.sem,
-                        phone: formData.phone,
-                        status: true
-                    },
-                    { path: '/', maxAge: 1296000 }
-                );
-
-                setFormData({
-                    enrolmentID: '',
-                    name: '',
-                    sem: '',
-                    phone: '',
-                    password: '',
-                    confirmPassword: '',
-                    recoveryQuestion: '',
-                    recoveryAnswer: ''
-                });
-
-                navigate('/');
-            } else {
-                setNotification({ message: data.message || 'Error signing up', type: 'error' });
-            }
-        } catch (error) {
-            setNotification({ message: 'Server error! Please try again later.', type: 'error' });
+            navigate('/');
+        } else {
+            setNotification({ message: data.message || 'Error signing up', type: 'error' });
+            setCookie('bytewiseCookies', { status: false }, { path: '/', maxAge: 3600 });
         }
-    };
+    } catch (error) {
+        setNotification({ message: 'Server error! Please try again.', type: 'error' });
+        setCookie('bytewiseCookies', { status: false }, { path: '/', maxAge: 3600 });
+    }
+};
 
-    const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
-    const toggleConfirmPasswordVisibility = () => setConfirmPasswordVisible((prev) => !prev);
+
+    const togglePasswordVisibility = () => setPasswordVisible(prev => !prev);
+    const toggleConfirmPasswordVisibility = () => setConfirmPasswordVisible(prev => !prev);
 
     return (
         <div className="overlay">
@@ -151,24 +189,25 @@ const Signup = () => {
                     <img src="Sign.png" alt="SignUp" />
                 </div>
                 <div className="logSign-form-container">
-                    <h2>Create Your Account</h2>
+                    <h2 className='Signinh2'>Create Your Account</h2>
                     <form onSubmit={handleSubmit}>
-                        {/* Name */}
                         <label htmlFor="name">Full Name</label>
                         <input
                             type="text"
+                            id="nameid"
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
                             placeholder="Enter your full name"
+                            autoComplete='name'
                             required
                         />
 
-                        {/* Enrolment Number */}
                         <label htmlFor="enrolmentID">Enrollment Number</label>
                         {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
                         <input
                             type="text"
+                            id="enrolmentID"
                             name="enrolmentID"
                             value={formData.enrolmentID}
                             onChange={handleChange}
@@ -176,22 +215,22 @@ const Signup = () => {
                             required
                         />
 
-                        {/* Phone Number */}
                         <label htmlFor="phone">Phone Number</label>
-                        <p className="info-text">Please provide a valid phone number.</p>
                         {errors.phone && <p className="error-text">{errors.phone}</p>}
                         <input
                             type="tel"
+                            id="phone"
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
                             placeholder="Enter your phone number"
+                            autoComplete='phone'
                             required
                         />
 
-                        {/* Semester */}
-                        <label htmlFor="sem">Semester</label>
+                        <label htmlFor="sem">Select Semester</label>
                         <select
+                            id="sem"
                             name="sem"
                             value={formData.sem}
                             onChange={handleChange}
@@ -203,12 +242,12 @@ const Signup = () => {
                             ))}
                         </select>
 
-                        {/* Password */}
                         <label htmlFor="password">Password</label>
                         {errors.password && <p className="error-text">{errors.password}</p>}
                         <div className="password-input">
                             <input
                                 type={passwordVisible ? 'text' : 'password'}
+                                id="password"
                                 name="password"
                                 value={formData.password}
                                 onChange={handleChange}
@@ -220,12 +259,12 @@ const Signup = () => {
                             </button>
                         </div>
 
-                        {/* Confirm Password */}
                         <label htmlFor="confirmPassword">Confirm Password</label>
                         {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
                         <div className="password-input">
                             <input
                                 type={confirmPasswordVisible ? 'text' : 'password'}
+                                id="confirmPassword"
                                 name="confirmPassword"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
@@ -237,9 +276,9 @@ const Signup = () => {
                             </button>
                         </div>
 
-                        {/* Recovery Question */}
-                        <label htmlFor="recoveryQuestion">Recovery Question</label>
+                        <label htmlFor="recoveryQuestion">Select a Recovery Question</label>
                         <select
+                            id="recoveryQuestion"
                             name="recoveryQuestion"
                             value={formData.recoveryQuestion}
                             onChange={handleChange}
@@ -251,11 +290,11 @@ const Signup = () => {
                             ))}
                         </select>
 
-                        {/* Recovery Answer */}
                         <label htmlFor="recoveryAnswer">Answer to Recovery Question</label>
                         {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
                         <input
                             type="text"
+                            id="recoveryAnswer"
                             name="recoveryAnswer"
                             value={formData.recoveryAnswer}
                             onChange={handleChange}
@@ -264,9 +303,8 @@ const Signup = () => {
                         />
 
                         <button type="submit" className="login-button">Signup</button>
-                        <p>
-                            Already have an account? <Link to="/login">Login here</Link>
-                        </p>
+                        <span>Already have an account? </span>
+                        <Link to="/login">Login</Link>
                     </form>
                 </div>
             </div>

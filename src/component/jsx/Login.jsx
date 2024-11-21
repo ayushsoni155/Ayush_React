@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import '../css/LogSign.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -108,14 +109,14 @@ const handleChange = (event) => {
                     sem: data.user.sem,
                     phone: data.user.phone,
                     status: true // Set status to true on successful login
-                }, { path: '/',  1296000 });
+                }, { path: '/', maxAge: 3600 });
                 navigate('/');
             } else {
                 setNotification({ message: data.message || 'Login failed. Please check your credentials.', type: 'error' });
                 setCookie('bytewiseCookies', {
                     ...cookies.bytewiseCookies,
                     status: false // Set status to false on failed login
-                }, { path: '/', maxAge: 1296000 });
+                }, { path: '/', maxAge: 3600 });
             }
         } catch (error) {
             console.error('Login error:', error);
@@ -123,7 +124,7 @@ const handleChange = (event) => {
             setCookie('bytewiseCookies', {
                 ...cookies.bytewiseCookies,
                 status: false // Set status to false on error
-            }, { path: '/', maxAge:  1296000 });
+            }, { path: '/', maxAge: 3600 });
         }
     };
 

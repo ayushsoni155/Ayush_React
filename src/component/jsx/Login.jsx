@@ -18,7 +18,7 @@ const Login = () => {
     const [cookies, setCookie] = useCookies(['bytewiseCookies']);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
-    const enrolmentRegex = /^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
+    const enrolmentRegex =/^0704(CS|IT|AD)(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/ ///^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
 
     useEffect(() => {

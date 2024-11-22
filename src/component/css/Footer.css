@@ -81,6 +81,7 @@
   border: 1px solid #4d97e1;
   border-radius: 5px;
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    line-height: 50%;
 }
 
 /* Hover Effect for Social Media Links */

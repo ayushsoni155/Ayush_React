@@ -41,8 +41,8 @@ const TermsAndConditions = () => {
         </p>
         <ul>
           <li><strong>Bytewise</strong></li>
-          <p id='paddress'><b>Bada Bazar,Dewas,<br/>
-           Madhya Pradesh 455001,
+          <p id='paddress'><b>Dewas and Ujjain<br/>
+           Madhya Pradesh,
           India.</b></p>
         </ul>
 

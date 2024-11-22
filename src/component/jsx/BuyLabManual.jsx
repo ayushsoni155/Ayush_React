@@ -40,6 +40,7 @@ const BuyLabManual = () => {
     const matchesName = manual.product_name.toLowerCase().includes(normalizedSearchTerm);
     const matchesCode = manual.subject_code.toLowerCase().includes(normalizedSearchTerm);
     const matchesSemester = semester === 'All' || manual.product_sem.toString() === semester.toString();
+    console.log(matshesSemester);
     const matchesBranch = branch === 'All' || manual.product_branch === branch;
     return (matchesName || matchesCode) && matchesSemester && matchesBranch;
   });

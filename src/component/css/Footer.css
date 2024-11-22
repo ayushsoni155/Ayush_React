@@ -88,7 +88,7 @@
 #c2 a:hover {
   color: white;
   background-color: crimson;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 /* Social Media Icons Styling */

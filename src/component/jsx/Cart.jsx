@@ -76,7 +76,7 @@ const Cart = () => {
       const order = await response.json();
 
       const options = {
-  key:process.env.RAZORPAY_KEY_ID,//'rzp_live_BD3KEEZCSWSCBd',
+  key:'rzp_test_7PpL3w409po5NZ',//'rzp_live_BD3KEEZCSWSCBd'
   amount: order.amount,
   currency: 'INR',
   image: 'logo-transparent-png.png',

@@ -126,7 +126,9 @@ footer Link {
   margin: 0 10px;
   transition: color 0.3s ease;
 }
-
+footer a{
+  colour:white;
+}
 footer a:hover {
   color: #4d97e1;
 }

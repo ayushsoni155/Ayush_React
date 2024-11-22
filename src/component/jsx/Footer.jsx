@@ -44,9 +44,10 @@ const Footer = () => {
       </div>
     </div>
     <footer>
-    <p>© 2024 ByteWise24.vercel.app. All Rights Reserved.</p>
+    <p>© 2024 ByteWise24.vercel.app. All Rights Reserved.</p><span id='tc'>
     <Link to="/t&c" onClick={scrollToTop}>Terms and conditions</Link>
     <Link to="/PrivacyPolicy" onClick={scrollToTop}>PrivacyPolicy</Link>
+      </span>
   </footer>
 
       </>

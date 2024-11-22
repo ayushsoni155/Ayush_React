@@ -81,12 +81,12 @@
   border: 1px solid #4d97e1;
   border-radius: 5px;
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-    line-height: 50%;
+   
 }
 
 /* Hover Effect for Social Media Links */
 #c2 a:hover {
-  color: #fff;
+  color: white;
   background-color: crimson;
   transform: translateY(-2px);
 }
@@ -100,7 +100,7 @@
 
 /* Hover Effect for Icons */
 #c2 a:hover svg {
-  fill: #fff;
+  fill: white;
 }
 
 /* Footer Base Styling */

@@ -2,7 +2,7 @@ const notesArray = [
     { 
         name: "Engineering Chemistry", 
         Subject_code: "BT101", 
-        Sem: "1st", 
+        Sem: "1", 
         description: "It focuses on the study of chemical principles and their applications in engineering.", 
         image: '/Eng_Chemistry.png', 
         branch: "CSE",
@@ -13,7 +13,7 @@ const notesArray = [
     { 
         name: "Mathematics - I (M1)", 
         Subject_code: "BT102", 
-        Sem: "1st", 
+        Sem: "1", 
         description: "It covers basic concepts of calculus, algebra, and geometry.", 
         image: '/Eng_M1.png', 
         branch: "CSE", 
@@ -22,7 +22,7 @@ const notesArray = [
     { 
         name: "English for Communication", 
         Subject_code: "BT103", 
-        Sem: "1st", 
+        Sem: "1", 
         description: "It focuses on improving language skills like speaking, writing, listening, and reading.", 
         image: '/Eng_EnglishForCommunication.png', 
         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
@@ -30,7 +30,7 @@ const notesArray = [
     { 
         name: "Basic Electrical and Electronics Engineering", 
         Subject_code: "BT104", 
-        Sem: "1st", 
+        Sem: "1", 
         description: "It covers fundamental concepts of electricity, circuits, electrical machines, and electronic devices.", 
         image: '/Eng_Beee.png', 
          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
@@ -38,7 +38,7 @@ const notesArray = [
     { 
         name: "Engineering Graphics", 
         Subject_code: "BT105", 
-        Sem: "1st", 
+        Sem: "1", 
         description: " It teaches the basics of technical drawing, including projections, drafting, and visualization of objects.", 
         image: '/Eng_Ed.png',  
         branch: "CSE",
@@ -47,7 +47,7 @@ const notesArray = [
     { 
         name: "Engineering Physics", 
         Subject_code: "BT201", 
-        Sem: "2nd", 
+        Sem: "2", 
         description: " It explores the fundamental principles of physics and their applications in engineering.", 
         image: '/Eng_Physics.png', 
          branch: "CSE", 
@@ -56,7 +56,7 @@ const notesArray = [
     { 
         name: "Mathematics - II (M2)", 
         Subject_code: "BT202", 
-        Sem: "2nd", 
+        Sem: "2", 
         description: "It focuses on advanced calculus, differential equations, and vector analysis, essential for solving complex engineering problems.", 
         image: '/Eng_M2.png', 
          branch: "CSE",
@@ -65,7 +65,7 @@ const notesArray = [
     { 
         name: "Basic Mechanical Engineering", 
         Subject_code: "BT203", 
-        Sem: "2nd", 
+        Sem: "2", 
         description: "It introduces fundamental concepts of mechanics, thermodynamics, and material science.", 
         image: '/Eng_Mechanical.png', 
          branch: "CSE",
@@ -74,7 +74,7 @@ const notesArray = [
     { 
         name: "Basic Civil Engineering & Mechanics", 
         Subject_code: "BT204", 
-        Sem: "2nd", 
+        Sem: "2", 
         description: "It covers fundamental principles of civil engineering, including structures, materials, and mechanics.", 
         image: '/Eng_Civil.png', 
          branch: "CSE",
@@ -83,7 +83,7 @@ const notesArray = [
     { 
         name: "Basic Computer Engineering", 
         Subject_code: "BT205", 
-        Sem: "2nd", 
+        Sem: "2", 
         description: "It essential for understanding how computers and software work.", 
         image: '/Eng_BasicComputer.png', 
          branch: "CSE",
@@ -92,7 +92,7 @@ const notesArray = [
     { 
         name: "Energy & Environmental Engineering", 
         Subject_code: "ES301", 
-        Sem: "3rd", 
+        Sem: "3", 
         description: " It focuses on the study of energy systems, sustainability, and environmental protection.", 
         image: '/Eng_EEE.png', 
          branch: "CSE",
@@ -101,7 +101,7 @@ const notesArray = [
     { 
         name: "Discrete Structure", 
         Subject_code: "CS302", 
-        Sem: "3rd", 
+        Sem: "3", 
         description: "It studies mathematical concepts related to countable, distinct objects, logic, set theory, graph theory, and combinatorics.", 
         image: '/Eng_Discret.png', 
          branch: "CSE",
@@ -110,7 +110,7 @@ const notesArray = [
     { 
         name: "Data Structure", 
         Subject_code: "CS303", 
-        Sem: "3rd", 
+        Sem: "3", 
         description: "It focuses on organizing and storing data efficiently.", 
         image: '/Eng_DSA.png', 
          branch: "CSE",
@@ -119,7 +119,7 @@ const notesArray = [
     { 
         name: "Digital Systems", 
         Subject_code: "CS304", 
-        Sem: "3rd", 
+        Sem: "3", 
         description: " It studies about logic gates, number systems, and digital signal processing.", 
         image: '/Eng_DigitalSystem.png', 
          branch: "CSE",
@@ -128,7 +128,7 @@ const notesArray = [
     { 
         name: "Object-Oriented Programming & Methodology", 
         Subject_code: "CS305", 
-        Sem: "3rd", 
+        Sem: "3", 
         description: "It emphasizing principles like encapsulation, inheritance, and polymorphism to create modular and reusable code.", 
         image: '/Eng_OOP.png', 
          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
@@ -136,7 +136,7 @@ const notesArray = [
     { 
         name: "Mathematics - III (M3)", 
         Subject_code: "CS401", 
-        Sem: "4th", 
+        Sem: "4", 
         description: "It covers advanced topics such as linear algebra, complex variables, and partial differential equations.", 
         image: '/Eng_M3.png',
 	branch: "CSE",
@@ -145,7 +145,7 @@ const notesArray = [
     { 
         name: "Analysis and Design of Algorithms", 
         Subject_code: "CS402", 
-        Sem: "4th", 
+        Sem: "4", 
         description: "It teaches how to evaluate the performance of algorithms and create efficient solutions to problems.", 
         image: '/Eng_ADA.png', 
          branch: "CSE",
@@ -154,7 +154,7 @@ const notesArray = [
     { 
         name: "Software Engineering", 
         Subject_code: "CS403", 
-        Sem: "4th", 
+        Sem: "4", 
         description: " It focuses on the systematic design, development, testing, and maintenance of software.", 
         image: '/Eng_SE.png', 
          branch: "CSE",
@@ -163,7 +163,7 @@ const notesArray = [
     { 
         name: "Computer Organization & Architecture", 
         Subject_code: "CS404", 
-        Sem: "4th", 
+        Sem: "4", 
         description: "It explains how computers are built and how they work, processor, memory, and data handling.", 
         image: '/Eng_COA.png', 
          branch: "CSE",
@@ -172,7 +172,7 @@ const notesArray = [
     { 
         name: "Operating System", 
         Subject_code: "CS405", 
-        Sem: "4th", 
+        Sem: "4", 
         description: "It explains how a computer works by managing hardware, running programs, and handling tasks like memory and storage.", 
         image: '/Eng_OS.png', 
          branch: "CSE",
@@ -181,7 +181,7 @@ const notesArray = [
     { 
         name: "Theory of Computation", 
         Subject_code: "CS501", 
-        Sem: "5th", 
+        Sem: "5", 
         description: " It studies how computers solve problems.", 
         image: '/Eng_TOC.png',
          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
@@ -189,7 +189,7 @@ const notesArray = [
     { 
         name: "Database Management Systems", 
         Subject_code: "CS502", 
-        Sem: "5th", 
+        Sem: "5", 
         description: " (DBMS) store, organize, and manage data, allowing users to easily retrieve, update, and manipulate information.", 
         image: '/Eng_DBMS.png',
          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
@@ -197,7 +197,7 @@ const notesArray = [
     { 
         name: "Data Analytics", 
         Subject_code: "CS503", 
-        Sem: "5th", 
+        Sem: "5", 
         description: "It involves analyzing data to find patterns, make decisions, and solve problems using techniques.", 
         image: '/Eng_DataAnalytics.png',
          branch: "CSE",
@@ -220,7 +220,7 @@ const notesArray = [
     { 
         name: "Internet and Web Technology", 
         Subject_code: "CS504", 
-        Sem: "5th", 
+        Sem: "5", 
         description: " It covers how the internet works and how websites are built.", 
         image: '/Eng_IWT.png',
          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
@@ -228,7 +228,7 @@ const notesArray = [
     { 
         name: "Machine Learning", 
         Subject_code: "CS601", 
-        Sem: "6th", 
+        Sem: "6", 
         description: "It teaches computers to learn from data and improve their performance on tasks.", 
         image: '/Eng_ML.png',
          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
@@ -236,7 +236,7 @@ const notesArray = [
     { 
         name: "Computer Network", 
         Subject_code: "CS602", 
-        Sem: "6th", 
+        Sem: "6", 
         description: "It focus on how computers connect and communicate with each other to share data and resources.", 
         image: '/Eng_ComputerNetwork.png',
          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
@@ -258,14 +258,14 @@ const notesArray = [
     { 
         name: "Compiler Design", 
         Subject_code: "CS603", 
-        Sem: "6th", 
+        Sem: "6", 
         description: "It focuses on building programs (compilers) that translate code from one programming language to another.", 
         image: '/Eng_CompilerDesign.png', branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
     }, 
     { 
         name: "Knowledge Management", 
         Subject_code: "CS604", 
-        Sem: "6th", 
+        Sem: "6", 
         description: " It is about gathering, organizing, and sharing information.", 
         image: '/Eng_KnowledgeManagment.png',
          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
@@ -273,7 +273,7 @@ const notesArray = [
     { 
         name: "Software Architectures", 
         Subject_code: "CS701", 
-        Sem: "7th", 
+        Sem: "7", 
         description: " It defining how different parts work together to meet requirements and design goals.", 
         image: '/Eng_SoftwareArchitecture.jpg',
          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
@@ -281,7 +281,7 @@ const notesArray = [
 { 
         name: "Big Data", 
         Subject_code: "CS702", 
-        Sem: "7th", 
+        Sem: "7", 
         description: " It refers to large and complex data sets that require special tools to store, analyze, and manage the data sets.", 
         image: '/Eng_BigData.png',
          branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
@@ -310,7 +310,7 @@ const notesArray = [
     { 
         name: "Internet of Things", 
         Subject_code: "CS801", 
-        Sem: "8th", 
+        Sem: "8", 
         description: "It is about connects devices to the internet to improve monitoring and control.", 
         image: '/Eng_IOT.png', branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
     }, 
@@ -324,7 +324,7 @@ const notesArray = [
     { 
         name: "Cloud Computing", 
         Subject_code: "CS802", 
-        Sem: "8th", 
+        Sem: "8", 
         description: " It teaches how to store and access data and applications online.", 
         image: '/Eng_CloudComputing.png', branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
     }, 
@@ -345,7 +345,7 @@ const notesArray = [
     { 
         name: "Game Theory with Engineering Applications", 
         Subject_code: "CS803", 
-        Sem: "8th", 
+        Sem: "8", 
         description: "It studies strategies for decision-making in competitive situations.", 
         image: '/Eng_IPCV.png', branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
     } 

@@ -151,9 +151,9 @@ const Cart = () => {
             </thead>
             <tbody>
               {cartItems.map(item => (
-                <tr key={item.id} className="cart-item">
-                  <td>{item.name}</td>
-                  <td>₹{item.Price}</td>
+                <tr key={item.subject_code} className="cart-item">
+                  <td>{item.product_name}</td>
+                  <td>₹{item.sellingPrice}</td>
                   <td>
                     <div className="quantity-control">
                       <button onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity === 1}>-</button>

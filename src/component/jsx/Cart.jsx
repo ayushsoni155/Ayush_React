@@ -13,7 +13,7 @@ const Cart = () => {
   const [pendingOrders, setPendingOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
-  const totalPrice = cartItems.reduce((total, item) => total + item.Price * item.quantity, 0);
+  const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.quantity, 0);
 
   // Fetch pending and completed orders
   const fetchOrders = useCallback(async () => {
@@ -161,7 +161,7 @@ const Cart = () => {
                       <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                     </div>
                   </td>
-                  <td>₹{item.Price * item.quantity}</td>
+                  <td>₹{item.sellingPrice * item.quantity}</td>
                   <td>
                     <button onClick={() => removeItem(item.id)} id="remove-button">Remove</button>
                   </td>

@@ -36,13 +36,12 @@ const BuyLabManual = () => {
 
   // Filter logic for the lab manuals
   const filteredManuals = labManuals.filter(manual => {
-    const normalizedSearchTerm = searchTerm.replace(/\s+/g, '').toUpperCase();
-    const matchesName =
-      manual.product_name.toLowerCase().includes(normalizedSearchTerm.toLowerCase()) || 
-      manual.subject_code.replace(/\s+/g, '').toUpperCase().includes(normalizedSearchTerm);
+    const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+    const matchesName = manual.product_name.toLowerCase().includes(normalizedSearchTerm);
+    const matchesCode = manual.subject_code.toLowerCase().includes(normalizedSearchTerm);
     const matchesSemester = semester === 'All' || manual.product_sem === semester;
     const matchesBranch = branch === 'All' || manual.product_branch === branch;
-    return matchesName && matchesSemester && matchesBranch;
+    return (matchesName || matchesCode) && matchesSemester && matchesBranch;
   });
 
   // Handlers for filter changes
@@ -62,12 +61,18 @@ const BuyLabManual = () => {
 
   // Add to cart and show notification
   const addToCart = (manual) => {
-    const existingItem = cart.find(item => item.subject_code === manual.subject_code);
-    if (existingItem) {
-      setCart(cart.map(item => item.subject_code === manual.subject_code ? { ...item, quantity: item.quantity + 1 } : item));
-    } else {
-      setCart([...cart, { ...manual, quantity: 1 }]);
-    }
+    setCart((prevCart) => {
+      const existingItemIndex = prevCart.findIndex(item => item.subject_code === manual.subject_code);
+
+      if (existingItemIndex >= 0) {
+        const updatedCart = [...prevCart];
+        updatedCart[existingItemIndex].quantity += 1;
+        return updatedCart;
+      } else {
+        return [...prevCart, { ...manual, quantity: 1 }];
+      }
+    });
+
     // Show notification
     setNotification({ message: `${manual.product_name} added to cart!`, visible: true });
     setTimeout(() => setNotification({ ...notification, visible: false }), 3000); // Hide after 3 seconds
@@ -96,8 +101,8 @@ const BuyLabManual = () => {
 
       <div className="lab-manuals-container">
         {filteredManuals.length > 0 ? (
-          filteredManuals.map((manual, index) => (
-            <div className="manual-card" key={index}>
+          filteredManuals.map((manual) => (
+            <div className="manual-card" key={manual.subject_code}>
               <img src={manual.product_img} alt={manual.product_name} className="manual-image" />
               <div className="manual-content">
                 <h3 className="manual-title">{manual.product_name}</h3>

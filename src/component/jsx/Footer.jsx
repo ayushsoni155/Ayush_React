@@ -1,75 +1,88 @@
 import React from 'react';
-import '../css/Footer.css'; // Import the CSS file for styling
+import '../css/Footer.css'; // Import your custom CSS for styling
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const scrollToTop = () => {
-    window.scrollTo(0, 0);  // Scrolls to the top of the page
-  }
+    window.scrollTo(0, 0); // Scrolls to the top of the page
+  };
+
   return (
     <>
-    <div id="contact">
-      <div id="c1">
-        <span>Connect with us!</span>
-        <img src="/LandingPageimg3.png" alt="Social Media Connect" />
+      <div id="contact">
+        <div id="r1">
+          <span>Connect with us!</span>
+        </div>
+        <div id="c1">
+          <img src="/LandingPageimg3.png" alt="Social Media Connect" />
+        </div>
+        <div id="c2">
+          <span>Social Media</span>
+          <div>
+            <a id="inst" href="#">
+              <svg
+                width="30px"
+                height="30px"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 551.034 551.034"
+              >
+                <g>
+                  <linearGradient
+                    id="grad1"
+                    x1="275.517"
+                    y1="4.5714"
+                    x2="275.517"
+                    y2="549.7202"
+                    gradientTransform="matrix(1 0 0 -1 0 554)"
+                  >
+                    <stop offset="0" style={{ stopColor: "#E09B3D" }} />
+                    <stop offset="0.3" style={{ stopColor: "#C74C4D" }} />
+                    <stop offset="0.6" style={{ stopColor: "#C21975" }} />
+                    <stop offset="1" style={{ stopColor: "#7024C4" }} />
+                  </linearGradient>
+                  <path
+                    style={{ fill: "url(#grad1)" }}
+                    d="M386.878,0H164.156C73.64,0,0,73.64,0,164.156v222.722c0,90.516,73.64,164.156,164.156,164.156h222.722c90.516,0,164.156-73.64,164.156-164.156V164.156C551.033,73.64,477.393,0,386.878,0z"
+                  />
+                  <circle cx="418.306" cy="134.072" r="34.149" />
+                </g>
+              </svg>
+              bytewise24.pvt
+            </a>
+            <a id="face" href="#">
+              <svg
+                width="30px"
+                height="30px"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 30 30"
+              >
+                <path d="M2 11.9556C2 8.47078 2 6.7284 2.67818 5.39739C3.27473 4.22661 4.22661 3.27473 5.39739 2.67818C6.7284 2 8.47078 2 11.9556 2H20.0444C23.5292 2 25.2716 2 26.6026 2.67818C27.7734 3.27473 28.7253 4.22661 29.3218 5.39739C30 6.7284 30 8.47078 30 11.9556V20.0444C30 23.5292 30 25.2716 29.3218 26.6026C28.7253 27.7734 27.7734 28.7253 26.6026 29.3218C25.2716 30 23.5292 30 20.0444 30H11.9556C8.47078 30 6.7284 30 5.39739 29.3218C4.22661 28.7253 3.27473 27.7734 2.67818 26.6026C2 25.2716 2 23.5292 2 20.0444V11.9556Z" />
+              </svg>
+              Facebook
+            </a>
+          </div>
+          <p>
+            Contact us: <br />
+            Ayush Soni: +91-6266898048 <br />
+            Akash Mali: +91-9893718536 <br />
+            Hitesh Baghel: +91-7879025039 <br />
+            Aarti Solanki: +91-8819934644
+          </p>
+        </div>
       </div>
-
-      <div id="c2">
-        {/* <span>Social Media</span>
-        <a id="inst" href="/">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
-            height="25"
-            fill="currentColor"
-            className="bi bi-instagram"
-            viewBox="0 0 16 16"
-          >
-            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
-          </svg>
-          Instagram
-        </a>
-        <a id="face" href="/">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
-            height="25"
-            fill="currentColor"
-            className="bi bi-facebook"
-            viewBox="0 0 16 16"
-          >
-            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
-          </svg>
-          Facebook
-        </a>
-        <a id="twit" href="/">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
-            height="25"
-            fill="currentColor"
-            className="bi bi-twitter-x"
-            viewBox="0 0 16 16"
-          >
-            <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z" />
-          </svg>
-          Twitter-X
-        </a> */}
-        {/* <span>Contact us</span> */}
-        Ayush Soni +91-6266898048 <br />
-        Akash Mali +91-9893718536 <br />
-        Hitesh Baghel +91-7879025039<br />
-        Aarti Solanki +91-8819934644<br />
-      </div>
-    </div>
-    <footer>
-    <p>© 2024 ByteWise24.vercel.app. All Rights Reserved.</p>
-    <Link to="/t&c" onClick={scrollToTop}>Terms and conditions</Link>
-    <Link to="/PrivacyPolicy" onClick={scrollToTop}>Privacy Policy</Link>
-  </footer>
-
-      </>
-    );
+      <footer>
+        <p>© 2024 ByteWise24.vercel.app. All Rights Reserved.</p>
+        <Link to="/t&c" onClick={scrollToTop}>
+          Terms and conditions
+        </Link>
+        <Link to="/PrivacyPolicy" onClick={scrollToTop}>
+          Privacy Policy
+        </Link>
+      </footer>
+    </>
+  );
 };
 
 export default Footer;

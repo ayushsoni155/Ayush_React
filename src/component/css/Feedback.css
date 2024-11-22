@@ -1,148 +1,223 @@
-/* Feedback Section */
-.feedback-section {
-  background-color: #f4f4f9;
-  padding: 40px 20px;
-  max-width: 800px;
-  margin: 60px auto;
-  border-radius: 20px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-.feedback-section:hover {
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
-  transform: translateY(-10px);
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.feedback-heading {
-  text-align: center;
-  font-size: 36px;
-  color: #4d97e1;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
-  animation: fadeIn 1s ease-in-out;
+/* Contact Section Styling */
+#contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    align-items: center;
+    color: crimson;
+    gap: 20px;
+    padding: 40px;
+    text-align: center;
+    background-color: #f9f9f9;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* r1 Styling (Top Center) */
+#r1 {
+    grid-column: span 3; /* Span across all columns */
+    text-align: center;
+    margin-bottom: 20px;
+    color: crimson;
+    font-size: 3rem;
 }
 
-.feedback-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  animation: slideUp 0.8s ease-in-out;
+#r1 span {
+    font-size: 3rem;
+    font-weight: bold;
+    color: crimson;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* c1 Styling (Left) */
+#c1 {
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
+#c1 img {
+    max-width: 100%; /* Ensure image is responsive */
+    height: auto;
+    border-radius: 10px;
+    margin-top: 50px;
+}
+#c1 img:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(10px 20px 15px rgba(0, 0, 0, 0.2));
 }
 
-.form-group label {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
-  color: #4d97e1;
+/* c2 Styling (right) */
+#c2 {
+    display: grid;
+    grid-template-rows: auto repeat(3, auto);
+    gap: 20px;
+    align-items: center;
+    justify-items: start; /* Align items to the left */
 }
 
-.form-group input,
-.form-group textarea {
-  padding: 12px;
-  border: 2px solid #4d97e1;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  background-color: #fff;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+#c2 span {
+    font-size: 2rem;
+    font-weight: bold;
+    color: crimson;
 }
 
-.form-group input:hover,
-.form-group textarea:hover {
-  background-color: #f9f9fc;
+#c2 a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #4d97e1;
+    font-size: 1.3rem;
+    transition: color 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
-  border-color: #1e73d2;
-  outline: none;
-  background-color: #f0f8ff;
-  box-shadow: 0 0 10px rgba(30, 115, 210, 0.3);
+#c2 a:hover {
+    color: crimson;
+    transform: translateX(5px);
 }
 
-.submit-btn {
-  padding: 15px 20px;
-  font-size: 1.2rem;
-  color: white;
-  background-color: #4d97e1;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 6px 12px rgba(77, 151, 225, 0.3);
+#c2 svg {
+    fill: currentColor;
 }
 
-.submit-btn:hover {
-  background-color: #1e73d2;
-  transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(30, 115, 210, 0.3);
+/* Developer Dropdown */
+.developer-dropdown {
+    position: absolute;
+    bottom: 90px; /* Adjust position above the footer */
+    right: 20px; /* Positioned on the right side */
+    display: flex;
+    align-items: center;
+    background-color: #f3f3f3;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 2;
 }
 
-.submit-btn:active {
-  transform: scale(0.98);
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .feedback-section {
-    padding: 30px 15px;
-  }
-
-  .feedback-heading {
-    font-size: 28px;
-  }
-
-  .form-group input,
-  .form-group textarea {
+.dropdown-label {
     font-size: 1rem;
-  }
+    font-weight: bold;
+    margin-right: 10px;
+    color: crimson;
+}
+
+#developer-select {
+    font-size: 1rem;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    background-color: #fff;
+    color: crimson;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#developer-select:hover {
+    border-color: crimson;
+    box-shadow: 0 0 4px rgba(220, 20, 60, 0.5);
+}
+
+#developer-select:focus {
+    border-color: #4d97e1;;
+    box-shadow: 0 0 4px rgba(220, 20, 60, 0.8);
+}
+
+/* Footer Styling */
+footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 20px;
+    background-color: crimson;
+    color: #fff;
+}
+
+footer p {
+    margin: 0 0 10px 0;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #4d97e1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #contact {
+        grid-template-columns: 1fr; /* Switch to single-column layout */
+    }
+
+    #r1 {
+        grid-column: span 1; /* Adjust to single-column layout */
+    }
+
+    #c1, #c2 {
+        justify-content: center;
+        text-align: center;
+    }
+
+    #c2 {
+        justify-items: center;
+    }
+
+    /* Adjust Developer Dropdown Position for Smaller Screens */
+    .developer-dropdown {
+        bottom: 90px; /* Slightly higher for small screens */
+        right: 10px; /* Adjust position to fit better on small screens */
+        flex-direction: column;
+        align-items: flex-start; /* Align to the left */
+        padding: 10px; /* Adjust padding */
+    }
+
+    .dropdown-label {
+        font-size: 0.9rem; /* Reduce font size */
+        margin-right: 5px;
+    }
+
+    #developer-select {
+        font-size: 0.9rem; /* Reduce font size */
+        padding: 5px;
+        width: 100%; /* Ensure the select box takes full width */
+    }
 }
 
 @media (max-width: 480px) {
-  .feedback-section {
-    margin: 30px 10px;
-    padding: 20px;
-    border-radius: 15px;
-  }
+    #r1 span {
+        font-size: 2rem;
+    }
 
-  .feedback-heading {
-    font-size: 24px;
-  }
+    #c2 a {
+        font-size: 1rem;
+    }
 
-  .form-group input,
-  .form-group textarea {
-    padding: 10px;
-    font-size: 0.9rem;
-  }
+    /* Further adjust dropdown styling for very small screens */
+    .developer-dropdown {
+        bottom: 105px; /* Increase bottom space for very small screens */
+        right: 5px; /* Align with screen edge */
+        padding: 8px;
+    }
 
-  .submit-btn {
-    font-size: 1rem;
-  }
+    #developer-select {
+        font-size: 0.9rem;
+        width: 100%; /* Ensure select box spans the width of the screen */
+    }
 }

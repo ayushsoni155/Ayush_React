@@ -66,7 +66,7 @@ const PrivacyPolicy = () => {
         </p>
         <p>
           Telegram: <a href='https://t.me/Bytewise24'> @Bytewise24</a><br />
-          G-Mail: <a href='https://mail.google.com/mail/u/0/#drafts?compose=CllgCKCGlsnmpTKBhxghbxFMSrNPnrpNpxHqvFPFJbNJnxDwWGgrzBKsSzCFRxdkLdTMpplQCnq'> bytewise24.pvt@gmail.com</a><br/>
+          G-Mail: <a href='mailto:bytewise24.pvt@gmail.com'> bytewise24.pvt@gmail.com</a><br/>
           Instgram: <a href='https://www.instagram.com/bytewise24.pvt/profilecard/?igsh=MTN0eHYybW54ZThsaQ=='>bytewise24.pvt</a>
         </p>
       </div>

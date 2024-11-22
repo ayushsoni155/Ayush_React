@@ -116,6 +116,9 @@ footer {
 footer p{
   color: white;
 }
+#tc{
+  color: white;
+}
 /* Footer Link Styling */
 footer a {
   text-decoration: none;

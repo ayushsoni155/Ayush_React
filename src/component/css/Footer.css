@@ -1,17 +1,18 @@
 /* General Styling for Footer Section */
 #contact {
-  margin-top: 0px;
+  margin-top: 20px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
-  padding: 40px 20px;
-  border-radius: 10px;
+  padding: 40px 20px
 }
 
+/* Styling for the Image Section */
 #contact img {
-  max-width: 100%;
+  max-width: 80%;
   height: auto;
   border-radius: 10px;
+  margin: auto;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -21,7 +22,7 @@
   filter: drop-shadow(10px 20px 15px rgba(0, 0, 0, 0.2));
 }
 
-/* Column 1 - Social Media & Image */
+/* Styling for Social Media & Image Column */
 #c1 {
   display: flex;
   flex-direction: column;
@@ -29,39 +30,39 @@
   align-items: center;
   text-align: center;
 }
-footer p{
-  color: white;
-}
 #c1 span {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: bold;
   color: crimson;
   margin-bottom: 20px;
   text-transform: uppercase;
 }
-#mainheading{
-  font-size: 42px;
+
+/* Main Heading */
+#mainheading {
+  font-size: 2.5rem;
   text-align: center;
   display: flex;
   justify-content: center;
   color: crimson;
   font-weight: bold;
+  margin: 20px 0;
 }
-/* Column 2 - Social Links & Contact */
+
+/* Styling for Social Links Column */
 #c2 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  text-align: left;
-  font-size: 2rem;
-  padding-left: 20px;
-  color:#4d97e1;
+  align-items: center;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #4d97e1;
 }
 
 #c2 span {
-  font-size: 2rem;
-  color:crimson;
+  font-size: 1.8rem;
+  color: crimson;
   margin-bottom: 20px;
   font-weight: bold;
 }
@@ -70,17 +71,23 @@ footer p{
 #c2 a {
   display: flex;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
   color: #4d97e1;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin: 10px 0;
-  transition: color 0.3s ease, transform 0.3s ease;
+  width: 30%;
+  padding: 8px 15px;
+  border: 1px solid #4d97e1;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 /* Hover Effect for Social Media Links */
 #c2 a:hover {
-  color:crimson;
-  transform: translateX(5px);
+  color: #fff;
+  background-color: crimson;
+  transform: translateY(-2px);
 }
 
 /* Social Media Icons Styling */
@@ -92,41 +99,32 @@ footer p{
 
 /* Hover Effect for Icons */
 #c2 a:hover svg {
-  fill: crimson;
-}
-
-/* Contact Numbers Styling */
-#c2 .contact-info {
-  margin-top: 20px;
-  font-size: 1rem;
-  color:#4d97e1;
+  fill: #fff;
 }
 
 /* Footer Base Styling */
 footer {
-  background-color:crimson;
+  background-color: crimson;
   color: white;
   text-align: center;
-  font-size: 1.2rem;
-  padding: 10px 10px;
-  margin-top: 0px;
+  font-size: 1rem;
+  padding: 20px 10px;
+  margin-top: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
+  border-radius: 0 0 10px 10px;
 }
-
-/* Hover Effect on Footer */
 
 /* Footer Link Styling */
 footer a {
   text-decoration: none;
   color: white;
   font-weight: bold;
+  margin: 0 10px;
   transition: color 0.3s ease;
-  margin: 10px;
 }
 
 footer a:hover {
-  color:  #4d97e1 ;
+  color: #4d97e1;
 }
 
 /* Responsive Design */
@@ -137,24 +135,16 @@ footer a:hover {
   }
 
   #c2 {
-    padding-left: 0;
-    text-align: center;
-    font-size: 1.2rem;
-    align-items: center;
+    font-size: 1rem;
+  }
+  #c2 a{
+    width: 40%;
+
   }
 
   #c1 span,
   #c2 span {
     font-size: 1.5rem;
-  }
-
-  #c1 img {
-    max-height: 200px;
-  }
-
-  footer {
-    font-size: 1rem;
-    padding: 15px 10px;
   }
 }
 
@@ -163,20 +153,12 @@ footer a:hover {
     padding: 20px;
   }
 
-  #c1 {
-    font-size: 1.2rem;
-  }
-
-  #c2 {
-    font-size: 1rem;
-  }
-
   #c1 img {
     max-height: 150px;
   }
 
   footer {
-    font-size: 0.7rem;
-    padding: 10px;
+    font-size: 0.9rem;
+    padding: 15px;
   }
 }

@@ -121,7 +121,7 @@ const labManualsObj = [
     branch: "CSE",
     Subject_code: "CS306",
     Price: 50,
-    image: "",
+    image: "/ComputerWorkshop.avif",
     Pages:25
 
   },

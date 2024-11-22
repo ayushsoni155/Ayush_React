@@ -116,9 +116,7 @@ footer {
 footer p{
   color: white;
 }
-#tc{
-  color: white;
-}
+
 /* Footer Link Styling */
 footer a {
   text-decoration: none;
@@ -131,7 +129,9 @@ footer a {
 footer a:hover {
   color: #4d97e1;
 }
-
+#tc{
+  color: white;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   #contact {

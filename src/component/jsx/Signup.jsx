@@ -28,7 +28,7 @@ const Signup = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     
-    const enrolmentRegex =/^0704(CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$|IT(24|25|26)(10[0-9]{2})$|AD(24|25|26)(10[0-9]{2})$)/;
+    const enrolmentRegex =/^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
     const phoneRegex = /^[6789]\d{9}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
     const [cookies, setCookie] = useCookies(['bytewiseCookies']);
@@ -38,6 +38,7 @@ const Signup = () => {
         'Who is your bestfriend?',
         'Who is your favourite person?',
         'What is the name of your favorite teacher?',
+        'What is your favorite dish?',
         'What is the city where you were born?'
     ];
 

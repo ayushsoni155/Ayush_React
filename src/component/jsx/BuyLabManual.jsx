@@ -91,20 +91,14 @@ const BuyLabManual = () => {
   return (
     <div className="buy-lab-manual-page">
       {renderNotification()}
-      {renderLoading()} {/* Show loading while data is being fetched */}
 
-      <Filter 
-        searchTerm={searchTerm}
-        handleSearch={handleSearch}
-        semester={semester}
-        handleSemesterChange={handleSemesterChange}
-        branch={branch}
-        handleBranchChange={handleBranchChange}
-      />
-
-      <div className="lab-manuals-container">
-        {filteredManuals.length > 0 ? (
-          filteredManuals.map((manual) => (
+      {loading ? (
+        <h2>Loading...</h2> // Show loading message while data is being fetched
+      ) : filteredManuals.length === 0 ? (
+        <h2>No lab manuals found based on your search.</h2> // Show message when no results match
+      ) : (
+        <div className="lab-manuals-container">
+          {filteredManuals.map((manual) => (
             <div className="manual-card" key={manual.subject_code}>
               <img src={manual.product_img} alt={manual.product_name} className="manual-image" />
               <div className="manual-content">
@@ -114,15 +108,9 @@ const BuyLabManual = () => {
                 <button onClick={() => addToCart(manual)} className="add-to-cart-button">Add to Cart</button>
               </div>
             </div>
-          ))
-        ) : (
-          if (loading) {
-      return <h2>Loading...</h2>;
-    } 
-            else{<h2>No lab manuals found based on your search.</h2> ;
-          }
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -13,16 +13,20 @@ const BuyLabManual = () => {
     return storedCart ? JSON.parse(storedCart) : []; // Parse or return an empty array
   });
   const [notification, setNotification] = useState({ message: '', visible: false }); // Notification state
+  const [loading, setLoading] = useState(false); // Loading state
 
   // Fetch lab manuals from the database on component mount
   useEffect(() => {
     const fetchLabManuals = async () => {
+      setLoading(true); // Set loading to true before fetching
       try {
         const response = await fetch('https://bytewise-server.vercel.app/api/lab-manuals'); // API endpoint to fetch lab manuals
         const data = await response.json();
         setLabManuals(data);
       } catch (error) {
         console.error('Error fetching lab manuals:', error);
+      } finally {
+        setLoading(false); // Set loading to false once data is fetched
       }
     };
 
@@ -39,7 +43,7 @@ const BuyLabManual = () => {
     const normalizedSearchTerm = searchTerm.trim().toLowerCase();
     const matchesName = manual.product_name.toLowerCase().includes(normalizedSearchTerm);
     const matchesCode = manual.subject_code.toLowerCase().includes(normalizedSearchTerm);
-    const matchesSemester = semester === 'All' || manual.product_sem.toString()=== semester.toString();
+    const matchesSemester = semester === 'All' || manual.product_sem.toString() === semester.toString();
     const matchesBranch = branch === 'All' || manual.product_branch === branch;
     return (matchesName || matchesCode) && matchesSemester && matchesBranch;
   });
@@ -84,9 +88,18 @@ const BuyLabManual = () => {
     return null;
   };
 
+  // Loading spinner component
+  const renderLoading = () => {
+    if (loading) {
+      return <div className="loading-spinner">Loading...</div>; // Customize the loading spinner as needed
+    }
+    return null;
+  };
+
   return (
     <div className="buy-lab-manual-page">
       {renderNotification()}
+      {renderLoading()}
 
       <Filter 
         searchTerm={searchTerm}

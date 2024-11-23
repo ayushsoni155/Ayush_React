@@ -88,14 +88,6 @@ const BuyLabManual = () => {
     return null;
   };
 
-  // Loading spinner or message component
-  const renderLoading = () => {
-    if (loading) {
-      return <h2>Loading...</h2>; // Show loading message while fetching
-    }
-    return null;
-  };
-
   return (
     <div className="buy-lab-manual-page">
       {renderNotification()}
@@ -124,7 +116,11 @@ const BuyLabManual = () => {
             </div>
           ))
         ) : (
-          !loading && <h2>No lab manuals found based on your search.</h2> // Show message if no manuals match the filter, and not loading
+          if (loading) {
+      return <h2>Loading...</h2>;
+    } 
+            else{<h2>No lab manuals found based on your search.</h2> ;
+          }
         )}
       </div>
     </div>

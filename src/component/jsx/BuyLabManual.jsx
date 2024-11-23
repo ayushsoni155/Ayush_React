@@ -76,7 +76,7 @@ const BuyLabManual = () => {
     });
 
     // Show notification
-    setNotification({ message: ${manual.product_name} added to cart!, visible: true });
+    setNotification({ message: `${manual.product_name} added to cart!`, visible: true }); // Fixed template literal
     setTimeout(() => setNotification({ ...notification, visible: false }), 3000); // Hide after 3 seconds
   };
 
@@ -99,25 +99,29 @@ const BuyLabManual = () => {
         branch={branch}
         handleBranchChange={handleBranchChange}
       />
-      {loading?(<h2>Loading....</h2>):(
-      <div className="lab-manuals-container">
-        {filteredManuals.length > 0 ? (
-          filteredManuals.map((manual) => (
-            <div className="manual-card" key={manual.subject_code}>
-              <img src={manual.product_img} alt={manual.product_name} className="manual-image" />
-              <div className="manual-content">
-                <h3 className="manual-title">{manual.product_name}</h3>
-                <p className="manual-description">{manual.product_description}</p>
-                <p className="manual-Price"><b>Price: ₹{manual.sellingPrice}</b></p>
-                <button onClick={() => addToCart(manual)} className="add-to-cart-button">Add to Cart</button>
+      {loading ? (
+        <h2>Loading....</h2>
+      ) : (
+        <div className="lab-manuals-container">
+          {filteredManuals.length > 0 ? (
+            filteredManuals.map((manual) => (
+              <div className="manual-card" key={manual.subject_code}>
+                <img src={manual.product_img} alt={manual.product_name} className="manual-image" />
+                <div className="manual-content">
+                  <h3 className="manual-title">{manual.product_name}</h3>
+                  <p className="manual-description">{manual.product_description}</p>
+                  <p className="manual-Price"><b>Price: ₹{manual.sellingPrice}</b></p>
+                  <button onClick={() => addToCart(manual)} className="add-to-cart-button">Add to Cart</button>
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
+            ))
+          ) : (
             <h2>No lab manuals found based on your search.</h2>
-        )}
-      </div>
-      )};
+          )}
+        </div>
+      )}
     </div>
   );
 };
+
+export default BuyLabManual;

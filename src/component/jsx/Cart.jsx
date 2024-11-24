@@ -41,11 +41,12 @@ const Cart = () => {
     }
   }, [isLoggedIn, userData, fetchOrders]);
 
-  const removeItem = (id) => {
-    const updatedCart = cartItems.filter(item => item.id !== id);
-    setCartItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
-  };
+ const removeItem = (subject_code) => {
+  const updatedCart = cartItems.filter(item => item.subject_code !== subject_code);
+  setCartItems(updatedCart);
+  localStorage.setItem('cart', JSON.stringify(updatedCart));
+};
+
 
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return; // Prevent quantity from going below 1
@@ -149,25 +150,26 @@ const Cart = () => {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {cartItems.map(item => (
-                <tr key={item.subject_code} className="cart-item">
-                  <td>{item.product_name}</td>
-                  <td>₹{item.sellingPrice}</td>
-                  <td>
-                    <div className="quantity-control">
-                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
-                    </div>
-                  </td>
-                  <td>₹{item.sellingPrice * item.quantity}</td>
-                  <td>
-                    <button onClick={() => removeItem(item.id)} id="remove-button">Remove</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+          <tbody>
+  {cartItems.map(item => (
+    <tr key={item.subject_code} className="cart-item">
+      <td>{item.product_name}</td>
+      <td>₹{item.sellingPrice}</td>
+      <td>
+        <div className="quantity-control">
+          <button onClick={() => updateQuantity(item.subject_code, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
+          <span>{item.quantity}</span>
+          <button onClick={() => updateQuantity(item.subject_code, item.quantity + 1)}>+</button>
+        </div>
+      </td>
+      <td>₹{item.sellingPrice * item.quantity}</td>
+      <td>
+        <button onClick={() => removeItem(item.subject_code)} id="remove-button">Remove</button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
           </table>
         )}
         <div className="cart-summary">

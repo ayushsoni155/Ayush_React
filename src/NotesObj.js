@@ -6,7 +6,7 @@ const notesArray = [
         description: "It focuses on the study of chemical principles and their applications in engineering.", 
         image: '/Eng_Chemistry.png', 
         branch: "CSE",
-        pdfUrl:'/NotesPDF/temp.pdf'
+        pdfUrl:'https://drive.google.com/file/d/1gtzsPu3rW3ThM_8ElTpteK9LCmAUR9O7/view?usp=drivesdk'
         
     }, 
 
@@ -25,7 +25,8 @@ const notesArray = [
         Sem: "1", 
         description: "It focuses on improving language skills like speaking, writing, listening, and reading.", 
         image: '/Eng_EnglishForCommunication.png', 
-        branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+        branch: "CSE", 
+pdfUrl:'https://drive.google.com/file/d/1h0VAklYnZZEBvMwMAuC53KUtTCppQitL/view?usp=drivesdk' 
     }, 
     { 
         name: "Basic Electrical and Electronics Engineering", 
@@ -33,7 +34,8 @@ const notesArray = [
         Sem: "1", 
         description: "It covers fundamental concepts of electricity, circuits, electrical machines, and electronic devices.", 
         image: '/Eng_Beee.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE",
+         pdfUrl:'https://drive.google.com/file/d/1gsDzBnXYszu_70og29MNj_5BhL98o_2Y/view?usp=drivesdk' 
     }, 
     { 
         name: "Engineering Graphics", 
@@ -131,7 +133,8 @@ const notesArray = [
         Sem: "3", 
         description: "It emphasizing principles like encapsulation, inheritance, and polymorphism to create modular and reusable code.", 
         image: '/Eng_OOP.png', 
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE", 
+    pdfUrl:'https://drive.google.com/file/d/1fQNYuyHFjpW_th-RRQrz7JwH4hgqUtWJ/view?usp=drivesdk' 
     }, 
     { 
         name: "Mathematics - III (M3)", 
@@ -192,7 +195,8 @@ const notesArray = [
         Sem: "5", 
         description: " (DBMS) store, organize, and manage data, allowing users to easily retrieve, update, and manipulate information.", 
         image: '/Eng_DBMS.png',
-         branch: "CSE", pdfUrl:'/NotesPDF/temp.pdf' 
+         branch: "CSE", 
+pdfUrl:'https://drive.google.com/file/d/1fg_FfyPUcm3hGum-tnucnRPX7kX0jRuG/view?usp=drivesdk' 
     }, 
     { 
         name: "Data Analytics", 

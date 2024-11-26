@@ -1,3 +1,4 @@
+
 /* Overlay for the login/sign-up page */
 .overlay {
   position: fixed;
@@ -39,7 +40,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .logSign-img-container img {
@@ -249,8 +250,8 @@ a {
   /* Adjust logSign container for smaller screens */
   .logSign-container {
     flex-direction: column;
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     max-height: 100%;
     padding: 10px; /* Reduced padding for mobile */
     margin: 0; /* No margin */
@@ -261,11 +262,15 @@ a {
   }
 
   /* Image and form containers in stack layout */
-  .logSign-img-container, .logSign-form-container {
+ .logSign-form-container {
     width: 100%;
     display:block;
   }
-
+  .logSign-img-container{
+  max-width: 100%;
+  max-height: 40%;
+  margin-bottom: 0px;
+  }
   .logSign-img-container img {
     width: 100%; /* Limit image size on mobile */
     height: 100%;

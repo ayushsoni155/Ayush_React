@@ -238,6 +238,7 @@ const notesArray = [
         description: "It teaches computers to learn from data and improve their performance on tasks.",
         image: '/Eng_ML.png',
         branch: "CSE",
+        pdfUrl:'https://drive.google.com/file/d/1h_Nvh7wbEE9ztbiGyxN_d_dYCPXhDwjI/view?usp=drivesdk'
     },
     {
         name: "Computer Network",
@@ -245,7 +246,8 @@ const notesArray = [
         Sem: "6",
         description: "It focus on how computers connect and communicate with each other to share data and resources.",
         image: '/Eng_ComputerNetwork.png',
-         branch: "CSE"
+         branch: "CSE",
+         pdfUrl:'https://drive.google.com/file/d/1h_Nvh7wbEE9ztbiGyxN_d_dYCPXhDwjI/view?usp=drivesdk'
     },
     // { 
     //     name: "Advanced Computer Architecture", 
@@ -266,15 +268,18 @@ const notesArray = [
         Subject_code: "CS603",
         Sem: "6",
         description: "It focuses on building programs (compilers) that translate code from one programming language to another.",
-        image: '/Eng_CompilerDesign.png',  branch: "CSE"
+        image: '/Eng_CompilerDesign.png',
+        branch: "CSE",
+        pdfUrl:'https://drive.google.com/file/d/1h_Nvh7wbEE9ztbiGyxN_d_dYCPXhDwjI/view?usp=drivesdk'
     },
     {
-        name: "Project Management",
+        name: "Knowledge Management",
         Subject_code: "CS604",
         Sem: "6",
         description: " It is about gathering, organizing, and sharing information.",
         image: '/Eng_KnowledgeManagment.png',
-         branch: "CSE"
+         branch: "CSE",
+        pdfUrl:'https://drive.google.com/file/d/1h_Nvh7wbEE9ztbiGyxN_d_dYCPXhDwjI/view?usp=drivesdk'
     },
     {
         name: "Software Architectures",
@@ -282,7 +287,8 @@ const notesArray = [
         Sem: "7",
         description: " It defining how different parts work together to meet requirements and design goals.",
         image: '/Eng_SoftwareArchitecture.jpg',
-         branch: "CSE"
+         branch: "CSE",
+        pdfUrl:'https://drive.google.com/file/d/1h_Nvh7wbEE9ztbiGyxN_d_dYCPXhDwjI/view?usp=drivesdk'
     },
     {
         name: "Big Data",
@@ -290,7 +296,8 @@ const notesArray = [
         Sem: "7",
         description: " It refers to large and complex data sets that require special tools to store, analyze, and manage the data sets.",
         image: '/Eng_BigData.png',
-         branch: "CSE"
+         branch: "CSE",
+        pdfUrl:'https://drive.google.com/file/d/1h_Nvh7wbEE9ztbiGyxN_d_dYCPXhDwjI/view?usp=drivesdk'
     },
     // { 
     //     name: "Computational Intelligence", 
@@ -318,7 +325,8 @@ const notesArray = [
         Subject_code: "CS801",
         Sem: "8",
         description: "It is about connects devices to the internet to improve monitoring and control.",
-        image: '/Eng_IOT.png',  branch: "CSE"
+        image: '/Eng_IOT.png',  branch: "CSE",
+        pdfUrl:'https://drive.google.com/file/d/1h_Nvh7wbEE9ztbiGyxN_d_dYCPXhDwjI/view?usp=drivesdk'
     },
     // { 
     //     name: "Blockchain Technologies", 
@@ -332,7 +340,8 @@ const notesArray = [
         Subject_code: "CS802",
         Sem: "8",
         description: " It teaches how to store and access data and applications online.",
-        image: '/Eng_CloudComputing.png',  branch: "CSE"
+        image: '/Eng_CloudComputing.png',  branch: "CSE",
+        pdfUrl:'https://drive.google.com/file/d/1h_Nvh7wbEE9ztbiGyxN_d_dYCPXhDwjI/view?usp=drivesdk'
     },
     // { 
     //     name: "High Performance Computing", 
@@ -353,7 +362,8 @@ const notesArray = [
         Subject_code: "CS803",
         Sem: "8",
         description: "It studies strategies for decision-making in competitive situations.",
-        image: '/Eng_IPCV.png',  branch: "CSE"
+        image: '/Eng_IPCV.png',  branch: "CSE",
+        pdfUrl:'https://drive.google.com/file/d/1h_Nvh7wbEE9ztbiGyxN_d_dYCPXhDwjI/view?usp=drivesdk'
     }
 ];
 

@@ -8,15 +8,18 @@ const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);
   const userData = cookies.bytewiseCookies;
   const isLoggedIn = userData?.status === true;
-   const enrolmentID = userData?.enrolmentID; 
+  const enrolmentID = userData?.enrolmentID; 
   const [cartItems, setCartItems] = useState([]);
   const [pendingOrders, setPendingOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
+
   const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.quantity, 0);
 
   // Fetch pending and completed orders
   const fetchOrders = useCallback(async () => {
+    if (!isLoggedIn) return;
+
     try {
       const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${enrolmentID}`);
       const data = await response.json();
@@ -24,11 +27,10 @@ const Cart = () => {
       const completed = data.filter(order => order.completeStatus === 'Completed');
       setPendingOrders(pending);
       setCompletedOrders(completed);
-      console.log(completed)
     } catch (err) {
       console.error('Error fetching orders:', err);
     }
-  }, [userData]);
+  }, [enrolmentID, isLoggedIn]);
 
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
@@ -36,22 +38,19 @@ const Cart = () => {
       setCartItems(JSON.parse(storedCart));
     }
 
-    if (isLoggedIn) {
-      fetchOrders();
-    }
-  }, [isLoggedIn, userData, fetchOrders]);
+    fetchOrders();
+  }, [fetchOrders]);
 
- const removeItem = (subject_code) => {
-  const updatedCart = cartItems.filter(item => item.subject_code !== subject_code);
-  setCartItems(updatedCart);
-  localStorage.setItem('cart', JSON.stringify(updatedCart));
-};
+  const removeItem = (subject_code) => {
+    const updatedCart = cartItems.filter(item => item.subject_code !== subject_code);
+    setCartItems(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  };
 
-
-  const updateQuantity = (id, newQuantity) => {
+  const updateQuantity = (subject_code, newQuantity) => {
     if (newQuantity < 1) return; // Prevent quantity from going below 1
     const updatedCart = cartItems.map(item =>
-      item.id === id ? { ...item, quantity: newQuantity } : item
+      item.subject_code === subject_code ? { ...item, quantity: newQuantity } : item
     );
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
@@ -77,25 +76,25 @@ const Cart = () => {
       const order = await response.json();
 
       const options = {
-  key:'rzp_live_BD3KEEZCSWSCBd',
-  amount: order.amount,
-  currency: 'INR',
-  image: 'logo-transparent-png.png',
-  name: 'ByteWise',
-  description: 'Thank you for shopping with ByteWise',
-  order_id: order.id,
-  handler: async (response) => {
-    const orderDetails = {
-      orderID: response.razorpay_order_id,
-      enrolmentID: userData.enrolmentID,
-      orderItems: cartItems.map(item => ({
-        Subject_code: item.subject_code,
-        item_quantity: item.quantity,
-        item_price: item.sellingPrice * item.quantity,
-      })),
-      totalPrice: totalPrice,
-      transactionID: response.razorpay_payment_id,
-    };
+        key: 'rzp_live_BD3KEEZCSWSCBd',
+        amount: order.amount,
+        currency: 'INR',
+        image: 'logo-transparent-png.png',
+        name: 'ByteWise',
+        description: 'Thank you for shopping with ByteWise',
+        order_id: order.id,
+        handler: async (response) => {
+          const orderDetails = {
+            orderID: response.razorpay_order_id,
+            enrolmentID: enrolmentID,
+            orderItems: cartItems.map(item => ({
+              Subject_code: item.subject_code,
+              item_quantity: item.quantity,
+              item_price: item.sellingPrice * item.quantity,
+            })),
+            totalPrice: totalPrice,
+            transactionID: response.razorpay_payment_id,
+          };
           try {
             await saveOrder(orderDetails);
             setNotification({ message: 'Payment successful!', type: 'success', visible: true });
@@ -150,87 +149,88 @@ const Cart = () => {
                 <th>Actions</th>
               </tr>
             </thead>
-          <tbody>
-  {cartItems.map(item => (
-    <tr key={item.subject_code} className="cart-item">
-      <td>{item.product_name}</td>
-      <td>₹{item.sellingPrice}</td>
-      <td>
-        <div className="quantity-control">
-          <button onClick={() => updateQuantity(item.subject_code, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
-          <span>{item.quantity}</span>
-          <button onClick={() => updateQuantity(item.subject_code, item.quantity + 1)}>+</button>
-        </div>
-      </td>
-      <td>₹{item.sellingPrice * item.quantity}</td>
-      <td>
-        <button onClick={() => removeItem(item.subject_code)} id="remove-button">Remove</button>
-      </td>
-    </tr>
-  ))}
-</tbody>
-
+            <tbody>
+              {cartItems.map(item => (
+                <tr key={item.subject_code} className="cart-item">
+                  <td>{item.product_name}</td>
+                  <td>₹{item.sellingPrice}</td>
+                  <td>
+                    <div className="quantity-control">
+                      <button onClick={() => updateQuantity(item.subject_code, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.subject_code, item.quantity + 1)}>+</button>
+                    </div>
+                  </td>
+                  <td>₹{item.sellingPrice * item.quantity}</td>
+                  <td>
+                    <button onClick={() => removeItem(item.subject_code)} id="remove-button">Remove</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         )}
         <div className="cart-summary">
           <h3>Total Price: ₹{totalPrice}</h3>
-          <button onClick={handlePayment} className="payment-btn">Go for payment</button>
+          <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>
+            Go for payment
+          </button>
         </div>
       </div>
 
-{/* Pending Orders */}
-<div className="section">
-  <h2 className="section-title">Orders Placed (Pending)</h2>
-  {pendingOrders.length === 0 ? (
-    <p>No pending orders found.</p>
-  ) : (
-    <ul className="order-list">
-      {pendingOrders.map(order => (
-        <li key={order.orderID} className="order-item">
-          <h3>Order ID: {order.orderID}</h3>
-          <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
-          <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
-          <p>Total: ₹{order.total_price}</p>
-          <h4>Items:</h4>
-          <ul className="order-items">
-            {order.items.map((item, index) => (
-              <li key={index}>
-                Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
+      {/* Pending Orders */}
+      <div className="section">
+        <h2 className="section-title">Orders Placed (Pending)</h2>
+        {pendingOrders.length === 0 ? (
+          <p>No pending orders found.</p>
+        ) : (
+          <ul className="order-list">
+            {pendingOrders.map(order => (
+              <li key={order.orderID} className="order-item">
+                <h3>Order ID: {order.orderID}</h3>
+                <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
+                <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
+                <p>Total: ₹{order.total_price}</p>
+                <h4>Items:</h4>
+                <ul className="order-items">
+                  {order.items.map((item, index) => (
+                    <li key={index}>
+                      Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ul>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+        )}
+      </div>
 
-{/* Completed Orders */}
-<div className="section">
-  <h2 className="section-title">Order History (Delivered)</h2>
-  {completedOrders.length === 0 ? (
-    <p>No Past orders found.</p>
-  ) : (
-    <ul className="order-list">
-      {completedOrders.map(order => (
-        <li key={order.orderID} className="order-item">
-          <h3>Order ID: {order.orderID}</h3>
-          <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
-          <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
-          <p>Total: ₹{order.total_price}</p>
-          <h4>Items:</h4>
-          <ul className="order-items">
-            {order.items.map((item, index) => (
-              <li key={index}>
-               Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
+      {/* Completed Orders */}
+      <div className="section">
+        <h2 className="section-title">Order History (Delivered)</h2>
+        {completedOrders.length === 0 ? (
+          <p>No past orders found.</p>
+        ) : (
+          <ul className="order-list">
+            {completedOrders.map(order => (
+              <li key={order.orderID} className="order-item">
+                <h3>Order ID: {order.orderID}</h3>
+                <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
+                <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
+                <p>Total: ₹{order.total_price}</p>
+                <h4>Items:</h4>
+                <ul className="order-items">
+                  {order.items.map((item, index) => (
+                    <li key={index}>
+                      Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ul>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+        )}
+      </div>
       {notification.visible && (
         <Notification
           message={notification.message}

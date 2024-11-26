@@ -269,7 +269,7 @@ const notesArray = [
         image: '/Eng_CompilerDesign.png',  branch: "CSE"
     },
     {
-        name: "Knowledge Management",
+        name: "Project Management",
         Subject_code: "CS604",
         Sem: "6",
         description: " It is about gathering, organizing, and sharing information.",

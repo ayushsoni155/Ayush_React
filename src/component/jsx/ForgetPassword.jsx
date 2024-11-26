@@ -145,7 +145,7 @@ const ForgotPassword = () => {
       )}
       <div className="logSign-container">
         <div className="logSign-img-container">
-          <img src="ForgetPassword.jpg" alt="Forgot Password" />
+          <img src="ForgetPassword.png" alt="Forgot Password" />
         </div>
         <div className="logSign-form-container">
           <h2>Forgot Password</h2>

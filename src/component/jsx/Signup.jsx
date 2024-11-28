@@ -187,10 +187,121 @@ const Signup = () => {
                 </div>
                 <div className="logSign-form-container">
                     <h2 className='Signinh2'>Create Your Account</h2>
-                    <form onSubmit={handleSubmit}>
-                        {/* Form Fields */}
-                        {/* The same fields as in your original code */}
-                        {/* Additional implementation remains identical */}
+                      <form onSubmit={handleSubmit}>
+                        <label htmlFor="name">Full Name</label>
+                        <input
+                            type="text"
+                            id="nameid"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="Enter your full name"
+                            autoComplete='name'
+                            required
+                        />
+
+                        <label htmlFor="enrolmentID">Enrollment Number</label>
+                        {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
+                        <input
+                            type="text"
+                            id="enrolmentID"
+                            name="enrolmentID"
+                            value={formData.enrolmentID}
+                            onChange={handleChange}
+                            placeholder="Enter your enrollment number"
+                            required
+                        />
+
+                        <label htmlFor="phone">Phone Number</label>
+                        {errors.phone && <p className="error-text">{errors.phone}</p>}
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="Enter your phone number"
+                            autoComplete='phone'
+                            required
+                        />
+
+                        <label htmlFor="sem">Select Semester</label>
+                        <select
+                            id="sem"
+                            name="sem"
+                            value={formData.sem}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="" disabled>Select your semester</option>
+                            {Array.from({ length: 8 }, (_, index) => (
+                                <option key={index + 1} value={index + 1}>Semester {index + 1}</option>
+                            ))}
+                        </select>
+
+                        <label htmlFor="password">Password</label>
+                        {errors.password && <p className="error-text">{errors.password}</p>}
+                        <div className="password-input">
+                            <input
+                                type={passwordVisible ? 'text' : 'password'}
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="Create a password"
+                                required
+                            />
+                            <button type="button" onClick={togglePasswordVisibility}>
+                                {passwordVisible ? 'Hide' : 'Show'}
+                            </button>
+                        </div>
+
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
+                        <div className="password-input">
+                            <input
+                                type={confirmPasswordVisible ? 'text' : 'password'}
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                placeholder="Confirm your password"
+                                required
+                            />
+                            <button type="button" onClick={toggleConfirmPasswordVisibility}>
+                                {confirmPasswordVisible ? 'Hide' : 'Show'}
+                            </button>
+                        </div>
+
+                        <label htmlFor="recoveryQuestion">Select a Recovery Question</label>
+                        <select
+                            id="recoveryQuestion"
+                            name="recoveryQuestion"
+                            value={formData.recoveryQuestion}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="" disabled>Select a recovery question</option>
+                            {recoveryQuestions.map((question, index) => (
+                                <option key={index} value={question}>{question}</option>
+                            ))}
+                        </select>
+
+                        <label htmlFor="recoveryAnswer">Answer to Recovery Question</label>
+                        {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
+                        <input
+                            type="text"
+                            id="recoveryAnswer"
+                            name="recoveryAnswer"
+                            value={formData.recoveryAnswer}
+                            onChange={handleChange}
+                            placeholder="Enter your answer"
+                            required
+                        />
+
+                        <button type="submit" className="login-button">Signup</button>
+                        <span>Already have an account? </span>
+                        <Link to="/login">Login</Link>
                     </form>
                 </div>
             </div>

@@ -58,7 +58,7 @@ const Header = () => {
             </button>
           ) : (
             <button id="LoginBtn">
-              <Link to='/Signin'>SignIn</Link>
+              <Link to='/signup'>SignIn</Link>
             </button>
           )}
 

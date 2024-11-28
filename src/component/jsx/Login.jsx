@@ -75,6 +75,9 @@ const Login = () => {
             const data = await response.json();
 
             if (response.ok) {
+                const cookieExpirationDate = new Date();
+            cookieExpirationDate.setFullYear(cookieExpirationDate.getFullYear() + 5);
+                
                 setNotification({ message: 'Login successful!', type: 'success' });
                 setCookie(
                     'bytewiseCookies',
@@ -87,6 +90,10 @@ const Login = () => {
                     },
                     { path: '/', maxAge: 1296000 } // Set cookie for 15 days
                 );
+                 setCookie('signupStatus', 'done', {
+                path: '/',
+                expires: cookieExpirationDate
+            });
                 navigate('/');
             } else {
                 setNotification({

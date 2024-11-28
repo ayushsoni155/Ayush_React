@@ -7,7 +7,7 @@ import { useCookies } from 'react-cookie'; // Import useCookies
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cookies] = useCookies(['bytewiseCookies']); // Use cookies to check login status
+  const [cookies] = useCookies(['bytewiseCookies', 'signupStatus']); // Include signupStatus cookie
 
   // Toggle the navigation menu for mobile
   const toggleMenu = () => {
@@ -22,6 +22,9 @@ const Header = () => {
   // Check login status based on cookies
   const isLoggedIn = cookies.bytewiseCookies && cookies.bytewiseCookies.status === true;
 
+  // Check signup status based on cookies
+  const isSignupDone = cookies.signupStatus === 'done';
+
   // Close the menu when a navigation link is clicked
   const handleLinkClick = () => {
     setIsMenuOpen(false);
@@ -33,7 +36,9 @@ const Header = () => {
       <div className="container">
         <div className="logo">
           {/* Add the logo image here */}
-          <Link to='/' onClick={handleLinkClick}><img src="logo-transparent-png.png" alt="ByteWise Logo" className="logo-img" /></Link>
+          <Link to='/' onClick={handleLinkClick}>
+            <img src="logo-transparent-png.png" alt="ByteWise Logo" className="logo-img" />
+          </Link>
           <p id="tagline">Your toolkit for engineering success</p>
         </div>
         
@@ -56,9 +61,13 @@ const Header = () => {
                 </svg>
               </Link>
             </button>
+          ) : isSignupDone ? (
+            <button id="LoginBtn">
+              <Link to='/login'>Login</Link>
+            </button>
           ) : (
             <button id="LoginBtn">
-              <Link to='/signup'>SignIn</Link>
+              <Link to='/signup'>Signup</Link>
             </button>
           )}
 

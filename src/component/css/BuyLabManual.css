@@ -3,6 +3,11 @@
   padding: 20px;
   margin-top: 120px;
 }
+.original-price {
+  text-decoration: line-through;
+  color: red;
+  margin-right: 8px;
+}
 
 /* Lab Manuals Container */
 .lab-manuals-container {

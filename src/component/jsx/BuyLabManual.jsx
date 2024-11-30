@@ -99,28 +99,32 @@ const BuyLabManual = () => {
         branch={branch}
         handleBranchChange={handleBranchChange}
       />
-        <p className="manual-note">
-                    **This price includes only a printed PDF copy. Lab files are not included.**
-                  </p>
+      <p className="manual-note">
+        **This price includes only a printed PDF copy. Lab files are not included.**
+      </p>
       {loading ? (
         <h2>Loading....</h2>
       ) : (
         <div className="lab-manuals-container">
           {filteredManuals.length > 0 ? (
-            filteredManuals.map((manual) => (
-              <div className="manual-card" key={manual.subject_code}>
-                <img src={manual.product_img} alt={manual.product_name} className="manual-image" />
-                <div className="manual-content">
-                  <h3 className="manual-title">{manual.product_name}</h3>
-                  <p className="manual-description">{manual.product_description}</p>
-                  <p className="manual-price">
-                    <span className="original-price">₹{manual.pages}</span> {/* Original price (cut-off) */}
-                    <b> ₹{manual.sellingPrice}</b> {/* Selling price (after offer) */}
-                  </p>
-                  <button onClick={() => addToCart(manual)} className="add-to-cart-button">Add to Cart</button>
+            filteredManuals.map((manual) => {
+              const discountPercentage = Math.round(((manual.pages - manual.sellingPrice) / manual.pages) * 100); // Calculate discount
+              return (
+                <div className="manual-card" key={manual.subject_code}>
+                  <img src={manual.product_img} alt={manual.product_name} className="manual-image" />
+                  <div className="manual-content">
+                    <h3 className="manual-title">{manual.product_name}</h3>
+                    <p className="manual-description">{manual.product_description}</p>
+                    <p className="manual-price">
+                      <span className="original-price">₹{manual.pages}</span> {/* Original price (cut-off) */}
+                      <b> ₹{manual.sellingPrice}</b> {/* Selling price (after offer) */}
+                    </p>
+                    <p className="manual-discount">{discountPercentage}% Off</p> {/* Discount percentage */}
+                    <button onClick={() => addToCart(manual)} className="add-to-cart-button">Add to Cart</button>
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <h2>No lab manuals found based on your search.</h2>
           )}

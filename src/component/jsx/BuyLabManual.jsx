@@ -226,6 +226,9 @@ const BuyLabManual = () => {
         branch={branch}
         handleBranchChange={handleBranchChange}
       />
+        <p className="manual-note">
+                    * This price includes only a printed PDF copy. Lab files are not included.
+                  </p>
       {loading ? (
         <h2>Loading....</h2>
       ) : (
@@ -240,9 +243,6 @@ const BuyLabManual = () => {
                   <p className="manual-price">
                     <span className="original-price">₹{manual.pages}</span> {/* Original price (cut-off) */}
                     <b> ₹{manual.sellingPrice}</b> {/* Selling price (after offer) */}
-                  </p>
-                  <p className="manual-note">
-                    * This price includes only a printed PDF copy. Lab files are not included.
                   </p>
                   <button onClick={() => addToCart(manual)} className="add-to-cart-button">Add to Cart</button>
                 </div>

@@ -228,7 +228,7 @@ const notesArray = [
         description: " It covers how the internet works and how websites are built.",
         image: '/Eng_IWT.png',
          branch: "CSE",
-         pdfUrl:'https://drive.google.com/file/d/1B4twrvKqlOsB79cO697qgMgu6naY8EnM/view?usp=drive_link'
+         pdfUrl:'https://drive.google.com/file/d/1g3IKb9UUW-JKfK-1dAKqOWGRHEXYOY1h/view?usp=drive_link'
     },
     {
         name: "Machine Learning",

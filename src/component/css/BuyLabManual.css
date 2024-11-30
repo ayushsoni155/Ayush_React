@@ -43,7 +43,7 @@
   flex-direction: column;
   justify-content: space-between;
   width: 270px; /* Same width */
-  height: 400px; /* Same height */
+  height: auto; /* Same height */
   margin: 0 auto; /* Center the cards */
   padding: 20px;
 }

@@ -238,7 +238,7 @@ const BuyLabManual = () => {
                   <h3 className="manual-title">{manual.product_name}</h3>
                   <p className="manual-description">{manual.product_description}</p>
                   <p className="manual-price">
-                    <span className="original-price">₹{manual.originalPrice}</span> {/* Original price (cut-off) */}
+                    <span className="original-price">₹{manual.pages}</span> {/* Original price (cut-off) */}
                     <b> ₹{manual.sellingPrice}</b> {/* Selling price (after offer) */}
                   </p>
                   <p className="manual-note">

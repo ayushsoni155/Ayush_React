@@ -117,9 +117,9 @@ const BuyLabManual = () => {
                     <p className="manual-description">{manual.product_description}</p>
                     <p className="manual-price">
                       <span className="original-price">₹{manual.pages}</span> {/* Original price (cut-off) */}
-                      <b> ₹{manual.sellingPrice}</b> {/* Selling price (after offer) */}
+                      <b> ₹{manual.sellingPrice}</b> {/* Selling price (after offer) */} <p className="manual-discount">{discountPercentage}% Off</p> {/* Discount percentage */}
                     </p>
-                    <p className="manual-discount">{discountPercentage}% Off</p> {/* Discount percentage */}
+                   
                     <button onClick={() => addToCart(manual)} className="add-to-cart-button">Add to Cart</button>
                   </div>
                 </div>

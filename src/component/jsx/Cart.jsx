@@ -92,7 +92,7 @@ const Cart = () => {
   const updateQuantity = (subject_code, newQuantity) => {
     if (newQuantity < 1) return;
     const updatedCart = cartItems.map((item) =>
-      item.subject_code === subject_code ? { ...item, item_quantity: newQuantity } : item
+      item.subject_code === subject_code ? { ...item, quantity: newQuantity } : item
     );
     setCartItems(updatedCart);
     localStorage.setItem('cart', encryptCart(updatedCart));

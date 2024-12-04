@@ -1,29 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import Notification from './Notification';
-import '../css/Feedback.css';
+import React, { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import Notification from "./Notification";
+import CryptoJS from "crypto-js";
+import "../css/Feedback.css";
+
+const secretKey = "@@@@1234@bytewise24"; // Your secret key for encryption/decryption
 
 export default function Feedback() {
-  const [cookies] = useCookies(['bytewiseCookies']);
+  const [cookies] = useCookies(["bytewiseCookies"]);
   const [formData, setFormData] = useState({
-    name: '',
-    enrolmentID: '',
-    message: '',
+    name: "",
+    enrolmentID: "",
+    message: "",
   });
   const [notification, setNotification] = useState({
-    message: '',
-    type: '',
+    message: "",
+    type: "",
     visible: false,
   });
 
+  const decryptCookie = (encryptedCookie) => {
+    try {
+      const bytes = CryptoJS.AES.decrypt(encryptedCookie, secretKey);
+      const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+      return decryptedData;
+    } catch (error) {
+      console.error("Error decrypting cookie:", error);
+      return null;
+    }
+  };
+
   useEffect(() => {
-    const userData = cookies.bytewiseCookies;
-    if (userData) {
-      setFormData({
-        name: userData.name || '',
-        enrolmentID: userData.enrolmentID || '',
-        message: '',
-      });
+    const encryptedCookie = cookies.bytewiseCookies;
+    if (encryptedCookie) {
+      const userData = decryptCookie(encryptedCookie);
+      if (userData) {
+        setFormData({
+          name: userData.name || "",
+          enrolmentID: userData.enrolmentID || "",
+          message: "",
+        });
+      }
     }
   }, [cookies]);
 
@@ -38,10 +55,11 @@ export default function Feedback() {
     event.preventDefault();
 
     // Check if user is logged in
-    if (!cookies.bytewiseCookies || !cookies.bytewiseCookies.status) {
+    const encryptedCookie = cookies.bytewiseCookies;
+    if (!encryptedCookie || !decryptCookie(encryptedCookie)?.status) {
       setNotification({
-        message: 'You must be logged in to submit feedback.',
-        type: 'error',
+        message: "You must be logged in to submit feedback.",
+        type: "error",
         visible: true,
       });
       return;
@@ -54,36 +72,39 @@ export default function Feedback() {
     };
 
     try {
-      const response = await fetch('https://bytewise-server.vercel.app/api/feedback-submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(feedbackData),
-      });
+      const response = await fetch(
+        "https://bytewise-server.vercel.app/api/feedback-submit",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(feedbackData),
+        }
+      );
 
       if (response.ok) {
         setNotification({
-          message: 'Feedback submitted successfully.',
-          type: 'success',
+          message: "Feedback submitted successfully.",
+          type: "success",
           visible: true,
         });
         setFormData((prevData) => ({
           ...prevData,
-          message: '',
+          message: "",
         }));
       } else {
         setNotification({
-          message: 'Error submitting feedback.',
-          type: 'error',
+          message: "Error submitting feedback.",
+          type: "error",
           visible: true,
         });
       }
     } catch (error) {
-      console.error('Error submitting feedback:', error);
+      console.error("Error submitting feedback:", error);
       setNotification({
-        message: 'Error submitting feedback. Please try again later.',
-        type: 'error',
+        message: "Error submitting feedback. Please try again later.",
+        type: "error",
         visible: true,
       });
     }
@@ -99,7 +120,7 @@ export default function Feedback() {
         />
       )}
 
-      {cookies.bytewiseCookies && cookies.bytewiseCookies.status ? (
+      {cookies.bytewiseCookies && decryptCookie(cookies.bytewiseCookies)?.status ? (
         <div className="feedback-section">
           <h2 className="feedback-heading">We Value Your Feedback</h2>
           <form className="feedback-form" onSubmit={handleSubmit}>
@@ -136,7 +157,9 @@ export default function Feedback() {
                 required
               ></textarea>
             </div>
-            <button type="submit" className="submit-btn">Submit</button>
+            <button type="submit" className="submit-btn">
+              Submit
+            </button>
           </form>
         </div>
       ) : (

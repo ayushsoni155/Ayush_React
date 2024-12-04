@@ -225,7 +225,7 @@ const BuyLabManual = () => {
         updatedCart[existingItemIndex].quantity += 1;
         return updatedCart;
       } else {
-        return [...prevCart, { subject_code: manual.subject_code, quantity: 1 }];
+        return [...prevCart, { subject_code: manual.subject_code, quantity: 1 ,product_name:"",sellingPrice:}];
       }
     });
 

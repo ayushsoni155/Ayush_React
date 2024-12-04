@@ -17,6 +17,12 @@ const Cart = () => {
     return decryptedData ? JSON.parse(decryptedData) : null;
   };
 
+  // Encrypt data for storage
+  const encryptData = (data) => {
+    const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
+    return encrypted;
+  };
+
   // Decrypt the bytewiseCookies cookie value
   const userData = cookies.bytewiseCookies ? decryptCookie(cookies.bytewiseCookies) : null;
 
@@ -49,7 +55,8 @@ const Cart = () => {
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
-      setCartItems(JSON.parse(storedCart));
+      const decryptedCart = decryptCookie(storedCart);
+      setCartItems(decryptedCart || []);
     }
 
     fetchOrders();
@@ -58,7 +65,7 @@ const Cart = () => {
   const removeItem = (subject_code) => {
     const updatedCart = cartItems.filter(item => item.subject_code !== subject_code);
     setCartItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    localStorage.setItem('cart', encryptData(updatedCart)); // Encrypt before saving to localStorage
   };
 
   const updateQuantity = (subject_code, newQuantity) => {
@@ -67,7 +74,7 @@ const Cart = () => {
       item.subject_code === subject_code ? { ...item, quantity: newQuantity } : item
     );
     setCartItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    localStorage.setItem('cart', encryptData(updatedCart)); // Encrypt before saving to localStorage
   };
 
   const handlePayment = async () => {
@@ -221,7 +228,7 @@ const Cart = () => {
 
       {/* Completed Orders */}
       <div className="section">
-        <h2 className="section-title">Order History (Delivered)</h2>
+        <h2 className="section-title">Orders Placed (Completed)</h2>
         {completedOrders.length === 0 ? (
           <p>No completed orders found.</p>
         ) : (
@@ -247,11 +254,13 @@ const Cart = () => {
       </div>
 
       {/* Notification Component */}
-      <Notification
-        message={notification.message}
-        type={notification.type}
-        visible={notification.visible}
-      />
+      {notification.visible && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification({ ...notification, visible: false })}
+        />
+      )}
     </div>
   );
 };

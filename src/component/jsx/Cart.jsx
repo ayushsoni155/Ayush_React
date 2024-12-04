@@ -20,6 +20,27 @@ const Cart = () => {
     }
   };
 
+  // Function to decrypt cart items from local storage
+  const decryptCart = (encryptedData) => {
+    try {
+      const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
+      return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    } catch (err) {
+      console.error('Error decrypting cart:', err);
+      return [];
+    }
+  };
+
+  // Function to encrypt cart items before storing in local storage
+  const encryptCart = (data) => {
+    try {
+      return CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
+    } catch (err) {
+      console.error('Error encrypting cart:', err);
+      return '';
+    }
+  };
+
   // Decrypt user data from cookies
   const encryptedUserData = cookies.bytewiseCookies;
   const userData = encryptedUserData ? decryptCookie(encryptedUserData) : null;
@@ -50,9 +71,9 @@ const Cart = () => {
   }, [enrolmentID, isLoggedIn]);
 
   useEffect(() => {
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-      setCartItems(JSON.parse(storedCart));
+    const encryptedCart = localStorage.getItem('cart');
+    if (encryptedCart) {
+      setCartItems(decryptCart(encryptedCart));
     }
 
     fetchOrders();
@@ -61,7 +82,7 @@ const Cart = () => {
   const removeItem = (subject_code) => {
     const updatedCart = cartItems.filter(item => item.subject_code !== subject_code);
     setCartItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    localStorage.setItem('cart', encryptCart(updatedCart));
   };
 
   const updateQuantity = (subject_code, newQuantity) => {
@@ -70,7 +91,7 @@ const Cart = () => {
       item.subject_code === subject_code ? { ...item, quantity: newQuantity } : item
     );
     setCartItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    localStorage.setItem('cart', encryptCart(updatedCart));
   };
 
   const handlePayment = async () => {

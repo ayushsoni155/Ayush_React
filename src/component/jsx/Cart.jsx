@@ -9,7 +9,7 @@ const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);
   const secretKey = '@@@@1234@bytewise24';
 
-  // Function to decrypt cookies
+  // Helper functions for encryption and decryption
   const decryptCookie = (encryptedData) => {
     try {
       const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
@@ -20,7 +20,6 @@ const Cart = () => {
     }
   };
 
-  // Function to decrypt cart items from local storage
   const decryptCart = (encryptedData) => {
     try {
       const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
@@ -31,7 +30,6 @@ const Cart = () => {
     }
   };
 
-  // Function to encrypt cart items before storing in local storage
   const encryptCart = (data) => {
     try {
       return CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
@@ -41,7 +39,7 @@ const Cart = () => {
     }
   };
 
-  // Decrypt user data from cookies
+  // Decrypt user data
   const encryptedUserData = cookies.bytewiseCookies;
   const userData = encryptedUserData ? decryptCookie(encryptedUserData) : null;
   const isLoggedIn = userData?.status === true;
@@ -52,17 +50,19 @@ const Cart = () => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
 
-  const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.quantity, 0);
+  const totalPrice = cartItems.reduce((total, item) => total + item.item_price * item.item_quantity, 0);
 
-  // Fetch pending and completed orders
+  // Fetch cart and order data
   const fetchOrders = useCallback(async () => {
     if (!isLoggedIn) return;
 
     try {
       const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${enrolmentID}`);
       const data = await response.json();
-      const pending = data.filter(order => order.completeStatus === 'Pending');
-      const completed = data.filter(order => order.completeStatus === 'Completed');
+
+      const pending = data.filter((order) => order.completeStatus === 'Pending');
+      const completed = data.filter((order) => order.completeStatus === 'Completed');
+
       setPendingOrders(pending);
       setCompletedOrders(completed);
     } catch (err) {
@@ -79,29 +79,26 @@ const Cart = () => {
     fetchOrders();
   }, [fetchOrders]);
 
+  // Cart actions
   const removeItem = (subject_code) => {
-    const updatedCart = cartItems.filter(item => item.subject_code !== subject_code);
+    const updatedCart = cartItems.filter((item) => item.subject_code !== subject_code);
     setCartItems(updatedCart);
     localStorage.setItem('cart', encryptCart(updatedCart));
   };
 
   const updateQuantity = (subject_code, newQuantity) => {
-    if (newQuantity < 1) return; // Prevent quantity from going below 1
-    const updatedCart = cartItems.map(item =>
-      item.subject_code === subject_code ? { ...item, quantity: newQuantity } : item
+    if (newQuantity < 1) return;
+    const updatedCart = cartItems.map((item) =>
+      item.subject_code === subject_code ? { ...item, item_quantity: newQuantity } : item
     );
     setCartItems(updatedCart);
     localStorage.setItem('cart', encryptCart(updatedCart));
   };
 
+  // Payment handling
   const handlePayment = async () => {
     if (!isLoggedIn) {
       setNotification({ message: 'Please log in to proceed with your order.', type: 'warning', visible: true });
-      return;
-    }
-
-    if (!window.Razorpay) {
-      setNotification({ message: 'Razorpay SDK failed to load. Please check your internet connection.', type: 'error', visible: true });
       return;
     }
 
@@ -111,26 +108,21 @@ const Cart = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: totalPrice * 100 }),
       });
-      const order = await response.json();
 
+      const order = await response.json();
       const options = {
         key: 'rzp_live_BD3KEEZCSWSCBd',
         amount: order.amount,
         currency: 'INR',
-        image: 'logo-transparent-png.png',
         name: 'ByteWise',
         description: 'Thank you for shopping with ByteWise',
         order_id: order.id,
         handler: async (response) => {
           const orderDetails = {
             orderID: response.razorpay_order_id,
-            enrolmentID: enrolmentID,
-            orderItems: cartItems.map(item => ({
-              Subject_code: item.subject_code,
-              item_quantity: item.quantity,
-              item_price: item.sellingPrice * item.quantity,
-            })),
-            totalPrice: totalPrice,
+            enrolmentID,
+            orderItems: cartItems,
+            totalPrice,
             transactionID: response.razorpay_payment_id,
           };
           try {
@@ -141,10 +133,7 @@ const Cart = () => {
             setNotification({ message: 'Error saving order.', type: 'error', visible: true });
           }
         },
-        prefill: {
-          name: userData?.name || 'User',
-          contact: userData?.phone || '9999999999',
-        },
+        prefill: { name: userData?.name || 'User', contact: userData?.phone || '9999999999' },
         theme: { color: '#4d97e1' },
       };
 
@@ -157,16 +146,19 @@ const Cart = () => {
   };
 
   const saveOrder = async (orderDetails) => {
-    const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderDetails),
-    });
-    const data = await response.json();
-    console.log('Order saved:', data);
-    localStorage.removeItem('cart');
-    setCartItems([]);
-    fetchOrders(); // Refresh orders after saving
+    try {
+      const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderDetails),
+      });
+      await response.json();
+      localStorage.removeItem('cart');
+      setCartItems([]);
+      fetchOrders();
+    } catch (err) {
+      console.error('Error saving order:', err);
+    }
   };
 
   return (

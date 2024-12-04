@@ -14,7 +14,7 @@ const Login = () => {
     const [notification, setNotification] = useState(null);
     const [errors, setErrors] = useState({ enrolmentID: "", password: "" });
     const navigate = useNavigate();
-    const [cookies, setCookie] = useCookies(["bytewiseCookies"]);
+    const [cookies, setCookie] = useCookies(["bytewiseCookies", "signupStatus"]);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     const secretKey = "@@@@1234@bytewise24"; // Your secret key for encryption/decryption
@@ -94,7 +94,8 @@ const Login = () => {
                 const cookieExpirationDate = new Date();
                 cookieExpirationDate.setFullYear(cookieExpirationDate.getFullYear() + 5);
 
-                const encryptedCookie = CryptoJS.AES.encrypt(
+                // Encrypt bytewiseCookies data
+                const encryptedBytewiseData = CryptoJS.AES.encrypt(
                     JSON.stringify({
                         enrolmentID: formData.enrolmentID,
                         name: data.user.name,
@@ -105,15 +106,20 @@ const Login = () => {
                     secretKey
                 ).toString();
 
+                // Encrypt signupStatus
+                const encryptedSignupStatus = CryptoJS.AES.encrypt(
+                    JSON.stringify("done"),
+                    secretKey
+                ).toString();
+
+                // Set cookies
+                setCookie("bytewiseCookies", encryptedBytewiseData, { path: "/", maxAge: 1296000 }); // 15 days
+                setCookie("signupStatus", encryptedSignupStatus, {
+                    path: "/",
+                    expires: cookieExpirationDate, // 5 years
+                });
+
                 setNotification({ message: "Login successful!", type: "success" });
-                setCookie("bytewiseCookies", encryptedCookie, { path: "/", maxAge: 1296000 });
-                const encryptedSignupStatus = encryptCookie('done');
-             setCookie('signupStatus', encryptedSignupStatus, {
-                path: '/',
-                expires: cookieExpirationDate
-            });
-
-
                 navigate("/");
             } else {
                 setNotification({

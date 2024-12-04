@@ -46,14 +46,14 @@ const Cart = () => {
   const isLoggedIn = userData?.status === true;
   const enrolmentID = userData?.enrolmentID;
 
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]); // Ensure cartItems defaults to an empty array
   const [pendingOrders, setPendingOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
 
   const totalPrice = cartItems.reduce((total, item) => total + item.item_price * item.item_quantity, 0);
 
-  // Fetch product and order data
+  // Fetch cart and order data
   const fetchOrders = useCallback(async () => {
     if (!isLoggedIn) return;
 
@@ -75,27 +75,11 @@ const Cart = () => {
   useEffect(() => {
     const encryptedCart = localStorage.getItem('cart');
     if (encryptedCart) {
-      const cartData = decryptCart(encryptedCart);
-      if (cartData.length && product.length) {
-        // Combine localStorage data with product details
-        const updatedCartItems = cartData.map((cartItem) => {
-          const productDetails = product.find(
-            (p) => p.subject_code === cartItem.subject_code
-          );
-          return productDetails
-            ? {
-                ...cartItem,
-                product_name: productDetails.product_name,
-                item_price: productDetails.sellingPrice, // Assuming the price is stored in 'sellingPrice'
-              }
-            : cartItem; // Keep cart item as is if product details are not found
-        });
-        setCartItems(updatedCartItems);
-      }
+      setCartItems(decryptCart(encryptedCart));
     }
 
     fetchOrders();
-  }, [product, fetchOrders]);
+  }, [fetchOrders]);
 
   // Cart actions
   const removeItem = (subject_code) => {
@@ -201,7 +185,7 @@ const Cart = () => {
               {cartItems.map(item => (
                 <tr key={item.subject_code} className="cart-item">
                   <td>{item.product_name}</td>
-                  <td>₹{item.item_price}</td>
+                  <td>₹{item.sellingPrice}</td>
                   <td>
                     <div className="quantity-control">
                       <button onClick={() => updateQuantity(item.subject_code, item.item_quantity - 1)} disabled={item.item_quantity === 1}>-</button>
@@ -209,7 +193,7 @@ const Cart = () => {
                       <button onClick={() => updateQuantity(item.subject_code, item.item_quantity + 1)}>+</button>
                     </div>
                   </td>
-                  <td>₹{item.item_price * item.item_quantity}</td>
+                  <td>₹{item.sellingPrice * item.item_quantity}</td>
                   <td>
                     <button onClick={() => removeItem(item.subject_code)} id="remove-button">Remove</button>
                   </td>
@@ -237,7 +221,16 @@ const Cart = () => {
               <li key={order.orderID} className="order-item">
                 <h3>Order ID: {order.orderID}</h3>
                 <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
-                <p>Status: {order.completeStatus}</p>
+                <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
+                <p>Total: ₹{order.total_price}</p>
+                <h4>Items:</h4>
+                <ul className="order-items">
+                  {order.items.map((item, index) => (
+                    <li key={index}>
+                      Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ul>
@@ -255,7 +248,16 @@ const Cart = () => {
               <li key={order.orderID} className="order-item">
                 <h3>Order ID: {order.orderID}</h3>
                 <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
-                <p>Status: {order.completeStatus}</p>
+                <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
+                <p>Total: ₹{order.total_price}</p>
+                <h4>Items:</h4>
+                <ul className="order-items">
+                  {order.items.map((item, index) => (
+                    <li key={index}>
+                      Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ul>
@@ -263,9 +265,7 @@ const Cart = () => {
       </div>
 
       {/* Notification */}
-      {notification.visible && (
-        <Notification message={notification.message} type={notification.type} />
-      )}
+      <Notification message={notification.message} type={notification.type} visible={notification.visible} />
     </div>
   );
 };

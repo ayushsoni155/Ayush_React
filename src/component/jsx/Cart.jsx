@@ -1,15 +1,31 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import CryptoJS from 'crypto-js';
 import '../css/Cart.css';
 import Notification from './Notification';
 
 const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);
-  const userData = cookies.bytewiseCookies;
+  const secretKey = '@@@@1234@bytewise24';
+
+  // Function to decrypt cookies
+  const decryptCookie = (encryptedData) => {
+    try {
+      const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
+      return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    } catch (err) {
+      console.error('Error decrypting cookie:', err);
+      return null;
+    }
+  };
+
+  // Decrypt user data from cookies
+  const encryptedUserData = cookies.bytewiseCookies;
+  const userData = encryptedUserData ? decryptCookie(encryptedUserData) : null;
   const isLoggedIn = userData?.status === true;
-  const enrolmentID = userData?.enrolmentID; 
+  const enrolmentID = userData?.enrolmentID;
+
   const [cartItems, setCartItems] = useState([]);
   const [pendingOrders, setPendingOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);

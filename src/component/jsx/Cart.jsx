@@ -24,6 +24,7 @@ const Cart = () => {
     try {
       const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${enrolmentID}`);
       const data = await response.json();
+      console.log(data);
       const pending = data.filter(order => order.completeStatus === 'Pending');
       const completed = data.filter(order => order.completeStatus === 'Completed');
       setPendingOrders(pending);

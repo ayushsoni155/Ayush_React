@@ -108,7 +108,10 @@ const Signup = () => {
 
             // Encrypt and set signupStatus cookie
             const encryptedSignupStatus = encryptCookie('done');
-            setCookie('signupStatus', encryptedSignupStatus, { path: '/', cookieExpirationDate }); // 15 days
+             setCookie('signupStatus', encryptedSignupStatus, {
+                path: '/',
+                expires: cookieExpirationDate
+            });
 
             setFormData({
                 enrolmentID: '',

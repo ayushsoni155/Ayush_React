@@ -95,7 +95,6 @@ const Cart = () => {
     );
     setCartItems(updatedCart);
     localStorage.setItem('cart', encryptCart(updatedCart));
-    console.log(updatedCart);
   };
 
   // Payment handling
@@ -231,17 +230,8 @@ const Cart = () => {
         ) : (
           <ul className="order-list">
             {pendingOrders.map(order => (
-              <li key={order.orderID} className="order-item">
-                <h3>Order ID: {order.orderID}</h3>
-                <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
-                <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
-                <p>Total: ₹{order.total_price}</p>
-                <h4>Items:</h4>
-                <ul>
-                  {order.orderItems?.map(item => (
-                    <li key={item.subject_code}>{item.product_name} (x{item.item_quantity})</li>
-                  ))}
-                </ul>
+              <li key={order.orderID}>
+                Order ID: {order.orderID} - Total: ₹{order.totalPrice}
               </li>
             ))}
           </ul>
@@ -256,25 +246,16 @@ const Cart = () => {
         ) : (
           <ul className="order-list">
             {completedOrders.map(order => (
-              <li key={order.orderID} className="order-item">
-                <h3>Order ID: {order.orderID}</h3>
-                <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
-                <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
-                <p>Total: ₹{order.total_price}</p>
-                <h4>Items:</h4>
-                <ul>
-                  {order.orderItems?.map(item => (
-                    <li key={item.subject_code}>{item.product_name} (x{item.item_quantity})</li>
-                  ))}
-                </ul>
+              <li key={order.orderID}>
+                Order ID: {order.orderID} - Total: ₹{order.totalPrice}
               </li>
             ))}
           </ul>
         )}
       </div>
 
-      {/* Notification Component */}
-      <Notification message={notification.message} type={notification.type} visible={notification.visible} />
+      {/* Notification */}
+      {notification.visible && <Notification {...notification} />}
     </div>
   );
 };

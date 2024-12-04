@@ -107,6 +107,12 @@ const Login = () => {
 
                 setNotification({ message: "Login successful!", type: "success" });
                 setCookie("bytewiseCookies", encryptedCookie, { path: "/", maxAge: 1296000 });
+                const encryptedSignupStatus = encryptCookie('done');
+             setCookie('signupStatus', encryptedSignupStatus, {
+                path: '/',
+                expires: cookieExpirationDate
+            });
+
 
                 navigate("/");
             } else {

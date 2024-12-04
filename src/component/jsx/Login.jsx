@@ -1,51 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import '../css/LogSign.css';
-import { Link, useNavigate } from 'react-router-dom';
-import Notification from './Notification';
-import { useCookies } from 'react-cookie';
+import React, { useState, useEffect } from "react";
+import "../css/LogSign.css";
+import { Link, useNavigate } from "react-router-dom";
+import Notification from "./Notification";
+import { useCookies } from "react-cookie";
+import CryptoJS from "crypto-js";
 
 const Login = () => {
     const [formData, setFormData] = useState({
-        enrolmentID: '',
-        password: '',
+        enrolmentID: "",
+        password: "",
     });
 
     const [notification, setNotification] = useState(null);
-    const [errors, setErrors] = useState({ enrolmentID: '', password: '' });
+    const [errors, setErrors] = useState({ enrolmentID: "", password: "" });
     const navigate = useNavigate();
-    const [cookies, setCookie] = useCookies(['bytewiseCookies']);
+    const [cookies, setCookie] = useCookies(["bytewiseCookies"]);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
+    const secretKey = "@@@@1234@bytewise24"; // Your secret key for encryption/decryption
     const enrolmentRegex = /^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
 
     useEffect(() => {
-        if (cookies.bytewiseCookies && cookies.bytewiseCookies.status) {
-            navigate('/');
+        if (cookies.bytewiseCookies) {
+            try {
+                const decryptedCookie = JSON.parse(
+                    CryptoJS.AES.decrypt(
+                        cookies.bytewiseCookies,
+                        secretKey
+                    ).toString(CryptoJS.enc.Utf8)
+                );
+                if (decryptedCookie.status) {
+                    navigate("/");
+                }
+            } catch (error) {
+                console.error("Failed to decrypt the cookie", error);
+            }
         }
     }, [cookies, navigate]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
 
-        const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
+        const updatedValue = name === "enrolmentID" ? value.toUpperCase() : value;
 
         setFormData({
             ...formData,
             [name]: updatedValue,
         });
 
-        if (name === 'enrolmentID') {
+        if (name === "enrolmentID") {
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number',
+                enrolmentID: enrolmentRegex.test(updatedValue) ? "" : "Invalid enrollment number",
             }));
         }
 
-        if (name === 'password') {
+        if (name === "password") {
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                password: passwordRegex.test(value) ? '' : 'Password must be at least 8 characters long and contain both letters and numbers',
+                password: passwordRegex.test(value)
+                    ? ""
+                    : "Password must be at least 8 characters long and contain both letters and numbers",
             }));
         }
     };
@@ -54,20 +70,20 @@ const Login = () => {
         event.preventDefault();
 
         if (errors.enrolmentID || errors.password) {
-            setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
+            setNotification({ message: "Please fix the errors before submitting.", type: "error" });
             return;
         }
 
         if (!formData.enrolmentID || !formData.password) {
-            setNotification({ message: 'Enrolment ID and password are required.', type: 'error' });
+            setNotification({ message: "Enrolment ID and password are required.", type: "error" });
             return;
         }
 
         try {
-            const response = await fetch('https://bytewise-server.vercel.app/api/login', {
-                method: 'POST',
+            const response = await fetch("https://bytewise-server.vercel.app/api/login", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(formData),
             });
@@ -76,50 +92,32 @@ const Login = () => {
 
             if (response.ok) {
                 const cookieExpirationDate = new Date();
-            cookieExpirationDate.setFullYear(cookieExpirationDate.getFullYear() + 5);
-                
-                setNotification({ message: 'Login successful!', type: 'success' });
-                setCookie(
-                    'bytewiseCookies',
-                    {
+                cookieExpirationDate.setFullYear(cookieExpirationDate.getFullYear() + 5);
+
+                const encryptedCookie = CryptoJS.AES.encrypt(
+                    JSON.stringify({
                         enrolmentID: formData.enrolmentID,
                         name: data.user.name,
                         sem: data.user.sem,
                         phone: data.user.phone,
                         status: true,
-                    },
-                    { path: '/', maxAge: 1296000 } // Set cookie for 15 days
-                );
-                 setCookie('signupStatus', 'done', {
-                path: '/',
-                expires: cookieExpirationDate
-            });
-                navigate('/');
+                    }),
+                    secretKey
+                ).toString();
+
+                setNotification({ message: "Login successful!", type: "success" });
+                setCookie("bytewiseCookies", encryptedCookie, { path: "/", maxAge: 1296000 });
+
+                navigate("/");
             } else {
                 setNotification({
-                    message: data.message || 'Login failed. Please check your credentials.',
-                    type: 'error',
+                    message: data.message || "Login failed. Please check your credentials.",
+                    type: "error",
                 });
-                setCookie(
-                    'bytewiseCookies',
-                    {
-                        ...cookies.bytewiseCookies,
-                        status: false,
-                    },
-                    { path: '/', maxAge: 1296000 }
-                );
             }
         } catch (error) {
-            console.error('Login error:', error);
-            setNotification({ message: 'An error occurred. Please try again later.', type: 'error' });
-            setCookie(
-                'bytewiseCookies',
-                {
-                    ...cookies.bytewiseCookies,
-                    status: false,
-                },
-                { path: '/', maxAge: 1296000 }
-            );
+            console.error("Login error:", error);
+            setNotification({ message: "An error occurred. Please try again later.", type: "error" });
         }
     };
 
@@ -129,7 +127,7 @@ const Login = () => {
 
     return (
         <div className="overlay">
-            <button className="close-button" onClick={() => navigate('/')}>
+            <button className="close-button" onClick={() => navigate("/")}>
                 X
             </button>
             {notification && (
@@ -163,7 +161,7 @@ const Login = () => {
                         {errors.password && <p className="error-text">{errors.password}</p>}
                         <div className="password-input">
                             <input
-                                type={passwordVisible ? 'text' : 'password'}
+                                type={passwordVisible ? "text" : "password"}
                                 id="password"
                                 name="password"
                                 value={formData.password}
@@ -172,7 +170,7 @@ const Login = () => {
                                 required
                             />
                             <button type="button" onClick={togglePasswordVisibility}>
-                                {passwordVisible ? 'Hide' : 'Show'}
+                                {passwordVisible ? "Hide" : "Show"}
                             </button>
                         </div>
 
@@ -185,7 +183,7 @@ const Login = () => {
                                 Forgot Password?
                             </Link>
                             <span>
-                                New user? Create account -{' '}
+                                New user? Create account -{" "}
                                 <Link to="/signup" className="signup-link">
                                     Sign Up
                                 </Link>

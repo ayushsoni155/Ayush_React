@@ -65,63 +65,69 @@ const Signup = () => {
         // Validation logic ...
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        if (errors.enrolmentID || errors.phone || errors.password || errors.confirmPassword || errors.recoveryAnswer) {
-            setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
-            return;
-        }
+    if (errors.enrolmentID || errors.phone || errors.password || errors.confirmPassword || errors.recoveryAnswer) {
+        setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
+        return;
+    }
 
-        const formDataWithRecovery = { 
-            ...formData,
-            recoveryQuestion: formData.recoveryQuestion, 
-            recoveryAnswer: formData.recoveryAnswer 
-        };
+    const formDataWithRecovery = { 
+        ...formData,
+        recoveryQuestion: formData.recoveryQuestion, 
+        recoveryAnswer: formData.recoveryAnswer 
+    };
 
-        try {
-            const response = await fetch('https://bytewise-server.vercel.app/api/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formDataWithRecovery)
+    try {
+        const response = await fetch('https://bytewise-server.vercel.app/api/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formDataWithRecovery)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            setNotification({ message: 'Signup successful!', type: 'success' });
+
+            // Encrypt and set cookies for user data
+            const encryptedData = encryptCookie({
+                enrolmentID: formData.enrolmentID,
+                name: formData.name,
+                sem: formData.sem,
+                phone: formData.phone,
+                status: true
             });
 
-            const data = await response.json();
+            setCookie('bytewiseCookies', encryptedData, { path: '/', maxAge: 1296000 }); // 15 days
 
-            if (response.ok) {
-                setNotification({ message: 'Signup successful!', type: 'success' });
+            // Encrypt and set signupStatus cookie
+            const encryptedSignupStatus = encryptCookie('done');
+            setCookie('signupStatus', encryptedSignupStatus, { path: '/', maxAge: 1296000 }); // 15 days
 
-                const encryptedData = encryptCookie({
-                    enrolmentID: formData.enrolmentID,
-                    name: formData.name,
-                    sem: formData.sem,
-                    phone: formData.phone,
-                    status: true
-                });
+            setFormData({
+                enrolmentID: '',
+                name: '',
+                sem: '',
+                phone: '',
+                password: '',
+                confirmPassword: '',
+                recoveryQuestion: '',
+                recoveryAnswer: ''
+            });
 
-                setCookie('bytewiseCookies', encryptedData, { path: '/', maxAge: 1296000 });
-
-                setFormData({
-                    enrolmentID: '',
-                    name: '',
-                    sem: '',
-                    phone: '',
-                    password: '',
-                    confirmPassword: '',
-                    recoveryQuestion: '',
-                    recoveryAnswer: ''
-                });
-
-                navigate('/');
-            } else {
-                setNotification({ message: data.message || 'Error signing up', type: 'error' });
-            }
-        } catch (error) {
-            setNotification({ message: 'Server error! Please try again.', type: 'error' });
+            navigate('/');
+        } else {
+            setNotification({ message: data.message || 'Error signing up', type: 'error' });
         }
-    };
+    } catch (error) {
+        setNotification({ message: 'Server error! Please try again.', type: 'error' });
+    }
+};
+
 
     const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
     const toggleConfirmPasswordVisibility = () => setConfirmPasswordVisible((prev) => !prev);

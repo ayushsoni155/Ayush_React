@@ -2,9 +2,21 @@ import React, { useState, useEffect } from 'react';
 import '../css/BuyLabManual.css'; // Import CSS for styling
 import Filter from './Filter'; // Import the Filter component
 import Notification from './Notification'; // Import Notification component
-import CryptoJS from 'crypto-js'; // Importing the crypto-js library
+import CryptoJS from 'crypto-js'; // Import CryptoJS for encryption and decryption
 
 const secretKey = '@@@@1234@bytewise24'; // Secret key for decryption
+
+// Encryption function to store encrypted data in localStorage
+const encryptData = (data) => {
+  return CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
+};
+
+// Decryption function to retrieve decrypted data from localStorage
+const decryptData = (encryptedData) => {
+  const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
+  const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+  return decryptedData ? JSON.parse(decryptedData) : [];
+};
 
 const BuyLabManual = () => {
   const [labManuals, setLabManuals] = useState([]); // State to hold lab manuals from the database
@@ -17,18 +29,6 @@ const BuyLabManual = () => {
   });
   const [notification, setNotification] = useState({ message: '', visible: false }); // Notification state
   const [loading, setLoading] = useState(false); // Loading state
-
-  // Encryption function
-  const encryptData = (data) => {
-    return CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
-  };
-
-  // Decryption function
-  const decryptData = (encryptedData) => {
-    const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
-    const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
-    return decryptedData ? JSON.parse(decryptedData) : [];
-  };
 
   // Fetch lab manuals from the database on component mount
   useEffect(() => {
@@ -50,7 +50,7 @@ const BuyLabManual = () => {
 
   // Update local storage whenever the cart changes
   useEffect(() => {
-    localStorage.setItem('cart', encryptData(cart)); // Encrypt before saving to localStorage
+    localStorage.setItem('cart', encryptData(cart)); // Encrypt and store cart in localStorage
   }, [cart]);
 
   // Filter logic for the lab manuals
@@ -132,8 +132,7 @@ const BuyLabManual = () => {
                     <p className="manual-description">{manual.product_description}</p>
                     <p className="manual-price">
                       <span className="original-price">₹{manual.pages}</span> {/* Original price (cut-off) */}
-                      <b> ₹{manual.sellingPrice}</b> {/* Selling price (after offer) */} 
-                      <p className="manual-discount">{discountPercentage}% Off</p> {/* Discount percentage */}
+                      <b> ₹{manual.sellingPrice}</b> {/* Selling price (after offer) */} <p className="manual-discount">{discountPercentage}% Off</p> {/* Discount percentage */}
                     </p>
                     <button onClick={() => addToCart(manual)} className="add-to-cart-button">Add to Cart</button>
                   </div>

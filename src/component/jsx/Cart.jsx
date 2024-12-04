@@ -96,6 +96,7 @@ const Cart = () => {
     );
     setCartItems(updatedCart);
     localStorage.setItem('cart', encryptCart(updatedCart));
+    console.log(updatedCart);
   };
 
   // Payment handling

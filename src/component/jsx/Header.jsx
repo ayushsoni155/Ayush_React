@@ -28,7 +28,7 @@ const Header = () => {
   const isLoggedIn = loginData && loginData.status === true;
 
   // Check signup status
-  const isSignupDone = cookies.signupStatus === 'done';
+  const isSignupDone = cookies.signupStatus?decryptCookie( cookies.signupStatus): null;
 
   // Toggle the navigation menu for mobile
   const toggleMenu = () => {

@@ -62,8 +62,8 @@ const Cart = () => {
       const data = await response.json();
       setProduct(data.product);
 
-      const pending = data.orders.filter((order) => order.completeStatus === 'Pending');
-      const completed = data.orders.filter((order) => order.completeStatus === 'Completed');
+      const pending = data.orders ? data.orders.filter((order) => order.completeStatus === 'Pending') : [];
+      const completed = data.orders ? data.orders.filter((order) => order.completeStatus === 'Completed') : [];
 
       setPendingOrders(pending);
       setCompletedOrders(completed);
@@ -237,7 +237,7 @@ const Cart = () => {
                 <p>Total: ₹{order.total_price}</p>
                 <h4>Items:</h4>
                 <ul>
-                  {order.orderItems.map(item => (
+                  {order.orderItems?.map(item => (
                     <li key={item.subject_code}>{item.product_name} (x{item.item_quantity})</li>
                   ))}
                 </ul>
@@ -262,7 +262,7 @@ const Cart = () => {
                 <p>Total: ₹{order.total_price}</p>
                 <h4>Items:</h4>
                 <ul>
-                  {order.orderItems.map(item => (
+                  {order.orderItems?.map(item => (
                     <li key={item.subject_code}>{item.product_name} (x{item.item_quantity})</li>
                   ))}
                 </ul>

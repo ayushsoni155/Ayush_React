@@ -8,6 +8,7 @@ import Notification from './Notification';
 const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);
   const secretKey = '@@@@1234@bytewise24';
+  const [product, setProduct] = useState([]);
 
   // Helper functions for encryption and decryption
   const decryptCookie = (encryptedData) => {
@@ -52,14 +53,14 @@ const Cart = () => {
 
   const totalPrice = cartItems.reduce((total, item) => total + item.item_price * item.item_quantity, 0);
 
-  // Fetch cart and order data
+  // Fetch product and order data
   const fetchOrders = useCallback(async () => {
     if (!isLoggedIn) return;
 
     try {
       const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${enrolmentID}`);
       const data = await response.json();
-      
+      setProduct(data.product);
 
       const pending = data.orders.filter((order) => order.completeStatus === 'Pending');
       const completed = data.orders.filter((order) => order.completeStatus === 'Completed');
@@ -74,11 +75,27 @@ const Cart = () => {
   useEffect(() => {
     const encryptedCart = localStorage.getItem('cart');
     if (encryptedCart) {
-      setCartItems(decryptCart(encryptedCart));
+      const cartData = decryptCart(encryptedCart);
+      if (cartData.length && product.length) {
+        // Combine localStorage data with product details
+        const updatedCartItems = cartData.map((cartItem) => {
+          const productDetails = product.find(
+            (p) => p.subject_code === cartItem.subject_code
+          );
+          return productDetails
+            ? {
+                ...cartItem,
+                product_name: productDetails.product_name,
+                item_price: productDetails.sellingPrice, // Assuming the price is stored in 'sellingPrice'
+              }
+            : cartItem; // Keep cart item as is if product details are not found
+        });
+        setCartItems(updatedCartItems);
+      }
     }
 
     fetchOrders();
-  }, [fetchOrders]);
+  }, [product, fetchOrders]);
 
   // Cart actions
   const removeItem = (subject_code) => {
@@ -184,15 +201,15 @@ const Cart = () => {
               {cartItems.map(item => (
                 <tr key={item.subject_code} className="cart-item">
                   <td>{item.product_name}</td>
-                  <td>₹{item.sellingPrice}</td>
+                  <td>₹{item.item_price}</td>
                   <td>
                     <div className="quantity-control">
-                      <button onClick={() => updateQuantity(item.subject_code, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.subject_code, item.quantity + 1)}>+</button>
+                      <button onClick={() => updateQuantity(item.subject_code, item.item_quantity - 1)} disabled={item.item_quantity === 1}>-</button>
+                      <span>{item.item_quantity}</span>
+                      <button onClick={() => updateQuantity(item.subject_code, item.item_quantity + 1)}>+</button>
                     </div>
                   </td>
-                  <td>₹{item.sellingPrice * item.quantity}</td>
+                  <td>₹{item.item_price * item.item_quantity}</td>
                   <td>
                     <button onClick={() => removeItem(item.subject_code)} id="remove-button">Remove</button>
                   </td>
@@ -220,16 +237,7 @@ const Cart = () => {
               <li key={order.orderID} className="order-item">
                 <h3>Order ID: {order.orderID}</h3>
                 <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
-                <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
-                <p>Total: ₹{order.total_price}</p>
-                <h4>Items:</h4>
-                <ul className="order-items">
-                  {order.items.map((item, index) => (
-                    <li key={index}>
-                      Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
-                    </li>
-                  ))}
-                </ul>
+                <p>Status: {order.completeStatus}</p>
               </li>
             ))}
           </ul>
@@ -238,40 +246,28 @@ const Cart = () => {
 
       {/* Completed Orders */}
       <div className="section">
-        <h2 className="section-title">Order History (Delivered)</h2>
+        <h2 className="section-title">Completed Orders</h2>
         {completedOrders.length === 0 ? (
-          <p>No past orders found.</p>
+          <p>No completed orders found.</p>
         ) : (
           <ul className="order-list">
             {completedOrders.map(order => (
               <li key={order.orderID} className="order-item">
                 <h3>Order ID: {order.orderID}</h3>
                 <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
-                <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
-                <p>Total: ₹{order.total_price}</p>
-                <h4>Items:</h4>
-                <ul className="order-items">
-                  {order.items.map((item, index) => (
-                    <li key={index}>
-                      Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
-                    </li>
-                  ))}
-                </ul>
+                <p>Status: {order.completeStatus}</p>
               </li>
             ))}
           </ul>
         )}
       </div>
+
+      {/* Notification */}
       {notification.visible && (
-        <Notification
-          message={notification.message}
-          type={notification.type}
-          onClose={() => setNotification({ ...notification, visible: false })}
-        />
+        <Notification message={notification.message} type={notification.type} />
       )}
     </div>
   );
 };
 
 export default Cart;
-

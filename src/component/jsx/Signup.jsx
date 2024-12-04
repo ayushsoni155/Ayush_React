@@ -91,6 +91,8 @@ const Signup = () => {
         const data = await response.json();
 
         if (response.ok) {
+            const cookieExpirationDate = new Date();
+                cookieExpirationDate.setFullYear(cookieExpirationDate.getFullYear() + 5);
             setNotification({ message: 'Signup successful!', type: 'success' });
 
             // Encrypt and set cookies for user data
@@ -106,7 +108,7 @@ const Signup = () => {
 
             // Encrypt and set signupStatus cookie
             const encryptedSignupStatus = encryptCookie('done');
-            setCookie('signupStatus', encryptedSignupStatus, { path: '/', maxAge: 1296000 }); // 15 days
+            setCookie('signupStatus', encryptedSignupStatus, { path: '/', cookieExpirationDate }); // 15 days
 
             setFormData({
                 enrolmentID: '',

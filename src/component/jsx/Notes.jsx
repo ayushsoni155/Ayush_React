@@ -4,6 +4,7 @@ import notesObj from '../../NotesObj'; // Import the array
 import '../css/Notes.css'; // Import CSS for styling
 import Filter from './Filter'; // Import Filter component
 import Notification from './Notification'; // Import Notification component
+import CryptoJS from 'crypto-js'; // Import CryptoJS for decryption
 
 const Notes = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,10 +14,26 @@ const Notes = () => {
   const [showLoginNotification, setShowLoginNotification] = useState(false); // Show notification if not logged in
   const [cookies] = useCookies(['bytewiseCookies']); // Use cookie hook
 
+  const secretKey = '@@@@1234@bytewise24'; // Encryption secret key
+
+  // Utility function to decrypt cookie
+  const decryptCookie = (encryptedValue) => {
+    try {
+      const bytes = CryptoJS.AES.decrypt(encryptedValue, secretKey);
+      return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    } catch (error) {
+      console.error('Error decrypting cookie:', error);
+      return null;
+    }
+  };
+
   useEffect(() => {
-    // Check if the bytewiseCookies is present
-    const userData = cookies.bytewiseCookies;
-    setIsLoggedIn(userData && userData.status); // Set login status based on cookie presence
+    // Check if the bytewiseCookies is present and decrypt it
+    const encryptedData = cookies.bytewiseCookies;
+    if (encryptedData) {
+      const userData = decryptCookie(encryptedData);
+      setIsLoggedIn(userData && userData.status); // Set login status based on decrypted data
+    }
   }, [cookies]);
 
   // Normalize the search term, remove spaces and make uppercase
@@ -36,7 +53,6 @@ const Notes = () => {
 
   // Filter notes based on the search term, semester, and branch
   const filteredNotes = notesObj.filter(note => {
-    // Normalize the search term by removing spaces and making it uppercase
     const normalizedSearchTerm = searchTerm.replace(/\s+/g, '').toUpperCase();
     const matchesName = note.name.toLowerCase().includes(normalizedSearchTerm.toLowerCase()) || note.Subject_code.replace(/\s+/g, '').toUpperCase().includes(normalizedSearchTerm);
     const matchesSemester = semester === 'All' || note.Sem === semester;

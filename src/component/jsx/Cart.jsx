@@ -1,44 +1,29 @@
 
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import '../css/Cart.css';
 import Notification from './Notification';
-import CryptoJS from 'crypto-js';
 
 const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);
-  const userData = cookies.bytewiseCookies ? decryptData(cookies.bytewiseCookies) : null; // Decrypt cookie
+  const userData = cookies.bytewiseCookies;
   const isLoggedIn = userData?.status === true;
-  const enrolmentID = userData?.enrolmentID;
-
+  const enrolmentID = userData?.enrolmentID; 
   const [cartItems, setCartItems] = useState([]);
   const [pendingOrders, setPendingOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
 
-  // Calculate total price of cart items
   const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.quantity, 0);
 
-  // Decrypt data function (missing in the original code)
-  const decryptData = (encryptedData) => {
-    try {
-      const bytes = CryptoJS.AES.decrypt(encryptedData, 'your-secret-key'); // Replace 'your-secret-key'
-      return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-    } catch (error) {
-      console.error('Error decrypting data:', error);
-      return null;
-    }
-  };
-
-  // Fetch orders (pending and completed) based on enrolment ID
+  // Fetch pending and completed orders
   const fetchOrders = useCallback(async () => {
     if (!isLoggedIn) return;
 
     try {
       const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${enrolmentID}`);
-      if (!response.ok) throw new Error('Failed to fetch orders.');
-      
       const data = await response.json();
       const pending = data.filter(order => order.completeStatus === 'Pending');
       const completed = data.filter(order => order.completeStatus === 'Completed');
@@ -49,47 +34,30 @@ const Cart = () => {
     }
   }, [enrolmentID, isLoggedIn]);
 
-  // Fetch cart items from localStorage on component mount
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
       setCartItems(JSON.parse(storedCart));
     }
+
     fetchOrders();
   }, [fetchOrders]);
 
-  // Update item quantity in cart
-  const updateQuantity = (subjectCode, newQuantity) => {
-    if (newQuantity < 1) return;
+  const removeItem = (subject_code) => {
+    const updatedCart = cartItems.filter(item => item.subject_code !== subject_code);
+    setCartItems(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  };
+
+  const updateQuantity = (subject_code, newQuantity) => {
+    if (newQuantity < 1) return; // Prevent quantity from going below 1
     const updatedCart = cartItems.map(item =>
-      item.subject_code === subjectCode ? { ...item, quantity: newQuantity } : item
+      item.subject_code === subject_code ? { ...item, quantity: newQuantity } : item
     );
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
-  // Remove an item from the cart
-  const removeItem = (subjectCode) => {
-    const updatedCart = cartItems.filter(item => item.subject_code !== subjectCode);
-    setCartItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
-  };
-
-  // Save order details after successful payment
-  const saveOrder = async (orderDetails) => {
-    try {
-      const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderDetails),
-      });
-      if (!response.ok) throw new Error('Failed to save order.');
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  // Handle Razorpay payment
   const handlePayment = async () => {
     if (!isLoggedIn) {
       setNotification({ message: 'Please log in to proceed with your order.', type: 'warning', visible: true });
@@ -120,13 +88,13 @@ const Cart = () => {
         handler: async (response) => {
           const orderDetails = {
             orderID: response.razorpay_order_id,
-            enrolmentID,
+            enrolmentID: enrolmentID,
             orderItems: cartItems.map(item => ({
-              subject_code: item.subject_code,
+              Subject_code: item.subject_code,
               item_quantity: item.quantity,
               item_price: item.sellingPrice * item.quantity,
             })),
-            totalPrice,
+            totalPrice: totalPrice,
             transactionID: response.razorpay_payment_id,
           };
           try {
@@ -147,9 +115,22 @@ const Cart = () => {
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
     } catch (error) {
-      console.error('Payment error:', error);
+      console.error(error);
       setNotification({ message: 'Error in payment.', type: 'error', visible: true });
     }
+  };
+
+  const saveOrder = async (orderDetails) => {
+    const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderDetails),
+    });
+    const data = await response.json();
+    console.log('Order saved:', data);
+    localStorage.removeItem('cart');
+    setCartItems([]);
+    fetchOrders(); // Refresh orders after saving
   };
 
   return (
@@ -199,7 +180,7 @@ const Cart = () => {
         </div>
       </div>
 
-      {/* Pending Orders Section */}
+      {/* Pending Orders */}
       <div className="section">
         <h2 className="section-title">Orders Placed (Pending)</h2>
         {pendingOrders.length === 0 ? (
@@ -226,11 +207,11 @@ const Cart = () => {
         )}
       </div>
 
-      {/* Completed Orders Section */}
+      {/* Completed Orders */}
       <div className="section">
-        <h2 className="section-title">Orders Placed (Completed)</h2>
+        <h2 className="section-title">Order History (Delivered)</h2>
         {completedOrders.length === 0 ? (
-          <p>No completed orders found.</p>
+          <p>No past orders found.</p>
         ) : (
           <ul className="order-list">
             {completedOrders.map(order => (
@@ -252,12 +233,15 @@ const Cart = () => {
           </ul>
         )}
       </div>
-
-      {/* Notification Component */}
-      <Notification {...notification} />
+      {notification.visible && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification({ ...notification, visible: false })}
+        />
+      )}
     </div>
   );
 };
 
 export default Cart;
-

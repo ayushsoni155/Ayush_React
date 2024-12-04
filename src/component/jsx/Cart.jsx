@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import '../css/Cart.css';
 import Notification from './Notification';
-import { decryptData } from '../utils/cookieUtils'; // Import decryption utility
+import CryptoJS from 'crypto-js';
 
 const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);

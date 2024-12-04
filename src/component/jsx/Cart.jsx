@@ -1,14 +1,25 @@
-
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import CryptoJS from 'crypto-js'; // Importing the crypto-js library
 import '../css/Cart.css';
 import Notification from './Notification';
 
+const secretKey = '@@@@1234@bytewise24'; // Secret key for decryption
+
 const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);
-  const userData = cookies.bytewiseCookies;
+  
+  // Decrypt the cookie value
+  const decryptCookie = (cookieValue) => {
+    const bytes = CryptoJS.AES.decrypt(cookieValue, secretKey);
+    const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+    return decryptedData ? JSON.parse(decryptedData) : null;
+  };
+
+  // Decrypt the bytewiseCookies cookie value
+  const userData = cookies.bytewiseCookies ? decryptCookie(cookies.bytewiseCookies) : null;
+
   const isLoggedIn = userData?.status === true;
   const enrolmentID = userData?.enrolmentID; 
   const [cartItems, setCartItems] = useState([]);
@@ -212,7 +223,7 @@ const Cart = () => {
       <div className="section">
         <h2 className="section-title">Order History (Delivered)</h2>
         {completedOrders.length === 0 ? (
-          <p>No past orders found.</p>
+          <p>No completed orders found.</p>
         ) : (
           <ul className="order-list">
             {completedOrders.map(order => (
@@ -234,13 +245,13 @@ const Cart = () => {
           </ul>
         )}
       </div>
-      {notification.visible && (
-        <Notification
-          message={notification.message}
-          type={notification.type}
-          onClose={() => setNotification({ ...notification, visible: false })}
-        />
-      )}
+
+      {/* Notification Component */}
+      <Notification
+        message={notification.message}
+        type={notification.type}
+        visible={notification.visible}
+      />
     </div>
   );
 };

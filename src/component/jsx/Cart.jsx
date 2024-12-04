@@ -51,7 +51,7 @@ const Cart = () => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
 
-  const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.item_quantity, 0);
+  const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.quantity, 0);
 
   // Fetch cart and order data
   const fetchOrders = useCallback(async () => {
@@ -91,10 +91,11 @@ const Cart = () => {
   const updateQuantity = (subject_code, newQuantity) => {
     if (newQuantity < 1) return;
     const updatedCart = cartItems.map((item) =>
-      item.subject_code === subject_code ? { ...item, item_quantity: newQuantity } : item
+      item.subject_code === subject_code ? { ...item, quantity: newQuantity } : item
     );
     setCartItems(updatedCart);
     localStorage.setItem('cart', encryptCart(updatedCart));
+    console.log(updatedCart);
   };
 
   // Payment handling
@@ -169,7 +170,7 @@ const Cart = () => {
       subject_code: product.subject_code,
       product_name: product.product_name,
       sellingPrice: product.sellingPrice,
-      item_quantity: 1, // Default quantity
+      quantity: 1, // Default quantity
     }];
     setCartItems(updatedCart);
     localStorage.setItem('cart', encryptCart(updatedCart)); // Store full product data in local storage
@@ -200,12 +201,12 @@ const Cart = () => {
                   <td>₹{item.sellingPrice}</td>
                   <td>
                     <div className="quantity-control">
-                      <button onClick={() => updateQuantity(item.subject_code, item.item_quantity - 1)} disabled={item.item_quantity === 1}>-</button>
-                      <span>{item.item_quantity}</span>
-                      <button onClick={() => updateQuantity(item.subject_code, item.item_quantity + 1)}>+</button>
+                      <button onClick={() => updateQuantity(item.subject_code, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.subject_code, item.quantity + 1)}>+</button>
                     </div>
                   </td>
-                  <td>₹{item.sellingPrice * item.item_quantity}</td>
+                  <td>₹{item.sellingPrice * item.quantity}</td>
                   <td>
                     <button onClick={() => removeItem(item.subject_code)} id="remove-button">Remove</button>
                   </td>
@@ -255,7 +256,7 @@ const Cart = () => {
       </div>
 
       {/* Notification */}
-      {notification.visible && <Notification {...notification} />}
+      {notification.visible && <Notification message={notification.message} type={notification.type} />}
     </div>
   );
 };

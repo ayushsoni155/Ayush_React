@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -52,7 +51,7 @@ const Cart = () => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
 
-  const totalPrice = cartItems.reduce((total, item) => total + item.item_price * item.item_quantity, 0);
+  const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.item_quantity, 0);
 
   // Fetch cart and order data
   const fetchOrders = useCallback(async () => {
@@ -92,11 +91,10 @@ const Cart = () => {
   const updateQuantity = (subject_code, newQuantity) => {
     if (newQuantity < 1) return;
     const updatedCart = cartItems.map((item) =>
-      item.subject_code === subject_code ? { ...item, quantity: newQuantity } : item
+      item.subject_code === subject_code ? { ...item, item_quantity: newQuantity } : item
     );
     setCartItems(updatedCart);
     localStorage.setItem('cart', encryptCart(updatedCart));
-    console.log(updatedCart);
   };
 
   // Payment handling
@@ -165,6 +163,18 @@ const Cart = () => {
     }
   };
 
+  // Add item to cart with full details
+  const addToCart = (product) => {
+    const updatedCart = [...cartItems, {
+      subject_code: product.subject_code,
+      product_name: product.product_name,
+      sellingPrice: product.sellingPrice,
+      item_quantity: 1, // Default quantity
+    }];
+    setCartItems(updatedCart);
+    localStorage.setItem('cart', encryptCart(updatedCart)); // Store full product data in local storage
+  };
+
   return (
     <div className="cart-container">
       {/* Cart Section */}
@@ -226,11 +236,9 @@ const Cart = () => {
                 <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
                 <p>Total: ₹{order.total_price}</p>
                 <h4>Items:</h4>
-                <ul className="order-items">
-                  {order.items.map((item, index) => (
-                    <li key={index}>
-                      Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
-                    </li>
+                <ul>
+                  {order.orderItems.map(item => (
+                    <li key={item.subject_code}>{item.product_name} (x{item.item_quantity})</li>
                   ))}
                 </ul>
               </li>
@@ -253,11 +261,9 @@ const Cart = () => {
                 <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
                 <p>Total: ₹{order.total_price}</p>
                 <h4>Items:</h4>
-                <ul className="order-items">
-                  {order.items.map((item, index) => (
-                    <li key={index}>
-                      Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
-                    </li>
+                <ul>
+                  {order.orderItems.map(item => (
+                    <li key={item.subject_code}>{item.product_name} (x{item.item_quantity})</li>
                   ))}
                 </ul>
               </li>
@@ -266,7 +272,7 @@ const Cart = () => {
         )}
       </div>
 
-      {/* Notification */}
+      {/* Notification Component */}
       <Notification message={notification.message} type={notification.type} visible={notification.visible} />
     </div>
   );

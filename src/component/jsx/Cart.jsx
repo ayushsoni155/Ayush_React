@@ -216,7 +216,7 @@ const Cart = () => {
                 <ul className="order-items">
                   {order.items.map((item, index) => (
                     <li key={index}>
-                      Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
+                      {item.product_name} {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
                     </li>
                   ))}
                 </ul>
@@ -243,7 +243,7 @@ const Cart = () => {
                 <ul className="order-items">
                   {order.items.map((item, index) => (
                     <li key={index}>
-                      Subject Code = {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
+                       {item.product_name} {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
                     </li>
                   ))}
                 </ul>

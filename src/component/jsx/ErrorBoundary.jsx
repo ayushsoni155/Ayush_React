@@ -1,5 +1,5 @@
 import React from "react";
-import MaintenancePage from "./MaintenancePage"; // Import your MaintenancePage component
+import Error404 from "./Error404"; // Import your MaintenancePage component
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      return <MaintenancePage />; // Render your MaintenancePage on error
+      return <Error404 />; // Render your MaintenancePage on error
     }
     return this.props.children;
   }

@@ -16,7 +16,7 @@ import CourseSection from './component/jsx/CourseSection';
 import TermsAndConditions from './component/jsx/TermsAndConditions';
 import PrivacyPolicy from './component/jsx/PrivacyPolicy';
 import ErrorBoundary from './component/jsx/ErrorBoundary';
-import MaintenancePage from "./component/jsx/MaintenancePage";
+import Error404 from "./component/jsx/Error404";
 
 
 const App = () => {
@@ -40,7 +40,7 @@ const App = () => {
         <Route path='/courses' element={<CourseSection/>}/>
         <Route path='/t&c' element={<TermsAndConditions/>}/>
         <Route path='/PrivacyPolicy' element={<PrivacyPolicy/>}/>
-        <Route path="*" element={<MaintenancePage />} />
+        <Route path="*" element={<Error404 />} />
         
       </Routes>
       <Feedback/>

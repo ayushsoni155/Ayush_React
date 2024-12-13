@@ -20,7 +20,7 @@ import ErrorBoundary from './component/jsx/ErrorBoundary';
 
 const App = () => {
   return (
-    <ErrorBoundary>
+  
     <Router>
          
       <Header />  {/* Header will stay on all pages */}
@@ -46,7 +46,7 @@ const App = () => {
       <Footer/>
     
     </Router>
-    </ErrorBoundary>
+  
   );
 };
 

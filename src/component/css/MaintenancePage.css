@@ -23,7 +23,7 @@
     height: 100vh;
     text-align: center;
     padding: 20px;
-    background: linear-gradient(135deg, #4d97e1, #ff6f61, #ffd700);
+    background: linear-gradient(135deg, #4387fd, #48ffac, #d84bff);
     background-size: 300% 300%;
     animation: gradient-animation 8s ease infinite;
   }

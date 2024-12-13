@@ -44,7 +44,7 @@ const Error404 = () => {
       </div>
       <h1 className="message">Error 404</h1>
       <p className="sub-message">
-       something went wrong !!,Please check URL or Come Back later 
+       something went wrong !!,Please check URL or Come Back later.
       </p>
     </div>
   );

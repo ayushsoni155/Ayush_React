@@ -42,10 +42,9 @@ const Error404 = () => {
           <line x1="5" y1="50" x2="25" y2="50" stroke=" #00ff00" strokeWidth="5" />
         </svg>
       </div>
-      <h1 className="message">Our website is currently under maintenance</h1>
+      <h1 className="message">Error 404</h1>
       <p className="sub-message">
-        We are working hard to bring you a better experience. Please check back
-        later!
+       something went wrong !!,Please check URL or Come Back later 
       </p>
     </div>
   );

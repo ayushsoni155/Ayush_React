@@ -1,0 +1,122 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Body Styling */
+  body {
+    font-family: "Stylish", serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #f4f4f9;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Maintenance Page Container */
+  .maintenance-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #4d97e1, #ff6f61, #ffd700);
+    background-size: 300% 300%;
+    animation: gradient-animation 8s ease infinite;
+  }
+  
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Animation Container */
+  .animation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .gear-svg {
+    width: 70px;
+    height: 70px;
+    animation: rotate 2s linear infinite;
+  }
+  
+  .gear-svg:nth-child(2) {
+    animation-duration: 2.5s;
+  }
+  
+  .gear-svg:nth-child(3) {
+    animation-duration: 3s;
+  }
+  
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Messages Styling */
+  .message {
+    font-size: 2rem;
+    color: crimson;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+  }
+  
+  .sub-message {
+    font-size: 1.2rem;
+    color: #fff;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 1024px) {
+    .gear-svg {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .message {
+      font-size: 1.8rem;
+    }
+  
+    .sub-message {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .gear-svg {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .message {
+      font-size: 1.5rem;
+    }
+  
+    .sub-message {
+      font-size: 0.9rem;
+    }
+  }
+  

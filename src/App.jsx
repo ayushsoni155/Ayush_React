@@ -16,11 +16,12 @@ import CourseSection from './component/jsx/CourseSection';
 import TermsAndConditions from './component/jsx/TermsAndConditions';
 import PrivacyPolicy from './component/jsx/PrivacyPolicy';
 import ErrorBoundary from './component/jsx/ErrorBoundary';
+import MaintenancePage from "./component/jsx/MaintenancePage";
 
 
 const App = () => {
   return (
-  
+   <ErrorBoundary>
     <Router>
          
       <Header />  {/* Header will stay on all pages */}
@@ -46,6 +47,7 @@ const App = () => {
       <Footer/>
     
     </Router>
+   </ErrorBoundary>
   
   );
 };

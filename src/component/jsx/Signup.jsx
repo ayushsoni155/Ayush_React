@@ -2,11 +2,10 @@ import CryptoJS from 'crypto-js';
 import React, { useState } from 'react';
 import '../css/LogSign.css';
 import { Link, useNavigate } from 'react-router-dom';
-import Notification from './Notification'; 
+import Notification from './Notification';
 import { useCookies } from 'react-cookie';
 
-const secretKey = '@@@@1234@bytewise24'; // Your secret key for encryption
-
+const secretKey = '@@@@1234@bytewise24'; // Secret key for encryption
 const encryptCookie = (data) => {
     return CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
 };
@@ -25,7 +24,7 @@ const Signup = () => {
         password: '',
         confirmPassword: '',
         recoveryQuestion: '',
-        recoveryAnswer: ''
+        recoveryAnswer: '',
     });
 
     const [notification, setNotification] = useState(null);
@@ -34,8 +33,9 @@ const Signup = () => {
         phone: '',
         password: '',
         confirmPassword: '',
-        recoveryAnswer: ''
+        recoveryAnswer: '',
     });
+
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
@@ -50,94 +50,155 @@ const Signup = () => {
         'Who is your favourite person?',
         'What is the name of your favorite teacher?',
         'What is your favorite dish?',
-        'What is the city where you were born?'
+        'What is the city where you were born?',
     ];
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
 
+        // Update form data
         setFormData({
             ...formData,
-            [name]: updatedValue
+            [name]: updatedValue,
         });
 
-        // Validation logic ...
-    };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (errors.enrolmentID || errors.phone || errors.password || errors.confirmPassword || errors.recoveryAnswer) {
-        setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
-        return;
-    }
-
-    const formDataWithRecovery = { 
-        ...formData,
-        recoveryQuestion: formData.recoveryQuestion, 
-        recoveryAnswer: formData.recoveryAnswer 
-    };
-
-    try {
-        const response = await fetch('https://bytewise-server.vercel.app/api/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formDataWithRecovery)
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            const cookieExpirationDate = new Date();
-                cookieExpirationDate.setFullYear(cookieExpirationDate.getFullYear() + 5);
-            setNotification({ message: 'Signup successful!', type: 'success' });
-
-            // Encrypt and set cookies for user data
-            const encryptedData = encryptCookie({
-                enrolmentID: formData.enrolmentID,
-                name: formData.name,
-                sem: formData.sem,
-                phone: formData.phone,
-                status: true
-            });
-
-            setCookie('bytewiseCookies', encryptedData, { path: '/', maxAge: 1296000 }); // 15 days
-
-            // Encrypt and set signupStatus cookie
-            const encryptedSignupStatus = encryptCookie('done');
-             setCookie('signupStatus', encryptedSignupStatus, {
-                path: '/',
-                expires: cookieExpirationDate
-            });
-
-            setFormData({
-                enrolmentID: '',
-                name: '',
-                sem: '',
-                phone: '',
-                password: '',
-                confirmPassword: '',
-                recoveryQuestion: '',
-                recoveryAnswer: ''
-            });
-
-            navigate('/');
-        } else {
-            setNotification({ message: data.message || 'Error signing up', type: 'error' });
+        // Validation logic
+        switch (name) {
+            case 'enrolmentID':
+                setErrors({
+                    ...errors,
+                    enrolmentID: enrolmentRegex.test(updatedValue)
+                        ? ''
+                        : 'Invalid enrolment number format.',
+                });
+                break;
+            case 'phone':
+                setErrors({
+                    ...errors,
+                    phone: phoneRegex.test(updatedValue)
+                        ? ''
+                        : 'Invalid phone number format.',
+                });
+                break;
+            case 'password':
+                setErrors({
+                    ...errors,
+                    password: passwordRegex.test(updatedValue)
+                        ? ''
+                        : 'Password must be at least 8 characters, including a number and a letter.',
+                });
+                break;
+            case 'confirmPassword':
+                setErrors({
+                    ...errors,
+                    confirmPassword:
+                        updatedValue === formData.password
+                            ? ''
+                            : 'Passwords do not match.',
+                });
+                break;
+            case 'recoveryAnswer':
+                setErrors({
+                    ...errors,
+                    recoveryAnswer: updatedValue.trim()
+                        ? ''
+                        : 'Recovery answer cannot be empty.',
+                });
+                break;
+            default:
+                break;
         }
-    } catch (error) {
-        setNotification({ message: 'Server error! Please try again.', type: 'error' });
-    }
-};
+    };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-    const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
-    const toggleConfirmPasswordVisibility = () => setConfirmPasswordVisible((prev) => !prev);
+        if (Object.values(errors).some((error) => error)) {
+            setNotification({
+                message: 'Please fix the errors before submitting.',
+                type: 'error',
+            });
+            return;
+        }
 
-     return (
+        const formDataWithRecovery = {
+            ...formData,
+            recoveryQuestion: formData.recoveryQuestion,
+            recoveryAnswer: formData.recoveryAnswer,
+        };
+
+        try {
+            const response = await fetch(
+                'https://bytewise-server.vercel.app/api/signup',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formDataWithRecovery),
+                }
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+                const cookieExpirationDate = new Date();
+                cookieExpirationDate.setFullYear(
+                    cookieExpirationDate.getFullYear() + 5
+                );
+
+                setNotification({ message: 'Signup successful!', type: 'success' });
+
+                const encryptedData = encryptCookie({
+                    enrolmentID: formData.enrolmentID,
+                    name: formData.name,
+                    sem: formData.sem,
+                    phone: formData.phone,
+                    status: true,
+                });
+
+                setCookie('bytewiseCookies', encryptedData, {
+                    path: '/',
+                    maxAge: 1296000, // 15 days
+                });
+
+                const encryptedSignupStatus = encryptCookie('done');
+
+                setCookie('signupStatus', encryptedSignupStatus, {
+                    path: '/',
+                    expires: cookieExpirationDate,
+                });
+
+                setFormData({
+                    enrolmentID: '',
+                    name: '',
+                    sem: '',
+                    phone: '',
+                    password: '',
+                    confirmPassword: '',
+                    recoveryQuestion: '',
+                    recoveryAnswer: '',
+                });
+
+                navigate('/');
+            } else {
+                setNotification({ message: data.message || 'Error signing up', type: 'error' });
+            }
+        } catch (error) {
+            setNotification({
+                message: 'Server error! Please try again.',
+                type: 'error',
+            });
+        }
+    };
+
+    const togglePasswordVisibility = () =>
+        setPasswordVisible((prev) => !prev);
+    const toggleConfirmPasswordVisibility = () =>
+        setConfirmPasswordVisible((prev) => !prev);
+
+    return (
         <div className="overlay">
             <button className="close-button" onClick={() => navigate('/login')}>X</button>
             {notification && (
@@ -154,7 +215,8 @@ const Signup = () => {
                 </div>
                 <div className="logSign-form-container">
                     <h2 className='Signinh2'>Create Your Account</h2>
-                      <form onSubmit={handleSubmit}>
+
+                    <form onSubmit={handleSubmit}>
                         <label htmlFor="name">Full Name</label>
                         <input
                             type="text"
@@ -276,4 +338,4 @@ const Signup = () => {
     );
 };
 
-export default Signup; 
+export default Signup;

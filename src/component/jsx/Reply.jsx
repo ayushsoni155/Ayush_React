@@ -16,9 +16,9 @@ const Reply = () => {
         <h3>Admin Reply</h3>
         <div className="submitted-reply">
           <p>
-            <strong>Your Reply:</strong> Thank you for reaching out. We value
-            your feedback and will get back to you shortly.
+            <strong>Your Reply:</strong> Bhadwe tujse esi website bane to batana BKL tuje kisi me back nahi hena per tu teri gand ka jor laga kar bhi esi website  nahi bana sakta.
           </p>
+          <h1>LODU,BKL</h1>
         </div>
       </div>
     </div>

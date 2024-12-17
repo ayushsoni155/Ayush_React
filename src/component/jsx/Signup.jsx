@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Notification from './Notification';
 import { useCookies } from 'react-cookie';
 
-const secretKey = '@@@@1234@bytewise24'; // Secret key for encryption
+const secretKey = process.env.REACT_APP_SECRET_KEY; // Secret key for encryption
 const encryptCookie = (data) => {
     return CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
 };

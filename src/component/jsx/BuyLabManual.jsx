@@ -7,7 +7,7 @@
 // const secretKey = '@@@@1234@bytewise24'; // Secret key for decryption
 
 // // Encryption function to store encrypted data in localStorage
-// const encryptData = (data) => {
+// const encryptData = (data) => { 
 //   return CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
 // };
 

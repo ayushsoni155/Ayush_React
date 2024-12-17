@@ -4,8 +4,7 @@ import Typed from 'typed.js';
 import CryptoJS from 'crypto-js';
 import '../css/LandingPage.css'; // Import CSS for styling
 import Product from '../jsx/Product';
-
-const secretKey = '@@@@1234@bytewise24'; // Encryption secret key
+const secretKey = process.env.REACT_APP_SECRET_KEY; // Encryption secret key
 
 const LandingPage = () => {
   const notesArray = [

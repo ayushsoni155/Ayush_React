@@ -5,7 +5,7 @@ import CryptoJS from 'crypto-js'; // Importing the crypto-js library
 import '../css/Cart.css';
 import Notification from './Notification';
 
-const secretKey = process.env.SECRET_KEY; // Secret key for decryption
+const secretKey = process.env.REACT_APP_SECRET_KEY; // Secret key for decryption
 
 const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);

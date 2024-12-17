@@ -4,7 +4,7 @@ import Notification from "./Notification";
 import CryptoJS from "crypto-js";
 import "../css/Feedback.css";
 
-const secretKey = "@@@@1234@bytewise24"; // Your secret key for encryption/decryption
+const secretKey = process.env.REACT_APP_SECRET_KEY; // Your secret key for encryption/decryption
 
 export default function Feedback() {
   const [cookies] = useCookies(["bytewiseCookies"]);

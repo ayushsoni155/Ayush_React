@@ -10,7 +10,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cookies] = useCookies(['bytewiseCookies', 'signupStatus']); // Include signupStatus cookie
 
-  const secretKey = '@@@@1234@bytewise24'; // Encryption secret key
+const secretKey = process.env.REACT_APP_SECRET_KEY; // Encryption secret key
 
   // Decrypt cookies securely
   const decryptCookie = (encryptedValue) => {

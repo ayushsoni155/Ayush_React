@@ -14,7 +14,7 @@ const Notes = () => {
   const [showLoginNotification, setShowLoginNotification] = useState(false); // Show notification if not logged in
   const [cookies] = useCookies(['bytewiseCookies']); // Use cookie hook
 
-  const secretKey = '@@@@1234@bytewise24'; // Encryption secret key
+ const secretKey = process.env.REACT_APP_SECRET_KEY; // Encryption secret key
 
   // Utility function to decrypt cookie
   const decryptCookie = (encryptedValue) => {

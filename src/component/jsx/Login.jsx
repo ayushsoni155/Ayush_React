@@ -17,7 +17,7 @@ const Login = () => {
     const [cookies, setCookie] = useCookies(["bytewiseCookies", "signupStatus"]);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
-    const secretKey = "@@@@1234@bytewise24"; // Your secret key for encryption/decryption
+   const secretKey = process.env.REACT_APP_SECRET_KEY; // Your secret key for encryption/decryption
     const enrolmentRegex = /^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
 

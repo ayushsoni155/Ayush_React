@@ -3,7 +3,6 @@
 // import './index.css';
 // import reportWebVitals from './reportWebVitals';
 // import App from './App';
-//require('dotenv').config();
 
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -25,8 +24,8 @@ import reportWebVitals from './reportWebVitals';
 import App from './App';
 import Reply from './component/jsx/Reply';
 
-const secretKey = process.env.SECRET_KEY; // Encryption secret key
-require('dotenv').config();
+const secretKey = process.env.REACT_APP_SECRET_KEY;
+
 
 
 const decryptCookie = (encryptedValue) => {

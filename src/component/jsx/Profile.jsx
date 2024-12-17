@@ -15,8 +15,7 @@ const Profile = () => {
     const [notification, setNotification] = useState(null);
     const [cookies, setCookie] = useCookies(['bytewiseCookies']);
     const navigate = useNavigate();
-
-    const secretKey = '@@@@1234@bytewise24'; // Encryption secret key
+const secretKey = process.env.REACT_APP_SECRET_KEY; // Encryption secret key
 
     // Utility function to decrypt cookies
     const decryptCookie = (encryptedValue) => {

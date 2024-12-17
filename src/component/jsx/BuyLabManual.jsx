@@ -156,7 +156,7 @@ import Notification from './Notification'; // Import Notification component
 import CryptoJS from 'crypto-js'; // Import CryptoJS for encryption and decryption
 import MaintenancePage from './MaintenancePage'; // Import the MaintenancePage component
 
-const secretKey = '@@@@1234@bytewise24'; // Secret key for decryption
+const secretKey =process.env.SECRET_KEY; // Secret key for decryption
 
 // Encryption function to store encrypted data in localStorage
 const encryptData = (data) => {

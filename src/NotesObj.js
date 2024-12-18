@@ -187,7 +187,7 @@ const notesArray = [
         description: " It studies how computers solve problems.",
         image: '/Eng_TOC.png',
          branch: "CSE",
-         pdfUrl:'https://drive.google.com/file/d/1lKbTqGJdF00FwmirlmP_89mzs-ye-INF/view?usp=drive_link'
+         pdfUrl:'https://drive.google.com/file/d/11Agt-45z0tTyNuhJQXgmZkWQeBHOv6xQ/view?usp=drive_link'
     },
     {
         name: "Database Management Systems",

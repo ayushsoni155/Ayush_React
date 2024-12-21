@@ -82,8 +82,8 @@ const Header = () => {
     scrollToTop();
   };
 
-  return (
- <header>
+   return (
+    <header>
       <div className="container">
         <div className="logo">
           {/* Add the logo image here */}
@@ -136,4 +136,5 @@ const Header = () => {
     </header>
   );
 };
+
 export default Header;

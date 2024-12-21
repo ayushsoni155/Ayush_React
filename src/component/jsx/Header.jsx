@@ -148,7 +148,7 @@ const Header = () => {
       if (loginData) {
         try {
           const response = await fetch(
-            `${process.env.REACT_APP_API_URL}/verify-user`, // Backend endpoint
+            `https://bytewise-server.vercel.app/api/verify`, // Backend endpoint
             {
               method: "POST",
               headers: {

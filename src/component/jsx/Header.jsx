@@ -45,14 +45,13 @@ const Header = () => {
                 name: loginData.name,
                 sem: loginData.sem,
                 phone: loginData.phone,
-                status: loginData.status,
               }),
             }
           );
 
           const result = await response.json();
 
-          if (response.ok && result.valid) {
+          if (response.ok) {
             console.log("User verified successfully");
           } else {
             console.error("User verification failed");

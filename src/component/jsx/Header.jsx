@@ -24,10 +24,10 @@ const Header = () => {
   };
 
   // Retrieve and decrypt login cookie
-  const loginData = cookies.bytewiseCookies
-    ? decryptCookie(cookies.bytewiseCookies)
-    : null;
-
+   const loginData = cookies.bytewiseCookies ? decryptCookie(cookies.bytewiseCookies) : null;
+  const isLoggedIn = loginData && loginData.status === true;
+   // Check signup status
+ const isSignupDone = cookies.signupStatus?decryptCookie( cookies.signupStatus): null;
   // Verify user data from cookies with the backend
   useEffect(() => {
     const verifyUser = async () => {
@@ -48,9 +48,6 @@ const Header = () => {
               }),
             }
           );
-
-          const result = await response.json();
-
           if (response.ok) {
             console.log("User verified successfully");
           } else {

@@ -6,7 +6,7 @@
     max-width: 400px; /* Limit maximum width */
     width: 90%; /* Allow it to take up 90% of the width on small screens */
     padding: 20px;
-    background-color: rgba(244, 244, 249, 0.95); /* Slightly transparent background */
+    background-color: white; /* Slightly transparent background */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
@@ -30,7 +30,8 @@
 
 .profilelabel {
     font-size: 14px;
-    color: #555;
+    color: #4d97e1;
+     background-color: white;
     margin-bottom: 5px;
     display: block;
 }

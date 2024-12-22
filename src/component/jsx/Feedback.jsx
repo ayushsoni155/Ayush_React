@@ -124,29 +124,9 @@ export default function Feedback() {
         <div className="feedback-section">
           <h2 className="feedback-heading">We Value Your Feedback</h2>
           <form className="feedback-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                readOnly
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="enrolment">Enrolment ID:</label>
-              <input
-                type="text"
-                id="enrolment"
-                name="enrolment"
-                value={formData.enrolmentID}
-                readOnly
-                required
-              />
-            </div>
-            <div className="form-group">
+              <h3>To</h3><br/>
+              <h3>The ByteWise Team</h3>
+              <div className="form-group">
               <label htmlFor="message">Message:</label>
               <textarea
                 id="message"
@@ -157,6 +137,9 @@ export default function Feedback() {
                 required
               ></textarea>
             </div>
+            <h3>From</h3>
+            <h3>`{formData.name}`</h3>
+            <h3>`{formData.enrolmentID}`</h3>
             <button type="submit" className="submit-btn">
               Submit
             </button>

@@ -75,15 +75,14 @@ label {
   display: flex;
   align-items: flex-start;
   font-size: 16px;
-  margin-bottom: 5px;
  
   color:#4d97e1;/* #555 /* Darker color for labels */
   position: relative;
   z-index: 1;
-  top: 19px;
+  top: 14px;
   left: 10px;
   width: fit-content;
-  padding: -1px 2px -1px 2px;
+  padding: 0px 2px 0px 2px;
   background-color: white;
   font-weight: bold;
 }

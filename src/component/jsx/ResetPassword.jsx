@@ -110,7 +110,7 @@ const ResetPassword = () => {
                     <h2>Reset Password for {enrolID}</h2>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="newPassword">New Password</label>
-                        {errors.newPassword && <p className="error-text">{errors.newPassword}</p>}
+                      
                         <div className="password-input">
                             <input
                                 type={showPassword ? 'text' : 'password'}
@@ -125,9 +125,10 @@ const ResetPassword = () => {
                                 {showPassword ? 'Hide' : 'Show'}
                             </button>
                         </div>
+                              {errors.newPassword && <p className="error-text">{errors.newPassword}</p>}
 
                         <label htmlFor="confirmPassword">Confirm Password</label>
-                        {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
+                       
                         <div className="password-input">
                             <input
                                 type={showConfirmPassword ? 'text' : 'password'}
@@ -142,7 +143,7 @@ const ResetPassword = () => {
                                 {showConfirmPassword ? 'Hide' : 'Show'}
                             </button>
                         </div>
-
+ {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
                         <button type="submit" className="login-button">Reset Password</button>
                     </form>
                 </div>

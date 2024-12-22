@@ -86,19 +86,19 @@ const secretKey = process.env.REACT_APP_SECRET_KEY; // Encryption secret key
                 {formData.enrolmentID ? ( // Render profile details only if logged in
                     <>
                         <div className="form-group">
-                            <label>Enrolment ID</label>
+                          <label className='profilelabel' >Enrolment ID</label>
                             <p>{formData.enrolmentID}</p>
                         </div>
                         <div className="form-group">
-                            <label>Name</label>
+                          <label className='profilelabel' >Name</label>
                             <p>{formData.name}</p>
                         </div>
                         <div className="form-group">
-                            <label>Semester</label>
+                          <label className='profilelabel' >Semester</label>
                             <p>{formData.sem}</p>
                         </div>
                         <div className="form-group">
-                            <label>Phone Number</label>
+                          <label className='profilelabel' >Phone Number</label>
                             <p>{formData.phone}</p>
                         </div>
                     </>

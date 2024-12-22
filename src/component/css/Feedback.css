@@ -94,7 +94,7 @@
   flex-direction: column;
 }
 
-.form-group label {
+#feedbackLabel {
   font-size: 1.2rem;
   color: #4d97e1;
   margin-bottom: 5px;

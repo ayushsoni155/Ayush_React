@@ -101,10 +101,10 @@ input, select {
 }
 
 /* Input focus effect */
-input:focus, select:focus {
+/* input:focus, select:focus {
   border-color: #007bff;
   outline: none;
-}
+} */
 
 /* Login button */
 .login-button {
@@ -141,7 +141,7 @@ input:focus, select:focus {
 }
 
 a {
-  color: #007bff;
+  color:  #4d97e1;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -175,10 +175,10 @@ a {
 }
 
 /* Focus effect for password input */
-.password-input input:focus {
+/* .password-input input:focus {
   border-color: #007bff;
   outline: none;
-}
+} */
 
 /* Show/Hide button inside password input */
 .password-input button {

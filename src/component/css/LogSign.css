@@ -254,5 +254,6 @@ a {
 
   input, select, .login-button {
     font-size: 14px; /* Smaller font size for mobile */
+    top: 18px;
   }
 }

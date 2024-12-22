@@ -29,11 +29,20 @@
 }
 
 .profilelabel {
-    font-size: 14px;
-    color: #4d97e1;
-     background-color: white;
-    margin-bottom: 5px;
-    display: block;
+    display: flex;
+  align-items: flex-start;
+  font-size: 16px;
+  margin-bottom: 5px;
+ 
+  color:#4d97e1;/* #555 /* Darker color for labels */
+  position: relative;
+  z-index: 1;
+  top: 18px;
+  left: 10px;
+  width: fit-content;
+  padding: 0px 3px 0px 3px;
+  background-color: #f4f4f9;
+  font-weight: bold;
 }
 
 .profile-container p {

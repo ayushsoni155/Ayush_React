@@ -130,7 +130,7 @@ export default function Feedback() {
     </div>
     <form className="feedback-form" onSubmit={handleSubmit}>
       <div className="form-group">
-        <label htmlFor="message">Message:</label>
+        <label id='feedbackLabel' htmlFor="message">Message:</label>
         <textarea
           id="message"
           name="message"

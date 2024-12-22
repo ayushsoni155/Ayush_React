@@ -58,11 +58,11 @@
   flex-direction: column;
 }
 
-.form-group label {
+/* .form-group label {
   font-size: 1.4rem;
   margin-bottom: 10px;
   color: #4d97e1;
-}
+} */
 
 .form-group input,
 .form-group textarea {

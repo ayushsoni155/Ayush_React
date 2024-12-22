@@ -158,8 +158,8 @@ const Login = () => {
                     <h2>Login</h2>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="enrolmentID">Enrollment Number</label>
-                        {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
-                        <input
+                       
+                       <input
                             type="text"
                             id="enrolmentID"
                             name="enrolmentID"
@@ -168,9 +168,10 @@ const Login = () => {
                             placeholder="Enter your enrollment number"
                             required
                         />
+                         {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
 
                         <label htmlFor="password">Password</label>
-                        {errors.password && <p className="error-text">{errors.password}</p>}
+                        
                         <div className="password-input">
                             <input
                                 type={passwordVisible ? "text" : "password"}
@@ -181,11 +182,14 @@ const Login = () => {
                                 placeholder="Enter your password"
                                 required
                             />
+                            
                             <button type="button" onClick={togglePasswordVisibility}>
                                 {passwordVisible ? "Hide" : "Show"}
                             </button>
+                            
                         </div>
-
+                        
+                        {errors.password && <p className="error-text">{errors.password}</p>}
                         <button type="submit" className="login-button">
                             Login
                         </button>

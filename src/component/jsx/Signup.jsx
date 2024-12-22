@@ -230,7 +230,7 @@ const Signup = () => {
                         />
 
                         <label htmlFor="enrolmentID">Enrollment Number</label>
-                        {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
+                        
                         <input
                             type="text"
                             id="enrolmentID"
@@ -240,9 +240,8 @@ const Signup = () => {
                             placeholder="Enter your enrollment number"
                             required
                         />
-
+                         {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
                         <label htmlFor="phone">Phone Number</label>
-                        {errors.phone && <p className="error-text">{errors.phone}</p>}
                         <input
                             type="tel"
                             id="phone"
@@ -253,7 +252,8 @@ const Signup = () => {
                             autoComplete='phone'
                             required
                         />
-
+{errors.phone && <p className="error-text">{errors.phone}</p>}
+                        
                         <label htmlFor="sem">Select Semester</label>
                         <select
                             id="sem"
@@ -269,7 +269,6 @@ const Signup = () => {
                         </select>
 
                         <label htmlFor="password">Password</label>
-                        {errors.password && <p className="error-text">{errors.password}</p>}
                         <div className="password-input">
                             <input
                                 type={passwordVisible ? 'text' : 'password'}
@@ -284,9 +283,9 @@ const Signup = () => {
                                 {passwordVisible ? 'Hide' : 'Show'}
                             </button>
                         </div>
-
+                        {errors.password && <p className="error-text">{errors.password}</p>}
+                       
                         <label htmlFor="confirmPassword">Confirm Password</label>
-                        {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
                         <div className="password-input">
                             <input
                                 type={confirmPasswordVisible ? 'text' : 'password'}
@@ -301,7 +300,8 @@ const Signup = () => {
                                 {confirmPasswordVisible ? 'Hide' : 'Show'}
                             </button>
                         </div>
-
+                        {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
+                       
                         <label htmlFor="recoveryQuestion">Select a Recovery Question</label>
                         <select
                             id="recoveryQuestion"
@@ -317,7 +317,6 @@ const Signup = () => {
                         </select>
 
                         <label htmlFor="recoveryAnswer">Answer to Recovery Question</label>
-                        {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
                         <input
                             type="text"
                             id="recoveryAnswer"
@@ -327,7 +326,8 @@ const Signup = () => {
                             placeholder="Enter your answer"
                             required
                         />
-
+ {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
+                       
                         <button type="submit" className="login-button">Signup</button>
                         <span>Already have an account? </span>
                         <Link to="/login">Login</Link>

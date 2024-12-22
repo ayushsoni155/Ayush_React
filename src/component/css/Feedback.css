@@ -1,44 +1,80 @@
-
 /* Feedback Section */
 .feedback-section {
-  background-color: white;
+  background-color: #f8f0e3; /* Light parchment paper color */
   padding: 40px 20px;
   max-width: 800px;
   margin: 60px auto;
-  border-radius: 20px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  border-radius: 15px;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+  font-family: "Courier New", Courier, monospace; /* Typewriter-like font */
+  position: relative;
 }
 
-.feedback-section:hover {
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
-  transform: translateY(-10px);
+.feedback-section::before,
+.feedback-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.1) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 10px 10px;
+  opacity: 0.3;
+  pointer-events: none;
+  border-radius: 15px;
 }
 
 .feedback-heading {
   text-align: center;
-  font-size: 36px;
+  font-size: 2.4rem;
   color: #4d97e1;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  animation: fadeIn 1s ease-in-out;
+  font-family: "Dancing Script", cursive; /* Handwriting-like font */
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Letter Container */
+.letter-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
+.letter-container::before {
+  content: "✉";
+  font-size: 4rem;
+  color: rgba(77, 151, 225, 0.2);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.letter-header,
+.letter-footer {
+  text-align: left;
+  margin-bottom: 20px;
+  font-family: "Dancing Script", cursive; /* Handwriting-like font */
+  font-size: 1.2rem;
+}
+
+/* Feedback Form */
 .feedback-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   animation: slideUp 0.8s ease-in-out;
 }
 
@@ -58,69 +94,60 @@
   flex-direction: column;
 }
 
-/* .form-group label {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
-  color: #4d97e1;
-} */
-
-.form-group input,
-.form-group textarea {
-  padding: 12px;
-  border: 2px solid #4d97e1;
-  border-radius: 8px;
+.form-group label {
   font-size: 1.2rem;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  background-color: #fff;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  color: #4d97e1;
+  margin-bottom: 5px;
 }
 
-.form-group input:hover,
-.form-group textarea:hover {
-  background-color: #f9f9fc;
+.form-group textarea {
+  font-family: "Courier New", Courier, monospace;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+  resize: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-group input:focus,
 .form-group textarea:focus {
-  border-color: #1e73d2;
-  outline: none;
   background-color: #f0f8ff;
   box-shadow: 0 0 10px rgba(30, 115, 210, 0.3);
+  border-color: #1e73d2;
+  outline: none;
 }
 
+/* Submit Button */
 .submit-btn {
-  padding: 15px 20px;
-  font-size: 1.2rem;
+  background: linear-gradient(90deg, #4d97e1, #1e73d2);
   color: white;
-  background-color: #4d97e1;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.2rem;
   border: none;
   border-radius: 8px;
+  padding: 10px 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 6px 12px rgba(77, 151, 225, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .submit-btn:hover {
-  background-color: #1e73d2;
-  transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(30, 115, 210, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(77, 151, 225, 0.3);
 }
 
 .submit-btn:active {
-  transform: scale(0.98);
+  transform: translateY(0);
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .feedback-section {
-    padding: 30px 15px;
+    padding: 30px;
   }
-
   .feedback-heading {
-    font-size: 28px;
+    font-size: 1.8rem;
   }
-
-  .form-group input,
   .form-group textarea {
     font-size: 1rem;
   }
@@ -128,22 +155,13 @@
 
 @media (max-width: 480px) {
   .feedback-section {
-    margin: 30px 10px;
     padding: 20px;
-    border-radius: 15px;
+    margin: 20px 10px;
   }
-
   .feedback-heading {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
-
-  .form-group input,
   .form-group textarea {
-    padding: 10px;
     font-size: 0.9rem;
-  }
-
-  .submit-btn {
-    font-size: 1rem;
   }
 }

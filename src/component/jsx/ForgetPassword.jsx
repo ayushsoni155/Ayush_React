@@ -151,7 +151,7 @@ const ForgotPassword = () => {
           <h2>Forgot Password</h2>
           <form onSubmit={handleSubmit}>
             <label htmlFor="enrolmentID">Enrollment Number</label>
-            {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
+            
             <input
               type="text"
               id="enrolmentID"
@@ -161,9 +161,9 @@ const ForgotPassword = () => {
               placeholder="Enter your enrollment number"
               required
             />
-
+{errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
             <label htmlFor="phone">Phone Number</label>
-            {errors.phone && <p className="error-text">{errors.phone}</p>}
+           
             <input
               type="tel"
               id="phone"
@@ -173,7 +173,7 @@ const ForgotPassword = () => {
               placeholder="Enter your phone number"
               required
             />
-
+ {errors.phone && <p className="error-text">{errors.phone}</p>}
             <button type="submit" className="login-button">Verify Details</button>
           </form>
 

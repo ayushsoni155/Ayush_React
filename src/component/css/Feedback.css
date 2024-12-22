@@ -110,7 +110,7 @@
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
   resize: none;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  font-size:1.2rem;
+  font-size:1.4rem;
 }
 
 /* .form-group textarea:focus {
@@ -150,7 +150,7 @@
     font-size: 1.8rem;
   }
   .form-group textarea {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -163,6 +163,6 @@
     font-size: 1.5rem;
   }
   .form-group textarea {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }

@@ -43,6 +43,7 @@ const Signup = () => {
     const phoneRegex = /^[6789]\d{9}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
     const [cookies, setCookie] = useCookies(['bytewiseCookies']);
+    const [loading,setLoading]= useState(true);
     const navigate = useNavigate();
 
     const recoveryQuestions = [
@@ -112,6 +113,7 @@ const Signup = () => {
     };
 
     const handleSubmit = async (event) => {
+        setLoading(true);
         event.preventDefault();
 
         if (Object.values(errors).some((error) => error)) {
@@ -327,8 +329,8 @@ const Signup = () => {
                             required
                         />
  {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
-                       
-                        <button type="submit" className="login-button">Signup</button>
+                        {loading?(<div class="Loginloading"></div>):(
+                        <button type="submit" className="login-button">Signup</button>)}
                         <span>Already have an account? </span>
                         <Link to="/login">Login</Link>
                     </form>

@@ -133,7 +133,6 @@ const [loading ,setLoading] = useState (false);
           rows="5"
           value={formData.message}
           onChange={handleMessageChange}
-          required
         ></textarea>
       </div>
       <div className="letter-footer">

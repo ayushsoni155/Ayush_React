@@ -53,6 +53,7 @@ const [loading ,setLoading] = useState (false);
 
   const handleSubmit = async (event) => {
     setLoading(true);
+     event.preventDefault();
     if(formData.message==""){
         setNotification({
           message: "Empty Feedback",
@@ -60,8 +61,9 @@ const [loading ,setLoading] = useState (false);
           visible: true,
         });
     }
+    else{
       
-    event.preventDefault();
+   
     const feedbackData = {
       name: formData.name,
       enrolmentID: formData.enrolmentID,
@@ -102,6 +104,7 @@ const [loading ,setLoading] = useState (false);
         type: "error",
         visible: true,
       });
+    }
     }
     setLoading(false);
   };

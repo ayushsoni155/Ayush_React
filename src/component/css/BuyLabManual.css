@@ -1,5 +1,7 @@
 /* Page Layout for Buy Lab Manual */
 .buy-lab-manual-page {
+  display:flex;
+      flex-direction: column;
   padding: 20px;
   margin-top: 120px;
 }

@@ -42,13 +42,13 @@ const Login = () => {
     const handleChange = (event) => {
         const { name, value } = event.target;
 
-        const updatedValue = name === "enrolmentID" ? value.toUpperCase() : value;
+        const updatedValue = name === "enrolmentID" ? value.toUpperCase().trime() : value.trime();
 
         setFormData({
             ...formData,
             [name]: updatedValue,
         });
-
+        
         if (name === "enrolmentID") {
             setErrors((prevErrors) => ({
                 ...prevErrors,
@@ -168,7 +168,6 @@ const Login = () => {
                             value={formData.enrolmentID}
                             onChange={handleChange}
                             placeholder="Enter your enrollment number"
-                            required
                         />
                          {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
 
@@ -182,7 +181,6 @@ const Login = () => {
                                 value={formData.password}
                                 onChange={handleChange}
                                 placeholder="Enter your password"
-                                required
                             />
                             
                             <button type="button" onClick={togglePasswordVisibility}>

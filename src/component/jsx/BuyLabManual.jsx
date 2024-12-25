@@ -46,7 +46,7 @@ const BuyLabManual = () => {
         console.error('Error fetching lab manuals:', error);
         setFetchError(true); // Set fetch error to true
       } finally {
-        setLoading(true); // Set loading to false once data is fetched
+        setLoading(false); // Set loading to false once data is fetched
       }
     };
 

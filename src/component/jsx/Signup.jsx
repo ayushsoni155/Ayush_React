@@ -43,7 +43,7 @@ const Signup = () => {
     const phoneRegex = /^[6789]\d{9}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
     const [cookies, setCookie] = useCookies(['bytewiseCookies']);
-    const [loading,setLoading]= useState(true);
+    const [loading,setLoading]= useState(false);
     const navigate = useNavigate();
 
     const recoveryQuestions = [

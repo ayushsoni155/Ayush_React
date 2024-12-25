@@ -192,7 +192,7 @@ const Login = () => {
                         </div>
                         
                         {errors.password && <p className="error-text">{errors.password}</p>}
-                         {loading?(<div class="loading-circle"></div>):(
+                         {loading?(<div class="Loginloading"></div>):(
                         <button type="submit" className="login-button">
                             Login
                         </button>)}

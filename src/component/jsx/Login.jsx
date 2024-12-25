@@ -10,7 +10,7 @@ const Login = () => {
         enrolmentID: "",
         password: "",
     });
-    const [loading,setLoading]= useState(false);
+    const [loading,setLoading]= useState(true);
     const [notification, setNotification] = useState(null);
     const [errors, setErrors] = useState({ enrolmentID: "", password: "" });
     const navigate = useNavigate();

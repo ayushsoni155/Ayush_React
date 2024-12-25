@@ -18,7 +18,7 @@ export default function Feedback() {
     type: "",
     visible: false,
   });
-const [loading ,setLoading] = useState (false);
+const [loading ,setLoading] = useState (true);
   const decryptCookie = (encryptedCookie) => {
     try {
       const bytes = CryptoJS.AES.decrypt(encryptedCookie, secretKey);

@@ -72,11 +72,13 @@ const Login = () => {
 
         if (errors.enrolmentID || errors.password) {
             setNotification({ message: "Please fix the errors before submitting.", type: "error" });
+            setLoading(false);
             return;
         }
 
         if (!formData.enrolmentID || !formData.password) {
             setNotification({ message: "Enrolment ID and password are required.", type: "error" });
+            setLoading(false);
             return;
         }
 

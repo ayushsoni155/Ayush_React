@@ -147,7 +147,7 @@ const [loading ,setLoading] = useState (false);
         <h3>{formData.name}</h3>
         <h3>{formData.enrolmentID}</h3>
       </div>
-      {loading?(Loading...<div class="loading-circle"></div>):(
+      {loading?(<div class="loading-circle"></div>):(
       <button type="submit" className="submit-btn">
         Submit
       </button>)}

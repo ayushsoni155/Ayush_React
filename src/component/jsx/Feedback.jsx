@@ -47,12 +47,20 @@ const [loading ,setLoading] = useState (false);
   const handleMessageChange = (event) => {
     setFormData((prevData) => ({
       ...prevData,
-      message: event.target.value,
+      message:event.target.value.trim(),
     }));
   };
 
   const handleSubmit = async (event) => {
     setLoading(true);
+    if(message==""){
+        setNotification({
+          message: "Empty Feedback",
+          type: "error",
+          visible: true,
+        });
+    }
+      
     event.preventDefault();
     const feedbackData = {
       name: formData.name,

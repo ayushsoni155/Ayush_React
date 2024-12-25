@@ -10,7 +10,7 @@ const Login = () => {
         enrolmentID: "",
         password: "",
     });
-
+    const [loading,setLoading]= useState(false);
     const [notification, setNotification] = useState(null);
     const [errors, setErrors] = useState({ enrolmentID: "", password: "" });
     const navigate = useNavigate();
@@ -67,6 +67,7 @@ const Login = () => {
     };
 
     const handleSubmit = async (event) => {
+        setLoading(true);
         event.preventDefault();
 
         if (errors.enrolmentID || errors.password) {
@@ -131,6 +132,7 @@ const Login = () => {
             console.error("Login error:", error);
             setNotification({ message: "An error occurred. Please try again later.", type: "error" });
         }
+        setLoading(false);
     };
 
     const togglePasswordVisibility = () => {
@@ -190,9 +192,10 @@ const Login = () => {
                         </div>
                         
                         {errors.password && <p className="error-text">{errors.password}</p>}
+                         {loading?(<div class="loading-circle"></div>):(
                         <button type="submit" className="login-button">
                             Login
-                        </button>
+                        </button>)}
 
                         <div className="additional-links">
                             <Link to="/forgot-password" className="forgot-password-link">

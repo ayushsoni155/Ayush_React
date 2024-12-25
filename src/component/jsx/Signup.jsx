@@ -56,7 +56,7 @@ const Signup = () => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
+        const updatedValue = name === 'enrolmentID' ? value.toUpperCase().trim() : value.trim();
 
         // Update form data
         setFormData({
@@ -121,6 +121,7 @@ const Signup = () => {
                 message: 'Please fix the errors before submitting.',
                 type: 'error',
             });
+            setLoading(false)
             return;
         }
 

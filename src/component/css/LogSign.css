@@ -14,6 +14,25 @@
   z-index: 1000;
   overflow-y: auto; /* Allow scrolling on overlay */
 }
+.Loginloading{
+    display: flex;
+    align-self: center;
+    animation: spin .8s linear infinite;
+    border: 4px solid #28a745;
+    border-radius: 50%;
+    border-top-color: ;
+    height: 25px;
+    width: 25px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 /* Main container for login/signup */
 .logSign-container {

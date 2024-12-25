@@ -115,7 +115,6 @@ const Signup = () => {
     const handleSubmit = async (event) => {
         setLoading(true);
         event.preventDefault();
-
         if (Object.values(errors).some((error) => error)) {
             setNotification({
                 message: 'Please fix the errors before submitting.',
@@ -126,11 +125,24 @@ const Signup = () => {
         }
 
         const formDataWithRecovery = {
-            ...formData,
-            recoveryQuestion: formData.recoveryQuestion,
-            recoveryAnswer: formData.recoveryAnswer,
-        };
+    ...formData,
+    recoveryQuestion: formData.recoveryQuestion,
+    recoveryAnswer: formData.recoveryAnswer,
+};
 
+// Check if any value in formDataWithRecovery is empty
+const isEmpty = Object.values(formDataWithRecovery).some(value => !value?.trim());
+
+if (isEmpty) {
+    setNotification({
+        message:'All fields are required. Please fill out all the data!',
+        type: 'error',
+    });
+    setLoading(false);
+    return;
+}
+
+            
         try {
             const response = await fetch(
                 'https://bytewise-server.vercel.app/api/signup',

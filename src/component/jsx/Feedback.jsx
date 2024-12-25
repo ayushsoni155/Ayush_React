@@ -18,7 +18,7 @@ export default function Feedback() {
     type: "",
     visible: false,
   });
-
+const [loading ,setLoading] = useState (false);
   const decryptCookie = (encryptedCookie) => {
     try {
       const bytes = CryptoJS.AES.decrypt(encryptedCookie, secretKey);
@@ -52,6 +52,7 @@ export default function Feedback() {
   };
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
 
     // Check if user is logged in
@@ -108,6 +109,7 @@ export default function Feedback() {
         visible: true,
       });
     }
+    setLoading(false);
   };
 
   return (
@@ -145,9 +147,10 @@ export default function Feedback() {
         <h3>{formData.name}</h3>
         <h3>{formData.enrolmentID}</h3>
       </div>
+      {loading?(Loading...<div class="loading-circle"></div>):(
       <button type="submit" className="submit-btn">
         Submit
-      </button>
+      </button>)}
     </form>
   </div>
 </div>

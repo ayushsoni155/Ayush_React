@@ -229,7 +229,6 @@ const Signup = () => {
                             onChange={handleChange}
                             placeholder="Enter your full name"
                             autoComplete='name'
-                            required
                         />
 
                         <label htmlFor="enrolmentID">Enrollment Number</label>
@@ -241,7 +240,6 @@ const Signup = () => {
                             value={formData.enrolmentID}
                             onChange={handleChange}
                             placeholder="Enter your enrollment number"
-                            required
                         />
                          {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
                         <label htmlFor="phone">Phone Number</label>
@@ -253,7 +251,6 @@ const Signup = () => {
                             onChange={handleChange}
                             placeholder="Enter your phone number"
                             autoComplete='phone'
-                            required
                         />
 {errors.phone && <p className="error-text">{errors.phone}</p>}
                         
@@ -263,7 +260,6 @@ const Signup = () => {
                             name="sem"
                             value={formData.sem}
                             onChange={handleChange}
-                            required
                         >
                             <option value="" disabled>Select your semester</option>
                             {Array.from({ length: 8 }, (_, index) => (
@@ -280,7 +276,6 @@ const Signup = () => {
                                 value={formData.password}
                                 onChange={handleChange}
                                 placeholder="Create a password"
-                                required
                             />
                             <button type="button" onClick={togglePasswordVisibility}>
                                 {passwordVisible ? 'Hide' : 'Show'}
@@ -297,7 +292,6 @@ const Signup = () => {
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 placeholder="Confirm your password"
-                                required
                             />
                             <button type="button" onClick={toggleConfirmPasswordVisibility}>
                                 {confirmPasswordVisible ? 'Hide' : 'Show'}
@@ -311,7 +305,6 @@ const Signup = () => {
                             name="recoveryQuestion"
                             value={formData.recoveryQuestion}
                             onChange={handleChange}
-                            required
                         >
                             <option value="" disabled>Select a recovery question</option>
                             {recoveryQuestions.map((question, index) => (
@@ -327,7 +320,7 @@ const Signup = () => {
                             value={formData.recoveryAnswer}
                             onChange={handleChange}
                             placeholder="Enter your answer"
-                            required
+                        
                         />
  {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
                         {loading?(<div class="Loginloading"></div>):(

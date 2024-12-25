@@ -54,24 +54,11 @@ const [loading ,setLoading] = useState (false);
   const handleSubmit = async (event) => {
     setLoading(true);
     event.preventDefault();
-
-    // Check if user is logged in
-    const encryptedCookie = cookies.bytewiseCookies;
-    if (!encryptedCookie || !decryptCookie(encryptedCookie)?.status) {
-      setNotification({
-        message: "You must be logged in to submit feedback.",
-        type: "error",
-        visible: true,
-      });
-      return;
-    }
-
     const feedbackData = {
       name: formData.name,
       enrolmentID: formData.enrolmentID,
       feedback: formData.message, // Backend expects 'feedback' field
     };
-
     try {
       const response = await fetch(
         "https://bytewise-server.vercel.app/api/feedback-submit",
@@ -83,7 +70,6 @@ const [loading ,setLoading] = useState (false);
           body: JSON.stringify(feedbackData),
         }
       );
-
       if (response.ok) {
         setNotification({
           message: "Feedback submitted successfully.",

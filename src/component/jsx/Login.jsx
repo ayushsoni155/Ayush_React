@@ -42,7 +42,7 @@ const Login = () => {
     const handleChange = (event) => {
         const { name, value } = event.target;
 
-        const updatedValue = name === "enrolmentID" ? value.toUpperCase().trime() : value.trime();
+        const updatedValue = name === "enrolmentID" ? value.toUpperCase().trim() : value.trim();
 
         setFormData({
             ...formData,

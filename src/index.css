@@ -2,15 +2,30 @@
 *{
   margin: 0px;
   padding: 0px;
-  box-sizing: border-box;
- 
-  
+  box-sizing: border-box;  
   }
 body{
 /*   background-image: radial-gradient( rgb(34, 34, 34) 1px,transparent 0);
   background-size: 40px 40px;  */
-  background-colour: white;
+  background-color: white;
 }
 a{
-  colour:white;
+  color:white;
+}
+.loading-circle {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

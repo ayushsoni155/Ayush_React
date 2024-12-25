@@ -29,7 +29,7 @@ const BuyLabManual = () => {
     return storedCart ? decryptData(storedCart) : []; // Parse or return an empty array
   });
   const [notification, setNotification] = useState({ message: '', visible: false }); // Notification state
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(true); // Loading state
   const [fetchError, setFetchError] = useState(false); // Error state for fetching lab manuals
 
   // Fetch lab manuals from the database on component mount
@@ -125,7 +125,7 @@ const BuyLabManual = () => {
         handleBranchChange={handleBranchChange}
       />
       {loading ? (
-        <h2>Loading....</h2>
+       <div class="loading-circle"></div>
       ) : (
         <>
       <p className="manual-note">

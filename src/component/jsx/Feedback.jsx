@@ -53,7 +53,7 @@ const [loading ,setLoading] = useState (false);
 
   const handleSubmit = async (event) => {
     setLoading(true);
-    if(message==""){
+    if(formData.message==""){
         setNotification({
           message: "Empty Feedback",
           type: "error",

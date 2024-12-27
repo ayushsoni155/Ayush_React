@@ -190,7 +190,11 @@ const ForgotPassword = () => {
                     onChange={handleChange}
                     placeholder="Answer the recovery question"
                   />
+                  {loading ? (
+                <div className="Loginloading"></div>
+              ) : (
                   <button type="submit" className="login-button">Submit Answer</button>
+                  )}
                 </form>
               </>
             )}

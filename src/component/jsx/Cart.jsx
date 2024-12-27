@@ -40,6 +40,7 @@ const Cart = () => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
   const [loading, setLoading] = useState(false);
+  const [loadingPay, setLoadingPay] = useState(true);
 
   const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.quantity, 0);
 
@@ -57,7 +58,7 @@ const Cart = () => {
     } catch (err) {
       console.error('Error fetching orders:', err);
     } finally {
-      setLoading(false);
+      setLoading(true);
     }
   }, [enrolmentID, isLoggedIn]);
 
@@ -97,7 +98,7 @@ const Cart = () => {
       return;
     }
 
-    setLoading(true);
+    setLoadingPay(true);
     try {
       const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
         method: 'POST',
@@ -142,7 +143,7 @@ const Cart = () => {
       console.error(error);
       setNotification({ message: 'Error in payment.', type: 'error', visible: true });
     } finally {
-      setLoading(false);
+      setLoadingPay(false);
     }
   };
 
@@ -204,7 +205,7 @@ const Cart = () => {
         )}
         <div className="cart-summary">
           <h3>Total Price: ₹{totalPrice}</h3>
-          {loading ? (
+          {loadingPay ? (
             <div className="loading-circle"></div>
           ) : (
             <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>

@@ -148,6 +148,7 @@ const Cart = () => {
   };
 
   const saveOrder = async (orderDetails) => {
+    setLoading(true);
     try {
       const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
         method: 'POST',
@@ -162,6 +163,7 @@ const Cart = () => {
     } catch (error) {
       console.error('Error saving order:', error);
     }
+    setLoading(false);
   };
 
   return (

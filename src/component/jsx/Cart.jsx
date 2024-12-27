@@ -208,8 +208,8 @@ const Cart = () => {
       </div>  
     )}  
     <div className="cart-summary">  
-      <h3>Total Price: ₹{totalPrice}</h3>  <br/>
-       <p className="pSaving">You saved ₹{totalSaveing}</p>
+      <h3>Total Price: ₹{totalPrice}</h3>
+      
       {loadingPay ? (  
         <div className="Loginloading"></div>  
       ) : (  
@@ -218,6 +218,7 @@ const Cart = () => {
         </button>  
       )}  
     </div>  
+     <p className="pSaving">You saved ₹{totalSaveing}</p>
   </div>  
 
       {/* Pending Orders */}

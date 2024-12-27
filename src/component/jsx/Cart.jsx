@@ -32,6 +32,7 @@ const Cart = () => {
   const [pendingOrders, setPendingOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
+  const[loading,setLoading] = useState(false);
 
   const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.quantity, 0);
 
@@ -87,7 +88,7 @@ const Cart = () => {
       setNotification({ message: 'Razorpay SDK failed to load. Please check your internet connection.', type: 'error', visible: true });
       return;
     }
-
+    setLoading(true);
     try {
       const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
         method: 'POST',
@@ -137,6 +138,7 @@ const Cart = () => {
       console.error(error);
       setNotification({ message: 'Error in payment.', type: 'error', visible: true });
     }
+    setLoading(false);
   };
 
   const saveOrder = async (orderDetails) => {
@@ -193,9 +195,17 @@ const Cart = () => {
         )}
         <div className="cart-summary">
           <h3>Total Price: ₹{totalPrice}</h3>
+           {loading ? (
+      <>
+        <div className="Loginloading"></div>
+                    <div className="loading-circle"></div> 
+        </>
+
+            ) : (
           <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>
             Go for payment
           </button>
+         )}
         </div>
       </div>
 

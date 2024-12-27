@@ -206,7 +206,7 @@ const Cart = () => {
         <div className="cart-summary">
           <h3>Total Price: ₹{totalPrice}</h3>
           {loadingPay ? (
-            <div className="loading-circle"></div>
+            <div className="Loginloading"></div>
           ) : (
             <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>
               Go for payment

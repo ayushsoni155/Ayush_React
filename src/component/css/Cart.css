@@ -26,7 +26,10 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 .cart-summary{
-  display:flex;
+     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
 }
 /* Section title */
 .section-title {

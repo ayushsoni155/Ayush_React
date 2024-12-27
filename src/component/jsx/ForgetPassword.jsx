@@ -161,7 +161,6 @@ const ForgotPassword = () => {
               value={formData.enrolmentID}
               onChange={handleChange}
               placeholder="Enter your enrollment number"
-              required
             />
             {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
             <label htmlFor="phone">Phone Number</label>
@@ -172,7 +171,6 @@ const ForgotPassword = () => {
               value={formData.phone}
               onChange={handleChange}
               placeholder="Enter your phone number"
-              required
             />
             {errors.phone && <p className="error-text">{errors.phone}</p>}
             {verificationBtn ? (
@@ -191,7 +189,6 @@ const ForgotPassword = () => {
                     value={formData.recoveryAnswer}
                     onChange={handleChange}
                     placeholder="Answer the recovery question"
-                    required
                   />
                   <button type="submit" className="login-button">Submit Answer</button>
                 </form>

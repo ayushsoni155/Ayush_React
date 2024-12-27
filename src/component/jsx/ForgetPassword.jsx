@@ -15,7 +15,7 @@ const ForgotPassword = () => {
   const [recoveryQuestion, setRecoveryQuestion] = useState('');
   const [userID, setUserID] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [verificationBtn, setVerificationBtn] = useState(true);
+  const [verificationCompleted, setVerificationCompleted] = useState(false);
 
   const navigate = useNavigate();
 
@@ -54,17 +54,11 @@ const ForgotPassword = () => {
   };
 
   const handleSubmit = async (event) => {
-    setLoading(true);
     event.preventDefault();
+    setLoading(true);
 
     if (errors.enrolmentID || errors.phone) {
       setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
-      setLoading(false);
-      return;
-    }
-
-    if (!formData.enrolmentID || !formData.phone) {
-      setNotification({ message: 'Enrolment ID and phone number are required.', type: 'error' });
       setLoading(false);
       return;
     }
@@ -84,9 +78,9 @@ const ForgotPassword = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setVerificationBtn(false);
         setRecoveryQuestion(data.recoveryQuestion);
         setUserID(data.userID);
+        setVerificationCompleted(true);
         setNotification({ message: 'Verification successful! Please answer the recovery question.', type: 'success' });
       } else {
         setNotification({ message: data.message, type: 'error' });
@@ -98,17 +92,17 @@ const ForgotPassword = () => {
     setLoading(false);
   };
 
- const handleAnswerSubmit = async (event) => {
+  const handleAnswerSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
-    // Check if the recovery answer is provided
     if (!formData.recoveryAnswer) {
       setNotification({ message: 'Please provide an answer to the recovery question.', type: 'error' });
+      setLoading(false);
       return;
     }
 
     try {
-      // Verify the recovery answer
       const response = await fetch('https://bytewise-server.vercel.app/api/verify-recovery-answer', {
         method: 'POST',
         headers: {
@@ -124,8 +118,7 @@ const ForgotPassword = () => {
 
       if (response.ok) {
         setNotification({ message: 'Answer verified! You can now reset your password.', type: 'success' });
-        localStorage.setItem('enrolID', userID);
-        navigate('/reset-password'); // Navigate to password reset page
+        navigate('/reset-password');
       } else {
         setNotification({ message: data.message, type: 'error' });
       }
@@ -133,6 +126,7 @@ const ForgotPassword = () => {
       console.error('Error:', error);
       setNotification({ message: 'An error occurred. Please try again later.', type: 'error' });
     }
+    setLoading(false);
   };
 
   return (
@@ -151,51 +145,50 @@ const ForgotPassword = () => {
         </div>
         <div className="logSign-form-container">
           <h2>Forgot Password</h2>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="enrolmentID">Enrollment Number</label>
-            <input
-              type="text"
-              id="enrolmentID"
-              name="enrolmentID"
-              value={formData.enrolmentID}
-              onChange={handleChange}
-              placeholder="Enter your enrollment number"
-            />
-            {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
-            <label htmlFor="phone">Phone Number</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Enter your phone number"
-            />
-            {errors.phone && <p className="error-text">{errors.phone}</p>}
-            {verificationBtn ? (
-              loading ? (
-                <div className="Loginloading"></div>
-              ) : (
-                <button type="submit" className="login-button">Verify Details</button>
-              )
-            ) : (
+          <form onSubmit={verificationCompleted ? handleAnswerSubmit : handleSubmit}>
+            {!verificationCompleted && (
+              <>
+                <label htmlFor="enrolmentID">Enrollment Number</label>
+                <input
+                  type="text"
+                  id="enrolmentID"
+                  name="enrolmentID"
+                  value={formData.enrolmentID}
+                  onChange={handleChange}
+                  placeholder="Enter your enrollment number"
+                />
+                {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
+                <label htmlFor="phone">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Enter your phone number"
+                />
+                {errors.phone && <p className="error-text">{errors.phone}</p>}
+              </>
+            )}
+            {verificationCompleted && (
               <>
                 <h3>{recoveryQuestion}</h3>
-                <form onSubmit={handleAnswerSubmit}>
-                  <input
-                    type="text"
-                    name="recoveryAnswer"
-                    value={formData.recoveryAnswer}
-                    onChange={handleChange}
-                    placeholder="Answer the recovery question"
-                  />
-                  {loading ? (
-                <div className="Loginloading"></div>
-              ) : (
-                  <button type="submit" className="login-button">Submit Answer</button>
-                  )}
-                </form>
+                <input
+                  type="text"
+                  name="recoveryAnswer"
+                  value={formData.recoveryAnswer}
+                  onChange={handleChange}
+                  placeholder="Answer the recovery question"
+                />
+                {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
               </>
+            )}
+            {loading ? (
+              <div className="Loginloading"></div>
+            ) : (
+              <button type="submit" className="login-button">
+                {verificationCompleted ? 'Submit Answer' : 'Verify Details'}
+              </button>
             )}
           </form>
         </div>

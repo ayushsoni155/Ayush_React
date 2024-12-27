@@ -39,7 +39,7 @@ const Cart = () => {
   // Fetch pending and completed orders
   const fetchOrders = useCallback(async () => {
     if (!isLoggedIn) return;
-
+    setLoading(true);
     try {
       const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${enrolmentID}`);
       const data = await response.json();
@@ -51,6 +51,7 @@ const Cart = () => {
     } catch (err) {
       console.error('Error fetching orders:', err);
     }
+    setLoading(false);
   }, [enrolmentID, isLoggedIn]);
 
   useEffect(() => {
@@ -212,6 +213,7 @@ const Cart = () => {
       {/* Pending Orders */}
       <div className="section">
         <h2 className="section-title">Orders Placed (Pending)</h2>
+        {loading?(  <div className="loading-circle"></div> ):(
         {pendingOrders.length === 0 ? (
           <p>No pending orders found.</p>
         ) : (
@@ -234,11 +236,15 @@ const Cart = () => {
             ))}
           </ul>
         )}
+        )}
+      
+    
       </div>
 
       {/* Completed Orders */}
       <div className="section">
         <h2 className="section-title">Orders Placed (Completed)</h2>
+        {loading?(  <div className="loading-circle"></div> ):(
         {completedOrders.length === 0 ? (
           <p>No completed orders found.</p>
         ) : (
@@ -260,6 +266,7 @@ const Cart = () => {
               </li>
             ))}
           </ul>
+        )}
         )}
       </div>
 

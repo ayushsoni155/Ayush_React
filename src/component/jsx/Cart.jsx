@@ -40,7 +40,7 @@ const Cart = () => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
   const [loading, setLoading] = useState(false);
-  const [loadingPay, setLoadingPay] = useState(true);
+  const [loadingPay, setLoadingPay] = useState(false);
 
   const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.quantity, 0);
 

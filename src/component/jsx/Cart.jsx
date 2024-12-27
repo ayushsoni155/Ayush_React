@@ -44,7 +44,7 @@ const Cart = () => {
 
   const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.quantity, 0);
   const tempSaveing = cartItems.reduce((totalS, itemS) => totalS + itemS.pages * itemS.quantity, 0);
-  const totalSaveing= totalPrice-tempSaveing;
+  const totalSaveing= tempSaveing-totalPrice;
 
   const fetchOrders = useCallback(async () => {
     if (!isLoggedIn) return;

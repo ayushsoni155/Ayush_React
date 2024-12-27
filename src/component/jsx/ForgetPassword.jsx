@@ -98,17 +98,17 @@ const ForgotPassword = () => {
     setLoading(false);
   };
 
-  const handleAnswerSubmit = async (event) => {
-    setLoading(true);
+ const handleAnswerSubmit = async (event) => {
     event.preventDefault();
 
+    // Check if the recovery answer is provided
     if (!formData.recoveryAnswer) {
       setNotification({ message: 'Please provide an answer to the recovery question.', type: 'error' });
-      setLoading(false);
       return;
     }
 
     try {
+      // Verify the recovery answer
       const response = await fetch('https://bytewise-server.vercel.app/api/verify-recovery-answer', {
         method: 'POST',
         headers: {
@@ -125,7 +125,7 @@ const ForgotPassword = () => {
       if (response.ok) {
         setNotification({ message: 'Answer verified! You can now reset your password.', type: 'success' });
         localStorage.setItem('enrolID', userID);
-        navigate('/reset-password');
+        navigate('/reset-password'); // Navigate to password reset page
       } else {
         setNotification({ message: data.message, type: 'error' });
       }
@@ -133,7 +133,6 @@ const ForgotPassword = () => {
       console.error('Error:', error);
       setNotification({ message: 'An error occurred. Please try again later.', type: 'error' });
     }
-    setLoading(false);
   };
 
   return (

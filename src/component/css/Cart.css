@@ -1,4 +1,4 @@
-/* Cart container */
+/* General container styling */
 .cart-container {
   max-width: 1200px;
   margin: auto;
@@ -18,7 +18,12 @@
   margin-bottom: 30px;
   padding: 30px;
   overflow: auto;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Section title */
@@ -50,7 +55,6 @@
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* Hover effect for cart item */
 .cart-item-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -72,7 +76,6 @@
   gap: 10px;
 }
 
-/* Product name */
 .product-name {
   font-size: 16px;
   font-weight: bold;
@@ -80,41 +83,36 @@
   line-height: 1.4;
 }
 
-/* Product price and discount information */
-.product-price,
-.product-total {
-     color: #333;
-    display: flex;
-    font-size: 16px;
-    font-weight: 700;
-    gap: 10px;
-    align-items: flex-end;
-    justify-content: space-around;
-
+/* Price and discount styling */
+.product-price {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
 }
 
-/* Price styling for offer */
 #cp {
   text-decoration: line-through;
-  color:red;
- 
+  color: red;
 }
-.pSaving{
-  font-size:large;
-  color:green;
-   font-weight: bold;
-}
+
 #offerP {
   color: green;
   font-weight: bold;
 }
 
-/* Quantity control buttons and display */
+.pSaving {
+  font-size: large;
+  color: green;
+  font-weight: bold;
+}
+
+/* Quantity control buttons */
 .quantity-control {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
   gap: 10px;
 }
 
@@ -138,7 +136,7 @@
   font-weight: bold;
 }
 
-/* Remove button styling */
+/* Remove button */
 .remove-btn {
   background: #e74c3c;
   color: white;
@@ -156,12 +154,30 @@
   background: #c0392b;
 }
 
-/* Cart summary */
-.cart-summary {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
+/* Order history */
+.order-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order-item:hover {
+  background-color: #eef7ff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-items {
+  margin-top: 10px;
+  list-style-type: disc;
+  padding-left: 20px;
 }
 
 /* Payment button */
@@ -180,17 +196,7 @@
   background-color: #218838;
 }
 
-/* Notification styling */
-.notification {
-  background-color: #f1c40f;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-/* Responsive Design for Mobile */
+/* Responsive Design */
 @media (max-width: 768px) {
   .cart-container {
     padding: 10px;
@@ -216,8 +222,7 @@
     font-size: 14px;
   }
 
-  .product-price,
-  .product-total {
+  .product-price {
     font-size: 14px;
   }
 
@@ -256,8 +261,7 @@
     font-size: 12px;
   }
 
-  .product-price,
-  .product-total {
+  .product-price {
     font-size: 12px;
   }
 
@@ -274,5 +278,13 @@
   .payment-btn {
     padding: 6px 12px;
     font-size: 12px;
+  }
+
+  .order-item {
+    padding: 10px;
+  }
+
+  .order-items {
+    padding-left: 15px;
   }
 }

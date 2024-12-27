@@ -26,10 +26,10 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 .cart-summary{
-     display: flex;
-    align-items: center;
-    justify-content: space-between;
+         align-items: center;
+    display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 /* Section title */
 .section-title {
@@ -51,13 +51,14 @@
 
 /* Cart item card */
 .cart-item-card {
-  display: flex;
-  flex-direction: column;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  transition: transform 0.3s, box-shadow 0.3s;
+      background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px #0000001a;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 5px;
+    transition: transform .3s, box-shadow .3s;
 }
 
 .cart-item-card:hover {
@@ -90,14 +91,19 @@
 
 /* Price and discount styling */
 .product-price {
-  display: flex;
-  gap: 10px;
-  align-items: center;
   font-size: 16px;
   font-weight: bold;
   color: #333;
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    justify-content: space-evenly;
 }
-
+.removeDiv{
+      display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 #cp {
   text-decoration: line-through;
   color: red;
@@ -116,9 +122,10 @@
 
 /* Quantity control buttons */
 .quantity-control {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .quantity-btn {
@@ -143,16 +150,17 @@
 
 /* Remove button */
 .remove-btn {
-  background: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px;
-  margin-top: 10px;
-  align-self: flex-end;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 14px;
+     align-self: flex-end;
+    background: #e74c3c;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+        height: 100%;
+    width: 80px;
+    padding: 10px;
+    transition: background-color .3s;
 }
 
 .remove-btn:hover {

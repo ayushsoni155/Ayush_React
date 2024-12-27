@@ -13,6 +13,7 @@ const ResetPassword = () => {
     const [errors, setErrors] = useState({ newPassword: '', confirmPassword: '' });
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const[loading,setLoading] =useState(false);
 
     // Regex for password: at least 8 characters, contains both letters and numbers
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
@@ -27,7 +28,7 @@ const ResetPassword = () => {
         if (name === 'newPassword') {
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                newPassword: passwordRegex.test(value)
+                newPassword: passwordRegex.test(value.trim())
                     ? ''
                     : 'Password must be at least 8 characters long and contain both letters and numbers'
             }));
@@ -44,22 +45,25 @@ const ResetPassword = () => {
 
         setFormData({
             ...formData,
-            [name]: value
+            [name]: value.trim()
         });
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true)
 
         // Check for any errors before submission
         if (errors.newPassword || errors.confirmPassword) {
             setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
+            setLoading(false);
             return;
         }
 
         // Check if password fields are not empty
         if (!formData.newPassword || !formData.confirmPassword) {
             setNotification({ message: 'Both password fields are required.', type: 'error' });
+            setLoading(false);
             return;
         }
 
@@ -90,6 +94,7 @@ const ResetPassword = () => {
             console.error('Error:', error);
             setNotification({ message: 'An error occurred. Please try again later.', type: 'error' });
         }
+        setLoading(false);
     };
 
     return (
@@ -119,7 +124,6 @@ const ResetPassword = () => {
                                 value={formData.newPassword}
                                 onChange={handleChange}
                                 placeholder="Enter new password"
-                                required
                             />
                             <button type="button" onClick={() => setShowPassword(!showPassword)}>
                                 {showPassword ? 'Hide' : 'Show'}
@@ -137,14 +141,18 @@ const ResetPassword = () => {
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 placeholder="Confirm your password"
-                                required
+            
                             />
                             <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                                 {showConfirmPassword ? 'Hide' : 'Show'}
                             </button>
                         </div>
  {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
+                          {loading ? (
+              <div className="Loginloading"></div>
+            ) : (
                         <button type="submit" className="login-button">Reset Password</button>
+            )}
                     </form>
                 </div>
             </div>

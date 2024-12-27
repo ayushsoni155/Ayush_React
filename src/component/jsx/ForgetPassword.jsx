@@ -7,69 +7,69 @@ const ForgotPassword = () => {
   const [formData, setFormData] = useState({
     enrolmentID: '',
     phone: '',
-    recoveryAnswer: '', // Add recovery answer field
+    recoveryAnswer: '',
   });
 
   const [notification, setNotification] = useState(null);
   const [errors, setErrors] = useState({ enrolmentID: '', phone: '', recoveryAnswer: '' });
-  const [recoveryQuestion, setRecoveryQuestion] = useState(''); // Store recovery question
-  const [userID, setUserID] = useState(null); // Store user ID for password reset
+  const [recoveryQuestion, setRecoveryQuestion] = useState('');
+  const [userID, setUserID] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [verificationBtn, setVerificationBtn] = useState(true);
+
   const navigate = useNavigate();
 
   const enrolmentRegex = /^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
   const phoneRegex = /^[6-9]\d{9}$/;
 
- const handleChange = (event) => {
-  const { name, value } = event.target;
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    const updatedValue = name === 'enrolmentID' ? value.toUpperCase().trim() : value.trim();
 
-  // If the field is 'enrolmentID', convert the value to uppercase
-  const updatedValue = name === 'enrolmentID' ? value.toUpperCase() : value;
+    if (name === 'enrolmentID') {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number',
+      }));
+    }
 
-  // Validate input fields
-  if (name === 'enrolmentID') {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number',
-    }));
-  }
+    if (name === 'phone') {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        phone: phoneRegex.test(updatedValue) ? '' : 'Invalid phone number',
+      }));
+    }
 
-  if (name === 'phone') {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      phone: phoneRegex.test(updatedValue) ? '' : 'Invalid phone number',
-    }));
-  }
+    if (name === 'recoveryAnswer') {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        recoveryAnswer: updatedValue ? '' : 'Please provide an answer to the recovery question.',
+      }));
+    }
 
-  if (name === 'recoveryAnswer') {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      recoveryAnswer: updatedValue ? '' : 'Please provide an answer to the recovery question.',
-    }));
-  }
-
-  setFormData({
-    ...formData,
-    [name]: updatedValue,
-  });
-};
-
+    setFormData({
+      ...formData,
+      [name]: updatedValue,
+    });
+  };
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
 
-    // Check for any errors before submission
     if (errors.enrolmentID || errors.phone) {
       setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
+      setLoading(false);
       return;
     }
 
     if (!formData.enrolmentID || !formData.phone) {
       setNotification({ message: 'Enrolment ID and phone number are required.', type: 'error' });
+      setLoading(false);
       return;
     }
 
     try {
-      // Send request to the backend to verify enrolmentID and phone
       const response = await fetch('https://bytewise-server.vercel.app/api/forgot-password', {
         method: 'POST',
         headers: {
@@ -84,8 +84,9 @@ const ForgotPassword = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setRecoveryQuestion(data.recoveryQuestion); // Store recovery question
-        setUserID(data.userID); // Store userID
+        setVerificationBtn(false);
+        setRecoveryQuestion(data.recoveryQuestion);
+        setUserID(data.userID);
         setNotification({ message: 'Verification successful! Please answer the recovery question.', type: 'success' });
       } else {
         setNotification({ message: data.message, type: 'error' });
@@ -94,19 +95,20 @@ const ForgotPassword = () => {
       console.error('Error:', error);
       setNotification({ message: 'An error occurred. Please try again later.', type: 'error' });
     }
+    setLoading(false);
   };
 
   const handleAnswerSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
 
-    // Check if the recovery answer is provided
     if (!formData.recoveryAnswer) {
       setNotification({ message: 'Please provide an answer to the recovery question.', type: 'error' });
+      setLoading(false);
       return;
     }
 
     try {
-      // Verify the recovery answer
       const response = await fetch('https://bytewise-server.vercel.app/api/verify-recovery-answer', {
         method: 'POST',
         headers: {
@@ -123,7 +125,7 @@ const ForgotPassword = () => {
       if (response.ok) {
         setNotification({ message: 'Answer verified! You can now reset your password.', type: 'success' });
         localStorage.setItem('enrolID', userID);
-        navigate('/reset-password'); // Navigate to password reset page
+        navigate('/reset-password');
       } else {
         setNotification({ message: data.message, type: 'error' });
       }
@@ -131,6 +133,7 @@ const ForgotPassword = () => {
       console.error('Error:', error);
       setNotification({ message: 'An error occurred. Please try again later.', type: 'error' });
     }
+    setLoading(false);
   };
 
   return (
@@ -151,7 +154,6 @@ const ForgotPassword = () => {
           <h2>Forgot Password</h2>
           <form onSubmit={handleSubmit}>
             <label htmlFor="enrolmentID">Enrollment Number</label>
-            
             <input
               type="text"
               id="enrolmentID"
@@ -161,9 +163,8 @@ const ForgotPassword = () => {
               placeholder="Enter your enrollment number"
               required
             />
-{errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
+            {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
             <label htmlFor="phone">Phone Number</label>
-           
             <input
               type="tel"
               id="phone"
@@ -173,25 +174,30 @@ const ForgotPassword = () => {
               placeholder="Enter your phone number"
               required
             />
- {errors.phone && <p className="error-text">{errors.phone}</p>}
-            <button type="submit" className="login-button">Verify Details</button>
+            {errors.phone && <p className="error-text">{errors.phone}</p>}
+            {verificationBtn ? (
+              loading ? (
+                <div className="Loginloading"></div>
+              ) : (
+                <button type="submit" className="login-button">Verify Details</button>
+              )
+            ) : (
+              <>
+                <h3>{recoveryQuestion}</h3>
+                <form onSubmit={handleAnswerSubmit}>
+                  <input
+                    type="text"
+                    name="recoveryAnswer"
+                    value={formData.recoveryAnswer}
+                    onChange={handleChange}
+                    placeholder="Answer the recovery question"
+                    required
+                  />
+                  <button type="submit" className="login-button">Submit Answer</button>
+                </form>
+              </>
+            )}
           </form>
-
-          {/* If recovery question is available, show it */}
-          {recoveryQuestion && (
-            <form onSubmit={handleAnswerSubmit}>
-              <h3>{recoveryQuestion}</h3>
-              <input
-                type="text"
-                name="recoveryAnswer"
-                value={formData.recoveryAnswer}
-                onChange={handleChange}
-                placeholder="Answer the recovery question"
-                required
-              />
-              <button type="submit" className="login-button">Submit Answer</button>
-            </form>
-          )}
         </div>
       </div>
     </div>

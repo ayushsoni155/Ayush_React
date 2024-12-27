@@ -92,10 +92,14 @@
 
 /* Price styling for offer */
 #cp {
-  text-decoration: solid red line-through;
+  text-decoration: line-through;
+  color:red;
  
 }
-
+.pSaving{
+  color:green;
+   font-weight: bold;
+}
 #offerP {
   color: green;
   font-weight: bold;

@@ -44,70 +44,76 @@ const [loading ,setLoading] = useState (false);
     }
   }, [cookies]);
 
-  const handleMessageChange = (event) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      message:event.target.value.trim(),
-    }));
+ const handleMessageChange = (event) => {
+  setFormData((prevData) => ({
+    ...prevData,
+    message: event.target.value, // Do not trim here
+  }));
+};
+
+const handleSubmit = async (event) => {
+  setLoading(true);
+  event.preventDefault();
+
+  // Trim the message here for validation
+  const trimmedMessage = formData.message.trim();
+
+  if (trimmedMessage === "") {
+    setNotification({
+      message: "Empty Feedback",
+      type: "error",
+      visible: true,
+    });
+    setLoading(false);
+    return;
+  }
+
+  const feedbackData = {
+    name: formData.name,
+    enrolmentID: formData.enrolmentID,
+    feedback: trimmedMessage, // Send the trimmed message to the backend
   };
 
-  const handleSubmit = async (event) => {
-    setLoading(true);
-     event.preventDefault();
-    if(formData.message==""){
-        setNotification({
-          message: "Empty Feedback",
-          type: "error",
-          visible: true,
-        });
-    }
-    else{
-      
-   
-    const feedbackData = {
-      name: formData.name,
-      enrolmentID: formData.enrolmentID,
-      feedback: formData.message, // Backend expects 'feedback' field
-    };
-    try {
-      const response = await fetch(
-        "https://bytewise-server.vercel.app/api/feedback-submit",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(feedbackData),
-        }
-      );
-      if (response.ok) {
-        setNotification({
-          message: "Feedback submitted successfully.",
-          type: "success",
-          visible: true,
-        });
-        setFormData((prevData) => ({
-          ...prevData,
-          message: "",
-        }));
-      } else {
-        setNotification({
-          message: "Error submitting feedback.",
-          type: "error",
-          visible: true,
-        });
+  try {
+    const response = await fetch(
+      "https://bytewise-server.vercel.app/api/feedback-submit",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(feedbackData),
       }
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
+    );
+
+    if (response.ok) {
       setNotification({
-        message: "Error submitting feedback. Please try again later.",
+        message: "Feedback submitted successfully.",
+        type: "success",
+        visible: true,
+      });
+      setFormData((prevData) => ({
+        ...prevData,
+        message: "",
+      }));
+    } else {
+      setNotification({
+        message: "Error submitting feedback.",
         type: "error",
         visible: true,
       });
     }
-    }
-    setLoading(false);
-  };
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
+    setNotification({
+      message: "Error submitting feedback. Please try again later.",
+      type: "error",
+      visible: true,
+    });
+  }
+
+  setLoading(false);
+};
 
   return (
     <>

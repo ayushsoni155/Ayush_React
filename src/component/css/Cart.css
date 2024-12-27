@@ -126,6 +126,7 @@
     gap: 10px;
     align-items: center;
     justify-content: space-between;
+  flex-direction: row;
 }
 
 .quantity-btn {
@@ -291,6 +292,7 @@
   .payment-btn {
     padding: 6px 12px;
     font-size: 12px;
+            height: 35px;
   }
 
   .order-item {

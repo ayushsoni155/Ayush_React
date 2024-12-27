@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import CryptoJS from 'crypto-js'; // Importing the crypto-js library
+import CryptoJS from 'crypto-js';
 import '../css/Cart.css';
 import Notification from './Notification';
 
@@ -9,49 +9,56 @@ const secretKey = process.env.REACT_APP_SECRET_KEY; // Secret key for decryption
 
 const Cart = () => {
   const [cookies] = useCookies(['bytewiseCookies']);
-  
-  // Decrypt the cookie value
+
   const decryptCookie = (cookieValue) => {
-    const bytes = CryptoJS.AES.decrypt(cookieValue, secretKey);
-    const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
-    return decryptedData ? JSON.parse(decryptedData) : null;
+    if (!cookieValue) return null;
+    try {
+      const bytes = CryptoJS.AES.decrypt(cookieValue, secretKey);
+      const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+      return decryptedData ? JSON.parse(decryptedData) : null;
+    } catch (error) {
+      console.error('Error decrypting cookie:', error);
+      return null;
+    }
   };
 
-  // Encrypt data for storage
   const encryptData = (data) => {
-    const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
-    return encrypted;
+    try {
+      return CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
+    } catch (error) {
+      console.error('Error encrypting data:', error);
+      return null;
+    }
   };
 
-  // Decrypt the bytewiseCookies cookie value
   const userData = cookies.bytewiseCookies ? decryptCookie(cookies.bytewiseCookies) : null;
 
   const isLoggedIn = userData?.status === true;
-  const enrolmentID = userData?.enrolmentID; 
+  const enrolmentID = userData?.enrolmentID || '';
   const [cartItems, setCartItems] = useState([]);
   const [pendingOrders, setPendingOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [notification, setNotification] = useState({ message: '', type: '', visible: false });
-  const[loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.quantity, 0);
 
-  // Fetch pending and completed orders
   const fetchOrders = useCallback(async () => {
     if (!isLoggedIn) return;
     setLoading(true);
     try {
       const response = await fetch(`https://bytewise-server.vercel.app/api/order-history?enrolmentID=${enrolmentID}`);
       const data = await response.json();
-     
+
       const pending = data.filter(order => order.completeStatus === 'Pending');
       const completed = data.filter(order => order.completeStatus === 'Completed');
       setPendingOrders(pending);
       setCompletedOrders(completed);
     } catch (err) {
       console.error('Error fetching orders:', err);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, [enrolmentID, isLoggedIn]);
 
   useEffect(() => {
@@ -67,16 +74,16 @@ const Cart = () => {
   const removeItem = (subject_code) => {
     const updatedCart = cartItems.filter(item => item.subject_code !== subject_code);
     setCartItems(updatedCart);
-    localStorage.setItem('cart', encryptData(updatedCart)); // Encrypt before saving to localStorage
+    localStorage.setItem('cart', encryptData(updatedCart));
   };
 
   const updateQuantity = (subject_code, newQuantity) => {
-    if (newQuantity < 1) return; // Prevent quantity from going below 1
+    if (newQuantity < 1) return;
     const updatedCart = cartItems.map(item =>
       item.subject_code === subject_code ? { ...item, quantity: newQuantity } : item
     );
     setCartItems(updatedCart);
-    localStorage.setItem('cart', encryptData(updatedCart)); // Encrypt before saving to localStorage
+    localStorage.setItem('cart', encryptData(updatedCart));
   };
 
   const handlePayment = async () => {
@@ -89,6 +96,7 @@ const Cart = () => {
       setNotification({ message: 'Razorpay SDK failed to load. Please check your internet connection.', type: 'error', visible: true });
       return;
     }
+
     setLoading(true);
     try {
       const response = await fetch('https://bytewise-server.vercel.app/api/create-order', {
@@ -99,7 +107,7 @@ const Cart = () => {
       const order = await response.json();
 
       const options = {
-        key: 'rzp_live_BD3KEEZCSWSCBd',
+        key: process.env.REACT_APP_RAZORPAY_KEY,
         amount: order.amount,
         currency: 'INR',
         image: 'logo-transparent-png.png',
@@ -109,22 +117,17 @@ const Cart = () => {
         handler: async (response) => {
           const orderDetails = {
             orderID: response.razorpay_order_id,
-            enrolmentID: enrolmentID,
+            enrolmentID,
             orderItems: cartItems.map(item => ({
               Subject_code: item.subject_code,
               item_quantity: item.quantity,
               item_price: item.sellingPrice * item.quantity,
             })),
-            totalPrice: totalPrice,
+            totalPrice,
             transactionID: response.razorpay_payment_id,
           };
-          try {
-            await saveOrder(orderDetails);
-            setNotification({ message: 'Payment successful!', type: 'success', visible: true });
-          } catch (err) {
-            console.error('Error saving order:', err);
-            setNotification({ message: 'Error saving order.', type: 'error', visible: true });
-          }
+          await saveOrder(orderDetails);
+          setNotification({ message: 'Payment successful!', type: 'success', visible: true });
         },
         prefill: {
           name: userData?.name || 'User',
@@ -138,21 +141,26 @@ const Cart = () => {
     } catch (error) {
       console.error(error);
       setNotification({ message: 'Error in payment.', type: 'error', visible: true });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const saveOrder = async (orderDetails) => {
-    const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderDetails),
-    });
-    const data = await response.json();
-    console.log('Order saved:', data);
-    localStorage.removeItem('cart');
-    setCartItems([]);
-    fetchOrders(); // Refresh orders after saving
+    try {
+      const response = await fetch('https://bytewise-server.vercel.app/api/save-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderDetails),
+      });
+      const data = await response.json();
+      console.log('Order saved:', data);
+      localStorage.removeItem('cart');
+      setCartItems([]);
+      fetchOrders();
+    } catch (error) {
+      console.error('Error saving order:', error);
+    }
   };
 
   return (
@@ -196,25 +204,22 @@ const Cart = () => {
         )}
         <div className="cart-summary">
           <h3>Total Price: ₹{totalPrice}</h3>
-           {loading ? (
-      <>
-        <div className="Loginloading"></div>
-                    <div className="loading-circle"></div> 
-        </>
-
-            ) : (
-          <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>
-            Go for payment
-          </button>
-         )}
+          {loading ? (
+            <div className="loading-circle"></div>
+          ) : (
+            <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>
+              Go for payment
+            </button>
+          )}
         </div>
       </div>
 
       {/* Pending Orders */}
       <div className="section">
         <h2 className="section-title">Orders Placed (Pending)</h2>
-        {loading?(  <div className="loading-circle"></div> ):(
-        {pendingOrders.length === 0 ? (
+        {loading ? (
+          <div className="loading-circle"></div>
+        ) : pendingOrders.length === 0 ? (
           <p>No pending orders found.</p>
         ) : (
           <ul className="order-list">
@@ -236,16 +241,14 @@ const Cart = () => {
             ))}
           </ul>
         )}
-        )}
-      
-    
       </div>
 
       {/* Completed Orders */}
       <div className="section">
         <h2 className="section-title">Orders Placed (Completed)</h2>
-        {loading?(  <div className="loading-circle"></div> ):(
-        {completedOrders.length === 0 ? (
+        {loading ? (
+          <div className="loading-circle"></div>
+        ) : completedOrders.length === 0 ? (
           <p>No completed orders found.</p>
         ) : (
           <ul className="order-list">
@@ -259,14 +262,13 @@ const Cart = () => {
                 <ul className="order-items">
                   {order.items.map((item, index) => (
                     <li key={index}>
-                       {item.product_name} {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
+                      {item.product_name} {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
                     </li>
                   ))}
                 </ul>
               </li>
             ))}
           </ul>
-        )}
         )}
       </div>
 

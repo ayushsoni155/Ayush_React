@@ -83,11 +83,14 @@
 /* Product price and discount information */
 .product-price,
 .product-total {
-  display: flex;
-  gap: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
+     color: #333;
+    display: flex;
+    font-size: 16px;
+    font-weight: 700;
+    gap: 10px;
+    align-items: flex-end;
+    justify-content: space-around;
+
 }
 
 /* Price styling for offer */
@@ -97,6 +100,7 @@
  
 }
 .pSaving{
+  font-size:large;
   color:green;
    font-weight: bold;
 }

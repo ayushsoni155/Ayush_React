@@ -118,6 +118,7 @@ const ForgotPassword = () => {
 
       if (response.ok) {
         setNotification({ message: 'Answer verified! You can now reset your password.', type: 'success' });
+         localStorage.setItem('enrolID', userID);
         navigate('/reset-password');
       } else {
         setNotification({ message: data.message, type: 'error' });

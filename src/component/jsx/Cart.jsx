@@ -196,10 +196,12 @@ const Cart = () => {
                  </div>
               </div>  
             </div>  
+            <div className="removeDiv">
             <p className="product-total"><b>Total: ₹{item.sellingPrice * item.quantity}</b></p>  
             <button onClick={() => removeItem(item.subject_code)} className="remove-btn">  
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100%" height="20"><path fill="currentColor" d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1M18 9H6v10c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9z"/></svg>  
             </button>  
+              </div>
           </div> 
         )
       }

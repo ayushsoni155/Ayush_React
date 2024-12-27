@@ -43,6 +43,7 @@ const Cart = () => {
   const [loadingPay, setLoadingPay] = useState(false);
 
   const totalPrice = cartItems.reduce((total, item) => total + item.sellingPrice * item.quantity, 0);
+  const totalSaveing = cartItems.reduce((totalS, itemS) => totalS + itemS.pages * itemS.quantity, 0);
   
 
   const fetchOrders = useCallback(async () => {
@@ -183,8 +184,7 @@ const Cart = () => {
             <img src={item.product_img} alt={item.product_name} className="product-image" />  
             <div className="product-info">  
               <h2 className="product-name">{item.product_name}</h2> 
-              <p className="product-price"><span id='cp'>Price: ₹{item.pages}</span><span id='offerP'>{discountPercentage}% Off</span></p> 
-              <p className="product-price"><b>Price: ₹{item.sellingPrice}</b></p>  
+              <p className="product-price">Price: <span id='cp'>₹{item.pages}</span> <span>₹{item.sellingPrice}</span><span id='offerP'>{discountPercentage}% Off</span></p> 
               <div className="quantity-control"> 
               <p><b>Quantity:</b></p>
               <div className='qntBtn'>

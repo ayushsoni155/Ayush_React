@@ -208,7 +208,7 @@ const Cart = () => {
       </div>  
     )}  
     <div className="cart-summary">  
-      <h3>Total Price: ₹{totalPrice}</h3>  
+      <h3>Total Price: ₹{totalPrice}</h3>  <br/>
        <p className="pSaving">You saved ₹{totalSaveing}</p>
       {loadingPay ? (  
         <div className="Loginloading"></div>  

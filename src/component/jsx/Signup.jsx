@@ -134,13 +134,14 @@ const Signup = () => {
 const isEmpty = Object.values(formDataWithRecovery).some(value => !value?.trim());
 
 if (isEmpty) {
-    setNotification({
-        message:'All fields are required. Please fill out all the data!',
-        type: 'error',
+    setErrors({
+        ...errors,
+        message: 'All fields are required. Please fill out all the data!',
     });
     setLoading(false);
     return;
 }
+
 
             
         try {
@@ -243,7 +244,7 @@ if (isEmpty) {
                             autoComplete='name'
                         />
 
-                        <label htmlFor="enrolmentID">Enrollment Number</label>
+                        <label className={errors.enrolmentID ? "label-error" : ""} htmlFor="enrolmentID">Enrollment Number</label>
                         
                         <input
                             type="text"
@@ -252,9 +253,10 @@ if (isEmpty) {
                             value={formData.enrolmentID}
                             onChange={handleChange}
                             placeholder="Enter your enrollment number"
+                            className={errors.enrolmentID ? "input-error" : ""}
                         />
                          {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
-                        <label htmlFor="phone">Phone Number</label>
+                        <label className={errors.phone ? "label-error" : ""} htmlFor="phone">Phone Number</label>
                         <input
                             type="tel"
                             id="phone"
@@ -263,6 +265,7 @@ if (isEmpty) {
                             onChange={handleChange}
                             placeholder="Enter your phone number"
                             autoComplete='phone'
+                            className={errors.phone? "input-error" : ""}
                         />
 {errors.phone && <p className="error-text">{errors.phone}</p>}
                         
@@ -279,7 +282,7 @@ if (isEmpty) {
                             ))}
                         </select>
 
-                        <label htmlFor="password">Password</label>
+                        <label className={errors.password ? "label-error" : ""} htmlFor="password">Password</label>
                         <div className="password-input">
                             <input
                                 type={passwordVisible ? 'text' : 'password'}
@@ -288,14 +291,15 @@ if (isEmpty) {
                                 value={formData.password}
                                 onChange={handleChange}
                                 placeholder="Create a password"
+                                className={errors.password ? "input-error" : ""}
                             />
-                            <button type="button" onClick={togglePasswordVisibility}>
+                            <button type="button" className={errors.password ? "errorpassword-toggle" : 'password-toggle'} onClick={togglePasswordVisibility}>
                                 {passwordVisible ? 'Hide' : 'Show'}
                             </button>
                         </div>
                         {errors.password && <p className="error-text">{errors.password}</p>}
                        
-                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <label className={errors.confirmPassword ? "label-error" : ""} htmlFor="confirmPassword">Confirm Password</label>
                         <div className="password-input">
                             <input
                                 type={confirmPasswordVisible ? 'text' : 'password'}
@@ -303,15 +307,16 @@ if (isEmpty) {
                                 name="confirmPassword"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
+                                className={errors.confirmPassword ? "input-error" : ""}
                                 placeholder="Confirm your password"
                             />
-                            <button type="button" onClick={toggleConfirmPasswordVisibility}>
+                            <button type="button"  className={errors.confirmPassword ? "errorpassword-toggle" : 'password-toggle'} onClick={toggleConfirmPasswordVisibility}>
                                 {confirmPasswordVisible ? 'Hide' : 'Show'}
                             </button>
                         </div>
                         {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
                        
-                        <label htmlFor="recoveryQuestion">Select a Recovery Question</label>
+                        <label   htmlFor="recoveryQuestion">Select a Recovery Question</label>
                         <select
                             id="recoveryQuestion"
                             name="recoveryQuestion"
@@ -324,13 +329,14 @@ if (isEmpty) {
                             ))}
                         </select>
 
-                        <label htmlFor="recoveryAnswer">Answer to Recovery Question</label>
+                        <label className={errors.recoveryAnswer ? "label-error" : ""} htmlFor="recoveryAnswer">Answer to Recovery Question</label>
                         <input
                             type="text"
                             id="recoveryAnswer"
                             name="recoveryAnswer"
                             value={formData.recoveryAnswer}
                             onChange={handleChange}
+                            className={errors.recoveryAnswer ? "input-error" : ""}
                             placeholder="Enter your answer"
                         
                         />

@@ -10,14 +10,14 @@ const Login = () => {
         enrolmentID: "",
         password: "",
     });
-    const [loading,setLoading]= useState(false);
+    const [loading, setLoading] = useState(false);
     const [notification, setNotification] = useState(null);
     const [errors, setErrors] = useState({ enrolmentID: "", password: "" });
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies(["bytewiseCookies", "signupStatus"]);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
-   const secretKey = process.env.REACT_APP_SECRET_KEY; // Your secret key for encryption/decryption
+    const secretKey = process.env.REACT_APP_SECRET_KEY; // Secret key for encryption/decryption
     const enrolmentRegex = /^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
 
@@ -37,18 +37,17 @@ const Login = () => {
                 console.error("Failed to decrypt the cookie", error);
             }
         }
-    }, [cookies, navigate]);
+    }, [cookies, navigate, secretKey]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-
         const updatedValue = name === "enrolmentID" ? value.toUpperCase().trim() : value.trim();
 
         setFormData({
             ...formData,
             [name]: updatedValue,
         });
-        
+
         if (name === "enrolmentID") {
             setErrors((prevErrors) => ({
                 ...prevErrors,
@@ -67,17 +66,29 @@ const Login = () => {
     };
 
     const handleSubmit = async (event) => {
-        setLoading(true);
         event.preventDefault();
+        setLoading(true);
 
-        if (errors.enrolmentID || errors.password) {
-            setNotification({ message: "Please fix the errors before submitting.", type: "error" });
+        if (!formData.enrolmentID) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                enrolmentID: "Enrollment ID is required",
+            }));
             setLoading(false);
             return;
         }
 
-        if (!formData.enrolmentID || !formData.password) {
-            setNotification({ message: "Enrolment ID and password are required.", type: "error" });
+        if (!formData.password) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                password: "Password is required",
+            }));
+            setLoading(false);
+            return;
+        }
+
+        if (errors.enrolmentID || errors.password) {
+            setNotification({ message: "Please fix the errors before submitting.", type: "error" });
             setLoading(false);
             return;
         }
@@ -97,7 +108,6 @@ const Login = () => {
                 const cookieExpirationDate = new Date();
                 cookieExpirationDate.setFullYear(cookieExpirationDate.getFullYear() + 5);
 
-                // Encrypt bytewiseCookies data
                 const encryptedBytewiseData = CryptoJS.AES.encrypt(
                     JSON.stringify({
                         enrolmentID: formData.enrolmentID,
@@ -109,17 +119,15 @@ const Login = () => {
                     secretKey
                 ).toString();
 
-                // Encrypt signupStatus
                 const encryptedSignupStatus = CryptoJS.AES.encrypt(
                     JSON.stringify("done"),
                     secretKey
                 ).toString();
 
-                // Set cookies
-                setCookie("bytewiseCookies", encryptedBytewiseData, { path: "/", maxAge: 1296000 }); // 15 days
+                setCookie("bytewiseCookies", encryptedBytewiseData, { path: "/", maxAge: 1296000 });
                 setCookie("signupStatus", encryptedSignupStatus, {
                     path: "/",
-                    expires: cookieExpirationDate, // 5 years
+                    expires: cookieExpirationDate,
                 });
 
                 setNotification({ message: "Login successful!", type: "success" });
@@ -134,6 +142,7 @@ const Login = () => {
             console.error("Login error:", error);
             setNotification({ message: "An error occurred. Please try again later.", type: "error" });
         }
+
         setLoading(false);
     };
 
@@ -153,7 +162,6 @@ const Login = () => {
                     onClose={() => setNotification(null)}
                 />
             )}
-
             <div className="logSign-container">
                 <div className="logSign-img-container">
                     <img src="Login.png" alt="Login" />
@@ -161,41 +169,59 @@ const Login = () => {
                 <div className="logSign-form-container">
                     <h2>Login</h2>
                     <form onSubmit={handleSubmit}>
-                        <label htmlFor="enrolmentID">Enrollment Number</label>
-                       
-                       <input
-                            type="text"
-                            id="enrolmentID"
-                            name="enrolmentID"
-                            value={formData.enrolmentID}
-                            onChange={handleChange}
-                            placeholder="Enter your enrollment number"
-                        />
-                         {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
+    {/* Enrollment Number */}
+    <label
+        htmlFor="enrolmentID"
+        className={errors.enrolmentID ? "label-error" : ""}
+    >
+        Enrollment Number
+    </label>
+    <input
+        type="text"
+        id="enrolmentID"
+        name="enrolmentID"
+        value={formData.enrolmentID}
+        onChange={handleChange}
+        placeholder="Enter your enrollment number"
+        className={errors.enrolmentID ? "input-error" : ""}
+    />
+    {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
 
-                        <label htmlFor="password">Password</label>
-                        
-                        <div className="password-input">
-                            <input
-                                type={passwordVisible ? "text" : "password"}
-                                id="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                placeholder="Enter your password"
-                            />
-                            
-                            <button type="button" onClick={togglePasswordVisibility}>
-                                {passwordVisible ? "Hide" : "Show"}
-                            </button>
-                            
-                        </div>
-                        
-                        {errors.password && <p className="error-text">{errors.password}</p>}
-                         {loading?(<div class="Loginloading"></div>):(
-                        <button type="submit" className="login-button">
-                            Login
-                        </button>)}
+    {/* Password */}
+    <label
+        htmlFor="password"
+        className={errors.password ? "label-error" : ""}
+    >
+        Password
+    </label>
+    <div className="password-input">
+        <input
+            type={passwordVisible ? "text" : "password"}
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Enter your password"
+            className={errors.password ? "input-error" : "passwordInput"}
+        />
+        <button
+            type="button"
+            className={errors.password ? "errorpassword-toggle" : "password-toggle"}
+            onClick={togglePasswordVisibility}
+        >
+            {passwordVisible ? "Hide" : "Show"}
+        </button>
+    </div>
+    {errors.password && <p className="error-text">{errors.password}</p>}
+
+    {/* Submit Button */}
+    {loading ? (
+        <div className="Loginloading"></div>
+    ) : (
+        <button type="submit" className="login-button">
+            Login
+        </button>
+    )}
 
                         <div className="additional-links">
                             <Link to="/forgot-password" className="forgot-password-link">

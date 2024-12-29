@@ -88,6 +88,46 @@
   margin-top: 300px;
   color: #333; /* Dark color for heading */
 }
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.input-error {
+  border: 2px solid red;
+  animation: shake 0.3s ease-in-out; /* Add shaking animation */
+}
+
+.input-error:focus {
+  border: 2px solid red;
+
+}
+
+.label-error {
+  color: red;
+}
+/* Input focus effect */
+input:focus, select:focus {
+  border-color:#4d97e1; /* Change border color to black */
+  outline: none; /* Remove default outline */
+}
+.input-error:focus{
+  border-color:red; /* Change border color to black */
+  outline: none;
+}
 
 /* Form fields */
 label {
@@ -182,7 +222,7 @@ a {
     margin-bottom: 5px;
 }
 /* Password input field */
-.password-input input {
+.passwordInput{
   width: 100%;
   padding: 10px;
   padding-right: 60px; /* Space for 'Show' button */
@@ -199,7 +239,7 @@ a {
 } */
 
 /* Show/Hide button inside password input */
-.password-input button {
+.password-toggle{
   position: absolute;
   right: 10px;
   background-color: transparent;
@@ -209,9 +249,20 @@ a {
   color: #007bff;
   transition: color 0.3s ease;
 }
+.errorpassword-toggle{
+  position: absolute;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: red;
+  transition: color 0.3s ease;
+
+}
 
 /* Hover effect for Show/Hide button */
-.password-input button:hover {
+.password-toggle:hover {
   color: #0056b3;
 }
 

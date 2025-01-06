@@ -41,8 +41,8 @@ const TermsAndConditions = () => {
         </p>
         <ul>
           <li><strong>Bytewise</strong></li>
-          <p id='paddress'><b>Dewas and Ujjain<br/>
-           Madhya Pradesh,
+          <p id='paddress'><b>MIT Campus, Behind Air Strip, Dewas Rd, Ujjain,<br/>
+           Madhya Pradesh 456001,
           India.</b></p>
         </ul>
 

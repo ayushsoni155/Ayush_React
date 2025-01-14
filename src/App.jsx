@@ -41,7 +41,7 @@ const App = () => {
         <Route path='/courses' element={<CourseSection/>}/>
         <Route path='/t&c' element={<TermsAndConditions/>}/>
         <Route path='/PrivacyPolicy' element={<PrivacyPolicy/>}/>
-        <Route path='/video-lactures' element={<SubjectCards/>}/>
+        <Route path='/video-lectures' element={<SubjectCards/>}/>
 
         <Route path="*" element={<Error404 />} />
         

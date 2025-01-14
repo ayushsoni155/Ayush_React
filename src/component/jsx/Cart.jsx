@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import CryptoJS from 'crypto-js';
 import '../css/Cart.css';
 import Notification from './Notification';
+import PaymentDropdown from './PaymentDropdown';
 
 const secretKey = process.env.REACT_APP_SECRET_KEY; // Secret key for decryption
 
@@ -217,20 +218,10 @@ const Cart = () => {
       {loadingPay ? (  
         <div className="Loginloading"></div>  
       ) : (  
-        // <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>  
-        //   Go for payment  
-        // </button>  
-       <select value=" Go for payment"  className="payment-btn" >
-        <option> <button onClick={handlePaymentOnline} className="payment-btn" disabled={cartItems.length === 0}>  
-          Pay Online
-        </button>  
-        </option>
-        <option>
-           <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>  
-          Cash On Delivery 
-        </button>  
-        </option>
-         </select>
+       <PaymentDropdown
+  handleOnlinePayment={handlePaymentOnline}
+  handleCashOnDelivery={handlePaymentOffline}
+  cartItems={cartItems}
       )}  
     </div>  
      <p className="pSaving">You saved ₹{totalSaveing}</p>

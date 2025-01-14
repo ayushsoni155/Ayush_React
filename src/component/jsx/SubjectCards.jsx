@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import notesObj from '../../videoObj'; // Import the array
+import videoObj from '../../videoObj'; // Import the array
 import '../css/Notes.css'; // Import CSS for styling
 import Filter from './Filter'; // Import Filter component
 import Notification from './Notification'; // Import Notification component

@@ -268,10 +268,12 @@
 @media (max-width: 768px) {
   .cart-container {
     padding: 10px;
+    
   }
 
   .section {
     padding: 20px;
+    padding-buttom:70px;
   }
 
   .section-title {

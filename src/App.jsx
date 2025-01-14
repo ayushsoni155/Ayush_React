@@ -17,6 +17,7 @@ import TermsAndConditions from './component/jsx/TermsAndConditions';
 import PrivacyPolicy from './component/jsx/PrivacyPolicy';
 import ErrorBoundary from './component/jsx/ErrorBoundary';
 import Error404 from "./component/jsx/Error404";
+import SubjectCards from './component/jsx/SubjectCards';
 
 
 const App = () => {
@@ -40,6 +41,8 @@ const App = () => {
         <Route path='/courses' element={<CourseSection/>}/>
         <Route path='/t&c' element={<TermsAndConditions/>}/>
         <Route path='/PrivacyPolicy' element={<PrivacyPolicy/>}/>
+        <Route path='/video-lactures' element={<SubjectCards/>}/>
+
         <Route path="*" element={<Error404 />} />
         
       </Routes>

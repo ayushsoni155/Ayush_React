@@ -95,7 +95,7 @@ const Header = () => {
           <ul className="nav-links">
             <li><Link to="/" onClick={handleLinkClick}>Home</Link></li>
             <li><Link to="/notes" onClick={handleLinkClick}>Notes</Link></li>
-            <li><Link to="/video-lactures" onClick={handleLinkClick}>Video Lactures</Link></li>
+            <li><Link to="/video-lectures" onClick={handleLinkClick}>Video Lectures</Link></li>
             <li><Link to="/lab-manuals" onClick={handleLinkClick}>Lab Manuals</Link></li>
             <li><Link to="/courses" onClick={handleLinkClick}>Courses</Link></li>
           </ul>

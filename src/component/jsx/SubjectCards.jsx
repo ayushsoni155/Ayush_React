@@ -72,6 +72,11 @@ const Notes = () => {
       setShowLoginNotification(true); // Show notification if not logged in
     }
   };
+  function extractVideoId(url) {
+  const match = url.match(/(?:youtube\.com\/(?:embed\/|watch\?v=)|youtu\.be\/)([^?&/]+)/);
+  return match ? match[1] : null;
+}
+
 
   return (
     <div className="notes-page">
@@ -101,7 +106,9 @@ const Notes = () => {
         {filteredVideo.length > 0 ? (
           filteredVideo.map((video, index) => (
             <div className="note-card" key={index} onClick={() => showVideo(video.videoUrl)}>
-              <img src={`https://img.youtube.com/vi/${note.videoUrl.split('/embed/')[1]}/0.jpg`} alt={video.name} className="note-image" />
+              <img src={`https://img.youtube.com/vi/${extractVideoId(video.videoUrl)}/0.jpg`}
+    alt={video.name}
+    className="note-image" />
               <div className="note-content">
                 <h3 className="note-title">{video.name}</h3>
                 <p className="note-description">{video.description}</p>

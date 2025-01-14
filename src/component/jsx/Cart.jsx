@@ -281,7 +281,7 @@ const Cart = () => {
       ) : (  
        <PaymentDropdown
   handleOnlinePayment={handlePaymentOnline}
-  handleCashOnDelivery={handlePaymentOnline}
+  handleCashOnDelivery={handlePaymentOffline}
   cartItems={cartItems}
 />
 

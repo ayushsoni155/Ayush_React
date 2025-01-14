@@ -89,7 +89,68 @@ const Cart = () => {
     setCartItems(updatedCart);
     localStorage.setItem('cart', encryptData(updatedCart));
   };
+ const handlePaymentOffline = async () => {
+  if (!isLoggedIn) {
+    setNotification({
+      message: 'Please log in to proceed with your order.',
+      type: 'warning',
+      visible: true,
+    });
+    return;
+  }
 
+  setLoadingPay(true);
+
+  // Function to generate a transaction ID
+  const generateTransactionId = () => {
+    const prefix = "pay_";
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const length = 15;
+    let randomPart = "";
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomPart += characters[randomIndex];
+    }
+
+    return prefix + randomPart;
+  };
+
+  // Create the order details object
+  const orderDetails = {
+    orderID: generateTransactionId(), // Offline payment doesn't need Razorpay order ID
+    enrolmentID,
+    orderItems: cartItems.map((item) => ({
+      subject_code: item.subject_code,
+      item_quantity: item.quantity,
+      item_price: item.sellingPrice * item.quantity,
+    })),
+    totalPrice,
+    payment_Method: 'offline',
+    paymentStatus: 'Not Done',
+    transactionID: generateTransactionId(),
+  };
+
+  // Save the order
+  try {
+    await saveOrder(orderDetails);
+    setNotification({
+      message: 'Order placed successfully!',
+      type: 'success',
+      visible: true,
+    });
+  } catch (error) {
+    setNotification({
+      message: 'Error placing the order. Please try again.',
+      type: 'error',
+      visible: true,
+    });
+  } finally {
+    setLoadingPay(false);
+  }
+};
+ 
   const handlePaymentOnline = async () => {
     if (!isLoggedIn) {
       setNotification({ message: 'Please log in to proceed with your order.', type: 'warning', visible: true });

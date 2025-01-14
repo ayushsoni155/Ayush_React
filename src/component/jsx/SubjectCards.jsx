@@ -16,7 +16,9 @@ const Notes = () => {
   const [cookies] = useCookies(['bytewiseCookies']); // Use cookie hook
 
   const secretKey = process.env.REACT_APP_SECRET_KEY; // Encryption secret key
-
+ const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
   // Utility function to decrypt cookie
   const decryptCookie = (encryptedValue) => {
     try {
@@ -64,10 +66,10 @@ const Notes = () => {
   // Show video in an iframe if the user is logged in, otherwise show login notification
   const showVideo = (videoUrl) => {
     if (isLoggedIn) {
+      scrollToTop();
       setSelectedVideo(videoUrl); // Set the selected video URL
     } else {
-        setSelectedVideo(videoUrl);
-      //setShowLoginNotification(true); // Show notification if not logged in
+      setShowLoginNotification(true); // Show notification if not logged in
     }
   };
 

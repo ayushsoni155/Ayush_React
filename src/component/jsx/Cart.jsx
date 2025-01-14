@@ -174,7 +174,7 @@ const Cart = () => {
   return (
     <div className="cart-container">  
   {/* Cart Section */}  
-  <div className="section">  
+  <div id='sectionID1' className="section">  
     <h2 className="section-title">Your Cart</h2>  
     {cartItems.length === 0 ? (  
       <p>Your cart is empty. <Link to="/Lab-Manuals">Go back to shopping.</Link></p>  

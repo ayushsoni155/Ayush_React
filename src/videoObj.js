@@ -115,28 +115,28 @@ const videoObj = [
     Sem: "4",
     branch: "CSE",
     description: "It covers advanced topics such as linear algebra, complex variables, and partial differential equations.",
-    videoUrl: ""
+    videoUrl: "https://www.youtube.com/embed/zRnTNBgbgLw?si=vQqNJrYQaAZvIf22"
   },{
     name: "Analysis and Design of Algorithms",
     Subject_code: "CS402",
     Sem: "4",
     branch: "CSE",
     description: "It teaches how to evaluate the performance of algorithms and create efficient solutions to problems.",
-    videoUrl: ""
+    videoUrl: "https://www.youtube.com/embed/h1mAUcDXCG0?si=Q5T6pLqBcxrvLbLe"
   },{
     name: "Software Engineering",
     Subject_code: "CS403",
     Sem: "4",
     branch: "CSE",
     description: "It focuses on the systematic design, development, testing, and maintenance of software.",
-    videoUrl: ""
+    videoUrl: "https://www.youtube.com/embed/Wnk_pArBylM?si=5vNTe8aH5SeXvkaf"
   },{
     name: "Computer Organization & Architecture",
     Subject_code: "CS404",
     Sem: "4",
     branch: "CSE",
     description: "It explains how computers are built and how they work, processor, memory, and data handling.",
-    videoUrl: ""
+    videoUrl: "https://www.youtube.com/embed/1rUevQ3bSEY?si=WrnY8lPoCLZJFK2l"
   },
   {
     name: "Operating System",
@@ -144,7 +144,7 @@ const videoObj = [
     Sem: "4",
     branch: "CSE",
     description: "It explains how a computer works by managing hardware, running programs, and handling tasks like memory and storage.",
-    videoUrl: ""
+    videoUrl: "https://www.youtube.com/embed/A4G0hOI6XyQ?si=rbvXiFK0TKT5Ivl9"
   },
 {
     name: "Theory of Computation",
@@ -183,7 +183,7 @@ const videoObj = [
     Sem: "6",
     branch: "CSE",
     description: "It teaches computers to learn from data and improve their performance on tasks.",
-    videoUrl: "https://www.youtube.com/embed/Y4qO9unerGs?si=4ruRg0n2qpLouHjc"
+    videoUrl: "https://www.youtube.com/embed/AzblgZNoBWw?si=dSU0S16aqqFvDcWe"
   },{
     name: "Computer Network",
     Subject_code: "CS602",

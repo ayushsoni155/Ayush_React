@@ -21,6 +21,53 @@
   margin-top: 8px;
 }
 
+.skeleton-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.skeleton-card {
+  background: #f0f0f0;
+  border-radius: 10px;
+  width: 200px;
+  padding: 15px;
+}
+
+.skeleton-image {
+  background: #e0e0e0;
+  height: 120px;
+  border-radius: 10px;
+}
+
+.skeleton-text {
+  background: #e0e0e0;
+  height: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.skeleton-title {
+  width: 80%;
+}
+
+.skeleton-description {
+  width: 100%;
+}
+
+.skeleton-price {
+  width: 50%;
+}
+
+.skeleton-button {
+  background: #e0e0e0;
+  height: 30px;
+  width: 80%;
+  border-radius: 10px;
+  margin: 10px 0 auto;
+}
+
 /* Lab Manuals Container */
 .lab-manuals-container {
   display: grid;

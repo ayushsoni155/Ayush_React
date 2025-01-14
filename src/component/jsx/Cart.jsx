@@ -220,7 +220,7 @@ const Cart = () => {
       ) : (  
        <PaymentDropdown
   handleOnlinePayment={handlePaymentOnline}
-  handleCashOnDelivery={handlePaymentOffline}
+  handleCashOnDelivery={handlePaymentOnline}
   cartItems={cartItems}
       )}  
     </div>  

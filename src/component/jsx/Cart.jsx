@@ -127,6 +127,8 @@ const Cart = () => {
               item_price: item.sellingPrice * item.quantity,
             })),
             totalPrice,
+            payment_Method:'online',
+            paymentStatus:'done',
             transactionID: response.razorpay_payment_id,
           };
           await saveOrder(orderDetails);

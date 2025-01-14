@@ -219,9 +219,11 @@ const Cart = () => {
         <div className="Loginloading"></div>  
       ) : (  
        <PaymentDropdown
-  handleOnlinePayment={handlePaymentOnline}
-  handleCashOnDelivery={handlePaymentOnline}
+  handleOnlinePayment={handlePayment}
+  handleCashOnDelivery={handlePayment}
   cartItems={cartItems}
+/>
+
       )}  
     </div>  
      <p className="pSaving">You saved ₹{totalSaveing}</p>

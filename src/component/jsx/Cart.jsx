@@ -89,7 +89,7 @@ const Cart = () => {
     localStorage.setItem('cart', encryptData(updatedCart));
   };
 
-  const handlePayment = async () => {
+  const handlePaymentOnline = async () => {
     if (!isLoggedIn) {
       setNotification({ message: 'Please log in to proceed with your order.', type: 'warning', visible: true });
       return;
@@ -217,9 +217,20 @@ const Cart = () => {
       {loadingPay ? (  
         <div className="Loginloading"></div>  
       ) : (  
-        <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>  
-          Go for payment  
+        // <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>  
+        //   Go for payment  
+        // </button>  
+       <select value=" Go for payment"  className="payment-btn" >
+        <option> <button onClick={handlePaymentOnline} className="payment-btn" disabled={cartItems.length === 0}>  
+          Pay Online
         </button>  
+        </option>
+        <option>
+           <button onClick={handlePayment} className="payment-btn" disabled={cartItems.length === 0}>  
+          Cash On Delivery 
+        </button>  
+        </option>
+         </select>
       )}  
     </div>  
      <p className="pSaving">You saved ₹{totalSaveing}</p>

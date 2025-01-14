@@ -336,6 +336,9 @@
   .product-price {
     font-size: 14px; /* Increased */
   }
+.section {
+    padding-buttom:70px;
+  }
 
   .quantity-btn {
     padding: 6px 8px; /* Slightly larger */

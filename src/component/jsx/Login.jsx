@@ -67,7 +67,7 @@ const Login = () => {
 
     const handleSubmit = async (event) => {
         if (navigator.vibrate) {
-      navigator.vibrate(800); //
+      navigator.vibrate(200); //
 
 }
         event.preventDefault();

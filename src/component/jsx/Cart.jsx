@@ -219,8 +219,8 @@ const Cart = () => {
         <div className="Loginloading"></div>  
       ) : (  
        <PaymentDropdown
-  handleOnlinePayment={handlePayment}
-  handleCashOnDelivery={handlePayment}
+  handleOnlinePayment={handlePaymentOnline}
+  handleCashOnDelivery={handlePaymentOnline}
   cartItems={cartItems}
 />
 

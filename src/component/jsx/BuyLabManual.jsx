@@ -43,7 +43,7 @@ const BuyLabManual = () => {
         console.error('Error fetching lab manuals:', error);
         setFetchError(true);
       } finally {
-        setLoading(true);
+        setLoading(false);
       }
     };
 

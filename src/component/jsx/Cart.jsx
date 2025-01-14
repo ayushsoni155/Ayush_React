@@ -184,7 +184,7 @@ const Cart = () => {
             orderID: response.razorpay_order_id,
             enrolmentID,
             orderItems: cartItems.map(item => ({
-              Subject_code: item.subject_code,
+              subject_code: item.subject_code,
               item_quantity: item.quantity,
               item_price: item.sellingPrice * item.quantity,
             })),

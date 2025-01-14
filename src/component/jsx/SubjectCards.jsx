@@ -55,11 +55,11 @@ const Notes = () => {
   };
 
   // Filter notes based on the search term, semester, and branch
-  const filteredNotes = notesObj.filter(note => {
+  const filteredVideo = videoObj.filter(video => {
     const normalizedSearchTerm = searchTerm.replace(/\s+/g, '').toUpperCase();
-    const matchesName = note.name.toLowerCase().includes(normalizedSearchTerm.toLowerCase()) || note.Subject_code.replace(/\s+/g, '').toUpperCase().includes(normalizedSearchTerm);
-    const matchesSemester = semester === 'All' || note.Sem === semester;
-    const matchesBranch = branch === 'All' || note.branch === branch;
+    const matchesName = video.name.toLowerCase().includes(normalizedSearchTerm.toLowerCase()) || video.Subject_code.replace(/\s+/g, '').toUpperCase().includes(normalizedSearchTerm);
+    const matchesSemester = semester === 'All' || video.Sem === semester;
+    const matchesBranch = branch === 'All' || video.branch === branch;
     return matchesName && matchesSemester && matchesBranch;
   });
 
@@ -98,13 +98,13 @@ const Notes = () => {
 
 
       <div className="notes-container">
-        {filteredNotes.length > 0 ? (
-          filteredNotes.map((note, index) => (
-            <div className="note-card" key={index} onClick={() => showVideo(note.videoUrl)}>
-              <img src={`https://img.youtube.com/vi/${note.videoUrl.split('/embed/')[1]}/0.jpg`} alt={note.name} className="note-image" />
+        {filteredVideo.length > 0 ? (
+          filteredVideo.map((video, index) => (
+            <div className="note-card" key={index} onClick={() => showVideo(video.videoUrl)}>
+              <img src={`https://img.youtube.com/vi/${note.videoUrl.split('/embed/')[1]}/0.jpg`} alt={video.name} className="note-image" />
               <div className="note-content">
-                <h3 className="note-title">{note.name}</h3>
-                <p className="note-description">{note.description}</p>
+                <h3 className="note-title">{video.name}</h3>
+                <p className="note-description">{video.description}</p>
               </div>
             </div>
           ))

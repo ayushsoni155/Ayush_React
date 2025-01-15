@@ -43,7 +43,7 @@ const BuyLabManual = () => {
         console.error('Error fetching lab manuals:', error);
         setFetchError(true);
       } finally {
-        setLoading(true);
+        setLoading(false);
       }
     };
 
@@ -115,7 +115,7 @@ const BuyLabManual = () => {
       />
       {loading ? (
         <div className="skeleton-container">
-          {[...Array(6)].map((_, index) => (
+          {[...Array(12)].map((_, index) => (
             <div className="skeleton-card" key={index}>
               <div className="skeleton-image"></div>
               <div className="skeleton-text skeleton-title"></div>

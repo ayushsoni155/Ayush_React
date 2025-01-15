@@ -32,6 +32,7 @@ const ResetPassword = () => {
                     ? ''
                     : 'Password must be at least 8 characters long and contain both letters and numbers'
             }));
+             navigator.vibrate([100, 50, 100]);
         }
 
         if (name === 'confirmPassword') {
@@ -41,6 +42,7 @@ const ResetPassword = () => {
                     ? ''
                     : 'Passwords do not match'
             }));
+             navigator.vibrate([100, 50, 100]);
         }
 
         setFormData({
@@ -124,6 +126,7 @@ const ResetPassword = () => {
                                 value={formData.newPassword}
                                 onChange={handleChange}
                                 placeholder="Enter new password"
+                                className={errors.newPassword ? "input-error" : "passwordInput"}
                             />
                             <button type="button" onClick={() => setShowPassword(!showPassword)}>
                                 {showPassword ? 'Hide' : 'Show'}
@@ -141,6 +144,7 @@ const ResetPassword = () => {
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 placeholder="Confirm your password"
+                                className={errors.confirmPassword ? "input-error" : "passwordInput"}
             
                             />
                             <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>

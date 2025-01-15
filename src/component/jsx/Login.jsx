@@ -17,7 +17,7 @@ const Login = () => {
     const [cookies, setCookie] = useCookies(["bytewiseCookies", "signupStatus"]);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
-    const secretKey = process.env.REACT_APP_SECRET_KEY; // Secret key for encryption/decryption
+    const secretKey = process.env.REACT_APP_SECRET_KEY;
     const enrolmentRegex = /^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
 
@@ -40,44 +40,42 @@ const Login = () => {
     }, [cookies, navigate, secretKey]);
 
     const handleChange = (event) => {
-    const { name, value } = event.target;
-    const updatedValue = name === "enrolmentID" ? value.toUpperCase().trim() : value.trim();
+        const { name, value } = event.target;
+        const updatedValue = name === "enrolmentID" ? value.toUpperCase().trim() : value.trim();
 
-    setFormData({
-        ...formData,
-        [name]: updatedValue,
-    });
+        setFormData({
+            ...formData,
+            [name]: updatedValue,
+        });
 
-    if (name === "enrolmentID") {
-        const isValidEnrolment = enrolmentRegex.test(updatedValue);
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            enrolmentID: isValidEnrolment ? "" : "Invalid enrollment number",
-        }));
+        if (name === "enrolmentID") {
+            const isValidEnrolment = enrolmentRegex.test(updatedValue);
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                enrolmentID: isValidEnrolment ? "" : "Invalid enrollment number",
+            }));
 
-        if (!isValidEnrolment && navigator.vibrate) {
-            navigator.vibrate([100, 50, 100]); // Vibration pattern
+            if (!isValidEnrolment && navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
         }
-    }
 
-    if (name === "password") {
-        const isValidPassword = passwordRegex.test(value);
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            password: isValidPassword
-                ? ""
-                : "Password must be at least 8 characters long and contain both letters and numbers",
-        }));
+        if (name === "password") {
+            const isValidPassword = passwordRegex.test(value);
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                password: isValidPassword
+                    ? ""
+                    : "Password must be at least 8 characters long and contain both letters and numbers",
+            }));
 
-        if (!isValidPassword && navigator.vibrate) {
-            navigator.vibrate([100, 50, 100]); // Vibration pattern
+            if (!isValidPassword && navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
         }
-    }
-};
-
+    };
 
     const handleSubmit = async (event) => {
-
         event.preventDefault();
         setLoading(true);
 
@@ -86,7 +84,7 @@ const Login = () => {
                 ...prevErrors,
                 enrolmentID: "Enrollment ID is required",
             }));
-             navigator.vibrate([100, 50, 100]);
+            navigator.vibrate([100, 50, 100]);
             setLoading(false);
             return;
         }
@@ -96,7 +94,7 @@ const Login = () => {
                 ...prevErrors,
                 password: "Password is required",
             }));
-             navigator.vibrate([100, 50, 100]);
+            navigator.vibrate([100, 50, 100]);
             setLoading(false);
             return;
         }
@@ -166,9 +164,7 @@ const Login = () => {
 
     return (
         <div className="overlay">
-            <button className="close-button" onClick={() => navigate("/")}>
-                X
-            </button>
+            <button className="close-button" onClick={() => navigate("/")}>X</button>
             {notification && (
                 <Notification
                     message={notification.message}
@@ -183,69 +179,53 @@ const Login = () => {
                 <div className="logSign-form-container">
                     <h2>Login</h2>
                     <form onSubmit={handleSubmit}>
-    {/* Enrollment Number */}
-    <label
-        htmlFor="enrolmentID"
-        className={errors.enrolmentID ? "label-error" : ""}
-    >
-        Enrollment Number
-    </label>
-    <input
-        type="text"
-        id="enrolmentID"
-        name="enrolmentID"
-        value={formData.enrolmentID}
-        onChange={handleChange}
-        placeholder="Enter your enrollment number"
-        className={errors.enrolmentID ? "input-error" : ""}
-    />
-    {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
+                        <label htmlFor="enrolmentID" className={errors.enrolmentID ? "label-error" : ""}>
+                            Enrollment Number
+                        </label>
+                        <input
+                            type="text"
+                            id="enrolmentID"
+                            name="enrolmentID"
+                            value={formData.enrolmentID}
+                            onChange={handleChange}
+                            placeholder="Enter your enrollment number"
+                            className={errors.enrolmentID ? "input-error" : ""}
+                        />
+                        {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
 
-    {/* Password */}
-    <label
-        htmlFor="password"
-        className={errors.password ? "label-error" : ""}
-    >
-        Password
-    </label>
-    <div className="password-input">
-        <input
-            type={passwordVisible ? "text" : "password"}
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            className={errors.password ? "input-error" : "passwordInput"}
-        />
-        <button
-            type="button"
-            className={errors.password ? "errorpassword-toggle" : "password-toggle"}
-            onClick={togglePasswordVisibility}
-        >
-            {passwordVisible ? "Hide" : "Show"}
-        </button>
-    </div>
-    {errors.password && <p className="error-text">{errors.password}</p>}
+                        <label htmlFor="password" className={errors.password ? "label-error" : ""}>
+                            Password
+                        </label>
+                        <div className="password-input">
+                            <input
+                                type={passwordVisible ? "text" : "password"}
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="Enter your password"
+                                className={errors.password ? "input-error" : "passwordInput"}
+                            />
+                            <button
+                                type="button"
+                                className={errors.password ? "errorpassword-toggle" : "password-toggle"}
+                                onClick={togglePasswordVisibility}
+                            >
+                                {passwordVisible ? "Hide" : "Show"}
+                            </button>
+                        </div>
+                        {errors.password && <p className="error-text">{errors.password}</p>}
 
-    {/* Submit Button */}
-    {loading ? (
-        <div className="Loginloading"></div>
-    ) : (
-        <button type="submit" className="login-button">
-            Login
-        </button>
-    )}
+                        {loading ? (
+                            <div className="Loginloading"></div>
+                        ) : (
+                            <button type="submit" className="login-button">Login</button>
+                        )}
 
                         <div className="additional-links">
-                            <Link to="/forgot-password" className="forgot-password-link">
-                                Forgot Password?
-                            </Link>
+                            <Link to="/forgot-password" className="forgot-password-link">Forgot Password?</Link>
                             <span>
-                                New user? Create account -{" "}
-                                <Link to="/signup" className="signup-link">
-                                    Sign Up
-                                </Link>
+                                New user? Create account - <Link to="/signup" className="signup-link">Sign Up</Link>
                             </span>
                         </div>
                     </form>

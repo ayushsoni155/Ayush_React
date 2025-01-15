@@ -53,6 +53,10 @@ const Login = () => {
                 ...prevErrors,
                 enrolmentID: enrolmentRegex.test(updatedValue) ? "" : "Invalid enrollment number",
             }));
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]); //
+          
+          };
         }
 
         if (name === "password") {
@@ -62,14 +66,15 @@ const Login = () => {
                     ? ""
                     : "Password must be at least 8 characters long and contain both letters and numbers",
             }));
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]); //
+          
+          };
         }
     };
 
     const handleSubmit = async (event) => {
-if (navigator.vibrate) {
-      navigator.vibrate(200); //
 
-}
         event.preventDefault();
         setLoading(true);
 

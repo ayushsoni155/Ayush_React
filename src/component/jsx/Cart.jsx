@@ -242,7 +242,7 @@ const Cart = () => {
     ) : (  
       <div className="cart-items">  
         {cartItems.map(item =>{
-          const discountPercentage = Math.round(((item.pages - item.sellingPrice) / item.pages) * 100);
+          const discountPercentage = Math.round(((item.marketPrice - item.sellingPrice) / item.marketPrice) * 100);
           return(
           <div key={item.subject_code} className="cart-item-card">  
             <img src={item.product_img} alt={item.product_name} className="product-image" />  

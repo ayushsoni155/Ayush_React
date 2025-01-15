@@ -27,6 +27,7 @@
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
+  justify-content: center;
 }
 
 .skeleton-card {
@@ -34,7 +35,7 @@
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 10px;
-  width: 370px; /* Same width as manual card */
+  width: 270px; /* Same width as manual card */
   height: 400px; /* Approx height of manual card */
   display: flex;
   flex-direction: column;

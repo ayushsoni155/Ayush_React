@@ -133,7 +133,7 @@ const BuyLabManual = () => {
           <div className="lab-manuals-container">
             {filteredManuals.length > 0 ? (
               filteredManuals.map((manual) => {
-                const discountPercentage = Math.round(((manual.pages - manual.sellingPrice) / manual.pages) * 100);
+                const discountPercentage = Math.round(((manual.marketPrice - manual.sellingPrice) / manual.pages) * 100);
                 return (
                   <div className="manual-card" key={manual.subject_code}>
                     <img src={manual.product_img} alt={manual.product_name} className="manual-image" />
@@ -141,7 +141,7 @@ const BuyLabManual = () => {
                       <h3 className="manual-title">{manual.product_name}</h3>
                       <p className="manual-description">{manual.product_description}</p>
                       <p className="manual-price">
-                        <span className="original-price">₹{manual.pages}</span>
+                        <span className="original-price">₹{manual.marketPrice}</span>
                         <b> ₹{manual.sellingPrice}</b> <p className="manual-discount">{discountPercentage}% Off</p>
                       </p>
                       <button onClick={() => addToCart(manual)} className="add-to-cart-button">Add to Cart</button>

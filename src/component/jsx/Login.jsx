@@ -86,6 +86,7 @@ const Login = () => {
                 ...prevErrors,
                 enrolmentID: "Enrollment ID is required",
             }));
+             navigator.vibrate([100, 50, 100]);
             setLoading(false);
             return;
         }
@@ -95,6 +96,7 @@ const Login = () => {
                 ...prevErrors,
                 password: "Password is required",
             }));
+             navigator.vibrate([100, 50, 100]);
             setLoading(false);
             return;
         }

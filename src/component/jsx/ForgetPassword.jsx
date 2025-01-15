@@ -31,6 +31,7 @@ const ForgotPassword = () => {
         ...prevErrors,
         enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number',
       }));
+      navigator.vibrate([100, 50, 100]);
     }
 
     if (name === 'phone') {
@@ -38,6 +39,7 @@ const ForgotPassword = () => {
         ...prevErrors,
         phone: phoneRegex.test(updatedValue) ? '' : 'Invalid phone number',
       }));
+      navigator.vibrate([100, 50, 100]);
     }
 
     if (name === 'recoveryAnswer') {
@@ -45,6 +47,7 @@ const ForgotPassword = () => {
         ...prevErrors,
         recoveryAnswer: updatedValue ? '' : 'Please provide an answer to the recovery question.',
       }));
+      navigator.vibrate([100, 50, 100]);
     }
 
     setFormData({
@@ -156,6 +159,7 @@ const ForgotPassword = () => {
                   name="enrolmentID"
                   value={formData.enrolmentID}
                   onChange={handleChange}
+                   className={errors.enrolmentID ? "input-error" : ""}
                   placeholder="Enter your enrollment number"
                 />
                 {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
@@ -166,6 +170,7 @@ const ForgotPassword = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
+                   className={errors.phone ? "input-error" : ""}
                   placeholder="Enter your phone number"
                 />
                 {errors.phone && <p className="error-text">{errors.phone}</p>}
@@ -180,6 +185,8 @@ const ForgotPassword = () => {
                   value={formData.recoveryAnswer}
                   onChange={handleChange}
                   placeholder="Answer the recovery question"
+                  className={errors.recoveryAnswer ? "input-error" : ""}
+                
                 />
                 {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
               </>

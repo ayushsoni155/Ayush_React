@@ -41,40 +41,58 @@ const Login = () => {
 
     const handleChange = (event) => {
     const { name, value } = event.target;
-    const updatedValue = name === "enrolmentID" ? value.toUpperCase().trim() : value.trim();
+    const updatedValue = name === 'enrolmentID' ? value.toUpperCase().trim() : value.trim();
 
+    // Update form data
     setFormData({
         ...formData,
         [name]: updatedValue,
     });
 
-    if (name === "enrolmentID") {
-        const isValidEnrolment = enrolmentRegex.test(updatedValue);
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            enrolmentID: isValidEnrolment ? "" : "Invalid enrollment number",
-        }));
+    // Validation logic
+    let errorMessage = '';
 
-        if (!isValidEnrolment && navigator.vibrate) {
-            navigator.vibrate([100, 50, 100]); // Vibration pattern
-        }
+    switch (name) {
+        case 'enrolmentID':
+            errorMessage = enrolmentRegex.test(updatedValue)
+                ? ''
+                : 'Invalid enrolment number format.';
+            break;
+        case 'phone':
+            errorMessage = phoneRegex.test(updatedValue)
+                ? ''
+                : 'Invalid phone number format.';
+            break;
+        case 'password':
+            errorMessage = passwordRegex.test(updatedValue)
+                ? ''
+                : 'Password must be at least 8 characters, including a number and a letter.';
+            break;
+        case 'confirmPassword':
+            errorMessage =
+                updatedValue === formData.password
+                    ? ''
+                    : 'Passwords do not match.';
+            break;
+        case 'recoveryAnswer':
+            errorMessage = updatedValue.trim()
+                ? ''
+                : 'Recovery answer cannot be empty.';
+            break;
+        default:
+            break;
     }
 
-    if (name === "password") {
-        const isValidPassword = passwordRegex.test(value);
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            password: isValidPassword
-                ? ""
-                : "Password must be at least 8 characters long and contain both letters and numbers",
-        }));
+    // Set errors and vibrate on validation failure
+    setErrors({
+        ...errors,
+        [name]: errorMessage,
+    });
 
-        if (!isValidPassword && navigator.vibrate) {
-            navigator.vibrate([100, 50, 100]); // Vibration pattern
-        }
+    if (errorMessage) {
+        navigator.vibrate([100,50,100]); // Vibrate for 200ms if validation fails
     }
 };
-
 
     const handleSubmit = async (event) => {
 

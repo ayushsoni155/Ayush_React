@@ -140,7 +140,7 @@ const ResetPassword = () => {
                                 placeholder="Enter new password"
                                 className={errors.newPassword ? 'input-error' : 'passwordInput'}
                             />
-                            <button type="button" onClick={() => setShowPassword(!showPassword)}>
+                            <button type="button"  className={errors.newPassword ? "errorpassword-toggle" : "password-toggle"} onClick={() => setShowPassword(!showPassword)}>
                                 {showPassword ? 'Hide' : 'Show'}
                             </button>
                         </div>
@@ -159,7 +159,7 @@ const ResetPassword = () => {
                                 placeholder="Confirm your password"
                                 className={errors.confirmPassword ? 'input-error' : 'passwordInput'}
                             />
-                            <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                            <button type="button" className={errors.confirmPassword ? "errorpassword-toggle" : "password-toggle"} onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                                 {showConfirmPassword ? 'Hide' : 'Show'}
                             </button>
                         </div>

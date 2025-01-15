@@ -10,7 +10,6 @@ const ForgotPassword = () => {
     recoveryAnswer: '',
   });
 
-  const [notification, setNotification] = useState(null);
   const [errors, setErrors] = useState({ enrolmentID: '', phone: '', recoveryAnswer: '' });
   const [recoveryQuestion, setRecoveryQuestion] = useState('');
   const [userID, setUserID] = useState(null);
@@ -26,26 +25,31 @@ const ForgotPassword = () => {
     const { name, value } = event.target;
     const updatedValue = name === 'enrolmentID' ? value.toUpperCase().trim() : value.trim();
 
-    if (name === 'enrolmentID') {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: '',
+    }));
+
+    if (name === 'enrolmentID' && !enrolmentRegex.test(updatedValue)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        enrolmentID: enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrollment number',
+        enrolmentID: 'Invalid enrollment number',
       }));
       navigator.vibrate([100, 50, 100]);
     }
 
-    if (name === 'phone') {
+    if (name === 'phone' && !phoneRegex.test(updatedValue)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        phone: phoneRegex.test(updatedValue) ? '' : 'Invalid phone number',
+        phone: 'Invalid phone number',
       }));
       navigator.vibrate([100, 50, 100]);
     }
 
-    if (name === 'recoveryAnswer') {
+    if (name === 'recoveryAnswer' && updatedValue.trim() === '') {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        recoveryAnswer: updatedValue ? '' : 'Please provide an answer to the recovery question.',
+        recoveryAnswer: 'Please provide an answer to the recovery question.',
       }));
       navigator.vibrate([100, 50, 100]);
     }
@@ -58,13 +62,18 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
 
-    if (errors.enrolmentID || errors.phone) {
-      setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
-      setLoading(false);
+    if (errors.enrolmentID || errors.phone || !formData.enrolmentID || !formData.phone) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        enrolmentID: formData.enrolmentID ? prevErrors.enrolmentID : 'Enrollment number is required.',
+        phone: formData.phone ? prevErrors.phone : 'Phone number is required.',
+      }));
+      navigator.vibrate([200]);
       return;
     }
+
+    setLoading(true);
 
     try {
       const response = await fetch('https://bytewise-server.vercel.app/api/forgot-password', {
@@ -84,26 +93,32 @@ const ForgotPassword = () => {
         setRecoveryQuestion(data.recoveryQuestion);
         setUserID(data.userID);
         setVerificationCompleted(true);
-        setNotification({ message: 'Verification successful! Please answer the recovery question.', type: 'success' });
       } else {
-        setNotification({ message: data.message, type: 'error' });
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          enrolmentID: data.message.includes('enrollment') ? data.message : '',
+          phone: data.message.includes('phone') ? data.message : '',
+        }));
       }
     } catch (error) {
       console.error('Error:', error);
-      setNotification({ message: 'An error occurred. Please try again later.', type: 'error' });
     }
     setLoading(false);
   };
 
   const handleAnswerSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
 
     if (!formData.recoveryAnswer) {
-      setNotification({ message: 'Please provide an answer to the recovery question.', type: 'error' });
-      setLoading(false);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        recoveryAnswer: 'Please provide an answer to the recovery question.',
+      }));
+      navigator.vibrate([200]);
       return;
     }
+
+    setLoading(true);
 
     try {
       const response = await fetch('https://bytewise-server.vercel.app/api/verify-recovery-answer', {
@@ -120,15 +135,16 @@ const ForgotPassword = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setNotification({ message: 'Answer verified! You can now reset your password.', type: 'success' });
-         localStorage.setItem('enrolID', userID);
+        localStorage.setItem('enrolID', userID);
         navigate('/reset-password');
       } else {
-        setNotification({ message: data.message, type: 'error' });
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          recoveryAnswer: data.message,
+        }));
       }
     } catch (error) {
       console.error('Error:', error);
-      setNotification({ message: 'An error occurred. Please try again later.', type: 'error' });
     }
     setLoading(false);
   };
@@ -136,13 +152,6 @@ const ForgotPassword = () => {
   return (
     <div className="overlay">
       <button className="close-button" onClick={() => navigate('/login')}>X</button>
-      {notification && (
-        <Notification
-          message={notification.message}
-          type={notification.type}
-          onClose={() => setNotification(null)}
-        />
-      )}
       <div className="logSign-container">
         <div className="logSign-img-container">
           <img src="ForgetPassword.png" alt="Forgot Password" />
@@ -152,25 +161,29 @@ const ForgotPassword = () => {
           <form onSubmit={verificationCompleted ? handleAnswerSubmit : handleSubmit}>
             {!verificationCompleted && (
               <>
-                <label htmlFor="enrolmentID"  className={errors.enrolmentID ? "label-error" : ""}>Enrollment Number</label>
+                <label htmlFor="enrolmentID" className={errors.enrolmentID ? 'label-error' : ''}>
+                  Enrollment Number
+                </label>
                 <input
                   type="text"
                   id="enrolmentID"
                   name="enrolmentID"
                   value={formData.enrolmentID}
                   onChange={handleChange}
-                   className={errors.enrolmentID ? "input-error" : ""}
+                  className={errors.enrolmentID ? 'input-error' : ''}
                   placeholder="Enter your enrollment number"
                 />
                 {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
-                <label htmlFor="phone" className={errors.phone ? "label-error" : "">Phone Number</label>
+                <label htmlFor="phone" className={errors.phone ? 'label-error' : ''}>
+                  Phone Number
+                </label>
                 <input
                   type="tel"
                   id="phone"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                   className={errors.phone ? "input-error" : ""}
+                  className={errors.phone ? 'input-error' : ''}
                   placeholder="Enter your phone number"
                 />
                 {errors.phone && <p className="error-text">{errors.phone}</p>}
@@ -185,8 +198,7 @@ const ForgotPassword = () => {
                   value={formData.recoveryAnswer}
                   onChange={handleChange}
                   placeholder="Answer the recovery question"
-                  className={errors.recoveryAnswer ? "input-error" : ""}
-                
+                  className={errors.recoveryAnswer ? 'input-error' : ''}
                 />
                 {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
               </>

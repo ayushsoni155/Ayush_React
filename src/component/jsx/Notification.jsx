@@ -45,6 +45,10 @@ const Notification = ({ message, type = 'info', onClose }) => {
     }, [onClose]);
 
     if (!isVisible) return null;
+    if (isVisible) {
+      navigator.vibrate([300, 200, 300]); //
+
+}
 
     return (
         <div className={`notification ${type}`}>

@@ -138,7 +138,7 @@ const ResetPassword = () => {
                                 value={formData.newPassword}
                                 onChange={handleChange}
                                 placeholder="Enter new password"
-                                className={errors.newPassword ? 'input-error' : ''}
+                                className={errors.newPassword ? 'input-error' : 'password-input'}
                             />
                             <button type="button" onClick={() => setShowPassword(!showPassword)}>
                                 {showPassword ? 'Hide' : 'Show'}
@@ -157,7 +157,7 @@ const ResetPassword = () => {
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 placeholder="Confirm your password"
-                                className={errors.confirmPassword ? 'input-error' : ''}
+                                className={errors.confirmPassword ? 'input-error' : 'password-input'}
                             />
                             <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                                 {showConfirmPassword ? 'Hide' : 'Show'}

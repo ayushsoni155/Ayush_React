@@ -40,38 +40,41 @@ const Login = () => {
     }, [cookies, navigate, secretKey]);
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        const updatedValue = name === "enrolmentID" ? value.toUpperCase().trim() : value.trim();
+    const { name, value } = event.target;
+    const updatedValue = name === "enrolmentID" ? value.toUpperCase().trim() : value.trim();
 
-        setFormData({
-            ...formData,
-            [name]: updatedValue,
-        });
+    setFormData({
+        ...formData,
+        [name]: updatedValue,
+    });
 
-        if (name === "enrolmentID") {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                enrolmentID: enrolmentRegex.test(updatedValue) ? "" : "Invalid enrollment number",
-            }));
-            if (navigator.vibrate) {
-                navigator.vibrate([100, 50, 100]); //
-          
-          };
+    if (name === "enrolmentID") {
+        const isValidEnrolment = enrolmentRegex.test(updatedValue);
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            enrolmentID: isValidEnrolment ? "" : "Invalid enrollment number",
+        }));
+
+        if (!isValidEnrolment && navigator.vibrate) {
+            navigator.vibrate([100, 50, 100]); // Vibration pattern
         }
+    }
 
-        if (name === "password") {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                password: passwordRegex.test(value)
-                    ? ""
-                    : "Password must be at least 8 characters long and contain both letters and numbers",
-            }));
-            if (navigator.vibrate) {
-                navigator.vibrate([100, 50, 100]); //
-          
-          };
+    if (name === "password") {
+        const isValidPassword = passwordRegex.test(value);
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            password: isValidPassword
+                ? ""
+                : "Password must be at least 8 characters long and contain both letters and numbers",
+        }));
+
+        if (!isValidPassword && navigator.vibrate) {
+            navigator.vibrate([100, 50, 100]); // Vibration pattern
         }
-    };
+    }
+};
+
 
     const handleSubmit = async (event) => {
 

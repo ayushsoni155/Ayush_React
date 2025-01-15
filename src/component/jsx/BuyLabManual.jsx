@@ -127,9 +127,6 @@ const BuyLabManual = () => {
         </div>
       ) : (
         <>
-          <p className="manual-note">
-            **This price includes only a printed PDF copy. Lab files are not included.**
-          </p>
           <div className="lab-manuals-container">
             {filteredManuals.length > 0 ? (
               filteredManuals.map((manual) => {

@@ -168,8 +168,12 @@
 }
 
 .quantity {
-  font-size: 16px;
-  font-weight: bold;
+ font-size: 16px;
+    font-weight: 700;
+    margin: 3px;
+    padding: 4px 9px 4px 9px;
+    border: 2px solid #4d97e1;
+    border-radius: 4px;
 }
 
 /* Remove button */
@@ -338,7 +342,7 @@
     font-size: 14px; /* Increased */
   }
   .quantity-btn {
-    padding: 6px 8px; /* Slightly larger */
+    padding: 6px 10px; /* Slightly larger */
     font-size: 14px; /* Increased */
   }
 

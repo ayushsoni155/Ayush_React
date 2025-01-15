@@ -142,6 +142,7 @@ const ForgotPassword = () => {
           ...prevErrors,
           recoveryAnswer: data.message,
         }));
+         navigator.vibrate([100, 50, 100]);
       }
     } catch (error) {
       console.error('Error:', error);

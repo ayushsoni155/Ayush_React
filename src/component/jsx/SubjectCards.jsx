@@ -116,7 +116,7 @@ const Notes = () => {
             </div>
           ))
         ) : (
-          <h2>No Video lacture found based on your search.</h2>
+          <h2>No Video lecture found based on your search.</h2>
         )}
       </div>
 

@@ -116,7 +116,7 @@ const ResetPassword = () => {
                 <div className="logSign-form-container">
                     <h2>Reset Password for {enrolID}</h2>
                     <form onSubmit={handleSubmit}>
-                        <label htmlFor="newPassword">New Password</label>
+                        <label htmlFor="newPassword"  className={errors.newPassword ? "label-error" : ""} >New Password</label>
                       
                         <div className="password-input">
                             <input
@@ -134,7 +134,7 @@ const ResetPassword = () => {
                         </div>
                               {errors.newPassword && <p className="error-text">{errors.newPassword}</p>}
 
-                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <label htmlFor="confirmPassword"  className={errors.confirmPassword ? "label-error" : ""}>Confirm Password</label>
                        
                         <div className="password-input">
                             <input

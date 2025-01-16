@@ -21,7 +21,11 @@ const ForgotPassword = () => {
 
   const enrolmentRegex = /^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
   const phoneRegex = /^[6-9]\d{9}$/;
-
+   // Utility to set session data with expiry
+  const setSessionData = (key, value, ttl) => {
+    const expiryTime = Date.now() + ttl; // TTL in milliseconds
+    sessionStorage.setItem(key, JSON.stringify({ value, expiry: expiryTime }));
+  };
   const handleChange = (event) => {
     const { name, value } = event.target;
     const updatedValue = name === 'enrolmentID' ? value.toUpperCase().trim() : value.trim();
@@ -136,7 +140,7 @@ const ForgotPassword = () => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('enrolID', userID);
+        setSessionData('resetData', { enrolID: userID, verificationStatus: 'isverified' }, 5 * 60 * 1000);
         navigate('/reset-password');
       } else {
         setErrors((prevErrors) => ({

@@ -15,82 +15,77 @@ const ResetPassword = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    // Regex for password: at least 8 characters, contains both letters and numbers
+    const navigate = useNavigate();
+
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
 
-    const enrolID = localStorage.getItem('enrolID'); // Fetch enrolmentID from localStorage
-    const navigate = useNavigate();
+    const getSessionData = (key) => {
+        const data = sessionStorage.getItem(key);
+        if (!data) return null;
+
+        const { value, expiry } = JSON.parse(data);
+        if (Date.now() > expiry) {
+            sessionStorage.removeItem(key); // Remove expired session
+            return null;
+        }
+        return value;
+    };
+
+    const resetData = getSessionData('resetData');
+
+    if (!resetData || !resetData.verificationStatus || !resetData.enrolID) {
+        navigate('/forgot-password'); // Redirect if session is expired or invalid
+        return null;
+    }
 
     const handleChange = (event) => {
         const { name, value } = event.target;
 
-        // Validate password fields
         if (name === 'newPassword') {
             const error = passwordRegex.test(value.trim())
                 ? ''
                 : 'Password must be at least 8 characters long and contain both letters and numbers';
-
-            if (error) navigator.vibrate([100, 50, 100]);
-
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                newPassword: error
-            }));
+            setErrors((prevErrors) => ({ ...prevErrors, newPassword: error }));
         }
 
         if (name === 'confirmPassword') {
             const error = value.trim() === formData.newPassword
                 ? ''
                 : 'Passwords do not match';
-
-            if (error) navigator.vibrate([100, 50, 100]);
-
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                confirmPassword: error
-            }));
+            setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: error }));
         }
 
-        setFormData({
-            ...formData,
-            [name]: value.trim()
-        });
+        setFormData({ ...formData, [name]: value.trim() });
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
 
-        // Check if there are any validation errors
         if (errors.newPassword || errors.confirmPassword) {
             setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
             setLoading(false);
             return;
         }
 
-        // Check if both fields are filled
         if (!formData.newPassword || !formData.confirmPassword) {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
+            setErrors({
                 newPassword: formData.newPassword ? '' : 'This field is required.',
                 confirmPassword: formData.confirmPassword ? '' : 'This field is required.'
-            }));
-            navigator.vibrate([100, 50, 100]);
+            });
             setLoading(false);
             return;
         }
 
         try {
-            // Send request to reset password
             const response = await fetch('https://bytewise-server.vercel.app/api/reset-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    enrolmentID: enrolID,
+                    enrolmentID: resetData.enrolID,
                     newPassword: formData.newPassword,
-                    confirmPassword: formData.confirmPassword,
                 }),
             });
 
@@ -125,7 +120,8 @@ const ResetPassword = () => {
                     <img src="resetpassword.png" alt="Reset Password" />
                 </div>
                 <div className="logSign-form-container">
-                    <h2>Reset Password for {enrolID}</h2>
+                    <h2>Reset Password for {resetData.enrolID}</h2><br/>
+                    <h3>this page will expeir in 5:00</h3>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="newPassword" className={errors.newPassword ? 'label-error' : ''}>
                             New Password
@@ -138,9 +134,13 @@ const ResetPassword = () => {
                                 value={formData.newPassword}
                                 onChange={handleChange}
                                 placeholder="Enter new password"
-                                className={errors.newPassword ? 'input-error' : 'passwordInput'}
+                                className={errors.newPassword ? 'input-error' : ''}
                             />
-                            <button type="button"  className={errors.newPassword ? "errorpassword-toggle" : "password-toggle"} onClick={() => setShowPassword(!showPassword)}>
+                            <button
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
                                 {showPassword ? 'Hide' : 'Show'}
                             </button>
                         </div>
@@ -157,14 +157,18 @@ const ResetPassword = () => {
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 placeholder="Confirm your password"
-                                className={errors.confirmPassword ? 'input-error' : 'passwordInput'}
+                                className={errors.confirmPassword ? 'input-error' : ''}
                             />
-                            <button type="button" className={errors.confirmPassword ? "errorpassword-toggle" : "password-toggle"} onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                            <button
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            >
                                 {showConfirmPassword ? 'Hide' : 'Show'}
                             </button>
                         </div>
                         {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
-                        
+
                         {loading ? (
                             <div className="Loginloading"></div>
                         ) : (

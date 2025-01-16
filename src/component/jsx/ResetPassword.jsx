@@ -1,184 +1,222 @@
+
 import React, { useState } from 'react';
 import '../css/LogSign.css';
 import { useNavigate } from 'react-router-dom';
 import Notification from './Notification';
 
-const ResetPassword = () => {
-    const [formData, setFormData] = useState({
-        newPassword: '',
-        confirmPassword: ''
-    });
+const ForgotPassword = () => {
+  const [formData, setFormData] = useState({
+    enrolmentID: '',
+    phone: '',
+    recoveryAnswer: '',
+  });
 
-    const [notification, setNotification] = useState(null);
-    const [errors, setErrors] = useState({ newPassword: '', confirmPassword: '' });
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({ enrolmentID: '', phone: '', recoveryAnswer: '' });
+  const [recoveryQuestion, setRecoveryQuestion] = useState('');
+  const [userID, setUserID] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [verificationCompleted, setVerificationCompleted] = useState(false);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
+  const enrolmentRegex = /^0704CS(20|21|22|23|24|25|26)(1[0-2][0-9]{2}|1300)$/;
+  const phoneRegex = /^[6-9]\d{9}$/;
 
-    const getSessionData = (key) => {
-        const data = sessionStorage.getItem(key);
-        if (!data) return null;
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    const updatedValue = name === 'enrolmentID' ? value.toUpperCase().trim() : value.trim();
 
-        const { value, expiry } = JSON.parse(data);
-        if (Date.now() > expiry) {
-            sessionStorage.removeItem(key); // Remove expired session
-            return null;
-        }
-        return value;
-    };
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: '',
+    }));
 
-    const resetData = getSessionData('resetData');
-
-    if (!resetData || !resetData.verificationStatus || !resetData.enrolID) {
-        navigate('/forgot-password'); // Redirect if session is expired or invalid
-        return null;
+    if (name === 'enrolmentID' && !enrolmentRegex.test(updatedValue)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        enrolmentID: 'Invalid enrollment number',
+      }));
+      navigator.vibrate([100, 50, 100]);
     }
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
+    if (name === 'phone' && !phoneRegex.test(updatedValue)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        phone: 'Invalid phone number',
+      }));
+      navigator.vibrate([100, 50, 100]);
+    }
 
-        if (name === 'newPassword') {
-            const error = passwordRegex.test(value.trim())
-                ? ''
-                : 'Password must be at least 8 characters long and contain both letters and numbers';
-            setErrors((prevErrors) => ({ ...prevErrors, newPassword: error }));
-        }
+    if (name === 'recoveryAnswer' && updatedValue.trim() === '') {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        recoveryAnswer: 'Please provide an answer to the recovery question.',
+      }));
+      navigator.vibrate([100, 50, 100]);
+    }
 
-        if (name === 'confirmPassword') {
-            const error = value.trim() === formData.newPassword
-                ? ''
-                : 'Passwords do not match';
-            setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: error }));
-        }
+    setFormData({
+      ...formData,
+      [name]: updatedValue,
+    });
+  };
 
-        setFormData({ ...formData, [name]: value.trim() });
-    };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setLoading(true);
+    if (errors.enrolmentID || errors.phone || !formData.enrolmentID || !formData.phone) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        enrolmentID: formData.enrolmentID ? prevErrors.enrolmentID : 'Enrollment number is required.',
+        phone: formData.phone ? prevErrors.phone : 'Phone number is required.',
+      }));
+      navigator.vibrate([200]);
+      return;
+    }
 
-        if (errors.newPassword || errors.confirmPassword) {
-            setNotification({ message: 'Please fix the errors before submitting.', type: 'error' });
-            setLoading(false);
-            return;
-        }
+    setLoading(true);
 
-        if (!formData.newPassword || !formData.confirmPassword) {
-            setErrors({
-                newPassword: formData.newPassword ? '' : 'This field is required.',
-                confirmPassword: formData.confirmPassword ? '' : 'This field is required.'
-            });
-            setLoading(false);
-            return;
-        }
+    try {
+      const response = await fetch('https://bytewise-server.vercel.app/api/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          enrolmentID: formData.enrolmentID,
+          phone: formData.phone,
+        }),
+      });
 
-        try {
-            const response = await fetch('https://bytewise-server.vercel.app/api/reset-password', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    enrolmentID: resetData.enrolID,
-                    newPassword: formData.newPassword,
-                }),
-            });
+      const data = await response.json();
 
-            const data = await response.json();
+      if (response.ok) {
+        setRecoveryQuestion(data.recoveryQuestion);
+        setUserID(data.userID);
+        setVerificationCompleted(true);
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          enrolmentID: data.message.includes('enrollment') ? data.message : '',
+          phone: data.message.includes('phone') ? data.message : '',
+        }));
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    setLoading(false);
+  };
 
-            if (response.ok) {
-                setNotification({ message: 'Password reset successful! You can now log in.', type: 'success' });
-                navigate('/login');
-            } else {
-                setNotification({ message: data.message || 'An error occurred. Please try again.', type: 'error' });
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            setNotification({ message: 'An error occurred. Please try again later.', type: 'error' });
-        }
+  const handleAnswerSubmit = async (event) => {
+    event.preventDefault();
 
-        setLoading(false);
-    };
+    if (!formData.recoveryAnswer) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        recoveryAnswer: 'Please provide an answer to the recovery question.',
+      }));
+      navigator.vibrate([200]);
+      return;
+    }
 
-    return (
-        <div className="overlay">
-            <button className="close-button" onClick={() => navigate('/forgot-password')}>X</button>
-            {notification && (
-                <Notification
-                    message={notification.message}
-                    type={notification.type}
-                    onClose={() => setNotification(null)}
-                />
-            )}
-            <div className="logSign-container">
-                <div className="logSign-img-container">
-                    <img src="resetpassword.png" alt="Reset Password" />
-                </div>
-                <div className="logSign-form-container">
-                    <h2>Reset Password for {resetData.enrolID}</h2><br/>
-                    <h3>this page will expeir in 5:00</h3>
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="newPassword" className={errors.newPassword ? 'label-error' : ''}>
-                            New Password
-                        </label>
-                        <div className="password-input">
-                            <input
-                                type={showPassword ? 'text' : 'password'}
-                                id="newPassword"
-                                name="newPassword"
-                                value={formData.newPassword}
-                                onChange={handleChange}
-                                placeholder="Enter new password"
-                                className={errors.newPassword ? 'input-error' : ''}
-                            />
-                            <button
-                                type="button"
-                                className="password-toggle"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                {showPassword ? 'Hide' : 'Show'}
-                            </button>
-                        </div>
-                        {errors.newPassword && <p className="error-text">{errors.newPassword}</p>}
+    setLoading(true);
 
-                        <label htmlFor="confirmPassword" className={errors.confirmPassword ? 'label-error' : ''}>
-                            Confirm Password
-                        </label>
-                        <div className="password-input">
-                            <input
-                                type={showConfirmPassword ? 'text' : 'password'}
-                                id="confirmPassword"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                placeholder="Confirm your password"
-                                className={errors.confirmPassword ? 'input-error' : ''}
-                            />
-                            <button
-                                type="button"
-                                className="password-toggle"
-                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            >
-                                {showConfirmPassword ? 'Hide' : 'Show'}
-                            </button>
-                        </div>
-                        {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
+    try {
+      const response = await fetch('https://bytewise-server.vercel.app/api/verify-recovery-answer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userID,
+          recoveryAnswer: formData.recoveryAnswer,
+        }),
+      });
 
-                        {loading ? (
-                            <div className="Loginloading"></div>
-                        ) : (
-                            <button type="submit" className="login-button">Reset Password</button>
-                        )}
-                    </form>
-                </div>
-            </div>
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('enrolID', userID);
+        navigate('/reset-password');
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          recoveryAnswer: data.message,
+        }));
+         navigator.vibrate([100, 50, 100]);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="overlay">
+      <button className="close-button" onClick={() => navigate('/login')}>X</button>
+      <div className="logSign-container">
+        <div className="logSign-img-container">
+          <img src="ForgetPassword.png" alt="Forgot Password" />
         </div>
-    );
+        <div className="logSign-form-container">
+          <h2>Forgot Password</h2>
+          <form onSubmit={verificationCompleted ? handleAnswerSubmit : handleSubmit}>
+            {!verificationCompleted && (
+              <>
+                <label htmlFor="enrolmentID" className={errors.enrolmentID ? 'label-error' : ''}>
+                  Enrollment Number
+                </label>
+                <input
+                  type="text"
+                  id="enrolmentID"
+                  name="enrolmentID"
+                  value={formData.enrolmentID}
+                  onChange={handleChange}
+                  className={errors.enrolmentID ? 'input-error' : ''}
+                  placeholder="Enter your enrollment number"
+                />
+                {errors.enrolmentID && <p className="error-text">{errors.enrolmentID}</p>}
+                <label htmlFor="phone" className={errors.phone ? 'label-error' : ''}>
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className={errors.phone ? 'input-error' : ''}
+                  placeholder="Enter your phone number"
+                />
+                {errors.phone && <p className="error-text">{errors.phone}</p>}
+              </>
+            )}
+            {verificationCompleted && (
+              <>
+                <h3>{recoveryQuestion}</h3>
+                <input
+                  type="text"
+                  name="recoveryAnswer"
+                  value={formData.recoveryAnswer}
+                  onChange={handleChange}
+                  placeholder="Answer the recovery question"
+                  className={errors.recoveryAnswer ? 'input-error' : ''}
+                />
+                {errors.recoveryAnswer && <p className="error-text">{errors.recoveryAnswer}</p>}
+              </>
+            )}
+            {loading ? (
+              <div className="Loginloading"></div>
+            ) : (
+              <button type="submit" className="login-button">
+                {verificationCompleted ? 'Submit Answer' : 'Verify Details'}
+              </button>
+            )}
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default ResetPassword;
+export default ForgotPassword;

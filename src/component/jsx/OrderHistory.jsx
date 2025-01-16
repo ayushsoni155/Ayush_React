@@ -20,16 +20,16 @@ const OrderHistory = ({ completedOrders, loading }) => {
         <div className="section">
           <h2 className="section-title">Orders History</h2>
           {loading ? (
-            <div className="skeleton-container">
+            <div className="skeletonOP-container">
            {Array.from({ length: 3 }).map((_, index) => (
-             <div key={index} className="skeleton-card">
-               <div className="skeleton-title skeleton-text"></div>
-               <div className="skeleton-text"></div>
-               <div className="skeleton-text"></div>
-               <div className="skeleton-subtitle skeleton-text"></div>
-               <ul className="skeleton-items">
+             <div key={index} className="skeletonOP-card">
+               <div className="skeletonOP-title skeletonOP-text"></div>
+               <div className="skeletonOP-text"></div>
+               <div className="skeletonOP-text"></div>
+               <div className="skeletonOP-subtitle skeletonOP-text"></div>
+               <ul className="skeletonOP-items">
                  {Array.from({ length: 2 }).map((_, i) => (
-                   <li key={i} className="skeleton-text"></li>
+                   <li key={i} className="skeletonOP-text"></li>
                  ))}
                </ul>
              </div>

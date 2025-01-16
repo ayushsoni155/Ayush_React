@@ -5,8 +5,9 @@ import '../css/Notes.css'; // Import CSS for styling
 import Filter from './Filter'; // Import Filter component
 import Notification from './Notification'; // Import Notification component
 import CryptoJS from 'crypto-js'; // Import CryptoJS for decryption
+import VideoPopup from './VideoPopup';
 
-const Notes = () => {
+const SubjectCards = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [semester, setSemester] = useState('All');
   const [branch, setBranch] = useState('All');
@@ -69,7 +70,9 @@ const Notes = () => {
       scrollToTop();
       setSelectedVideo(videoUrl); // Set the selected video URL
     } else {
-      setShowLoginNotification(true); // Show notification if not logged in
+      scrollToTop();
+      setSelectedVideo(videoUrl);
+      //setShowLoginNotification(true); // Show notification if not logged in
     }
   };
   function extractVideoId(url) {
@@ -88,20 +91,9 @@ const Notes = () => {
         branch={branch}
         handleBranchChange={handleBranchChange}
       />
-        
-      {selectedVideo && (
-        <div className="video-container">
-          <iframe
-            src={selectedVideo}
-            title="Video Player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
+       {selectedVideo && (
+        <VideoPopup videoUrl={selectedVideo} onClose={() => setSelectedVideo(null)} />
       )}
-
-
       <div className="notes-container">
         {filteredVideo.length > 0 ? (
           filteredVideo.map((video, index) => (
@@ -131,4 +123,4 @@ const Notes = () => {
   );
 };
 
-export default Notes;
+export default SubjectCards;

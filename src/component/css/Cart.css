@@ -23,6 +23,58 @@
 #sectionID1{
     padding-bottom: 70px;
 }
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.skeleton-card {
+  background: linear-gradient(80deg, #f0f0f0 25%, #e0e0e0 50%, #d0d0d0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 10px;
+  padding: 15px;
+  width: 100%;
+  max-width: 500px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-text {
+  background: #e4e4e4;
+  height: 15px;
+  border-radius: 5px;
+  margin: 5px 0;
+}
+
+.skeleton-title {
+  width: 70%;
+  height: 20px;
+}
+
+.skeleton-subtitle {
+  width: 50%;
+  height: 15px;
+}
+
+.skeleton-items .skeleton-text {
+  width: 90%;
+  height: 12px;
+}
+
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
 
 .section:hover {
   transform: translateY(-5px);

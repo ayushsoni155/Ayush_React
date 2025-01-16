@@ -5,6 +5,8 @@ import CryptoJS from 'crypto-js';
 import '../css/Cart.css';
 import Notification from './Notification';
 import PaymentDropdown from './PaymentDropdown';
+import OrderHistory from './OrderHistory';
+import '../css/OrderHistory.css';
 
 const secretKey = process.env.REACT_APP_SECRET_KEY; // Secret key for decryption
 
@@ -318,35 +320,7 @@ const Cart = () => {
           </ul>
         )}
       </div>
-
-      {/* Completed Orders */}
-      <div className="section">
-        <h2 className="section-title">Orders Placed (Completed)</h2>
-        {loading ? (
-          <div className="loading-circle"></div>
-        ) : completedOrders.length === 0 ? (
-          <p>No completed orders found.</p>
-        ) : (
-          <ul className="order-list">
-            {completedOrders.map(order => (
-              <li key={order.orderID} className="order-item">
-                <h3>Order ID: {order.orderID}</h3>
-                <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
-                <p>Time: {new Date(order.order_date).toLocaleTimeString()}</p>
-                <p>Total: ₹{order.total_price}</p>
-                <h4>Items:</h4>
-                <ul className="order-items">
-                  {order.items.map((item, index) => (
-                    <li key={index}>
-                      {item.product_name} {item.subject_code} (x{item.item_quantity}), Price = ₹{item.item_price}
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <OrderHistory completedOrders={completedOrders} loading={loading} />
 
       {/* Notification Component */}
       {notification.visible && (

@@ -146,7 +146,7 @@
 }
 
 @media screen and (max-width: 600px) {
-  .skeleton-card {
+  .skeletonBM-card {
     width: 100%;
   }
   .add-to-cart-button {

@@ -17,7 +17,7 @@ function PaymentDropdown({ handleOnlinePayment, handleCashOnDelivery, cartItems 
 
       {showDropdown && (
         
-        <div className="dropdown-menu">
+        <div className="dropdown-menu"  disabled={cartItems.length === 0}>
             <button
             onClick={handleOnlinePayment}
             className="dropdown-item"

@@ -262,7 +262,7 @@
   cursor: pointer;
   color: white;
 }
-.dropdown-item button:disabled {
+.dropdown-item:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
 }

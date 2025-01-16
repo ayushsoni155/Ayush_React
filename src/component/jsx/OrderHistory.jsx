@@ -20,7 +20,21 @@ const OrderHistory = ({ completedOrders, loading }) => {
         <div className="section">
           <h2 className="section-title">Orders History</h2>
           {loading ? (
-            <div className="loading-circle"></div>
+            <div className="skeleton-container">
+           {Array.from({ length: 3 }).map((_, index) => (
+             <div key={index} className="skeleton-card">
+               <div className="skeleton-title skeleton-text"></div>
+               <div className="skeleton-text"></div>
+               <div className="skeleton-text"></div>
+               <div className="skeleton-subtitle skeleton-text"></div>
+               <ul className="skeleton-items">
+                 {Array.from({ length: 2 }).map((_, i) => (
+                   <li key={i} className="skeleton-text"></li>
+                 ))}
+               </ul>
+             </div>
+           ))}
+         </div>
           ) : completedOrders.length === 0 ? (
             <p>No completed orders found.</p>
           ) : (

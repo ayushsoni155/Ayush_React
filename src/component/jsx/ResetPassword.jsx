@@ -14,6 +14,8 @@ const ResetPassword = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+        const navigate = useNavigate();
+
 
     // Regex for password: at least 8 characters, contains both letters and numbers
     const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
@@ -36,7 +38,6 @@ const ResetPassword = () => {
         return null;
     }
     const enrolID = resetData.enrolID; // Fetch enrolmentID from localStorage
-    const navigate = useNavigate();
 
     const handleChange = (event) => {
         const { name, value } = event.target;

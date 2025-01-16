@@ -63,7 +63,7 @@ const Cart = () => {
     } catch (err) {
       console.error('Error fetching orders:', err);
     } finally {
-      setLoading(true);
+      setLoading(false);
     }
   }, [enrolmentID, isLoggedIn]);
 

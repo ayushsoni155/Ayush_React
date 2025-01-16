@@ -70,9 +70,8 @@ const SubjectCards = () => {
       scrollToTop();
       setSelectedVideo(videoUrl); // Set the selected video URL
     } else {
-      scrollToTop();
-      setSelectedVideo(videoUrl);
-      //setShowLoginNotification(true); // Show notification if not logged in
+     
+      setShowLoginNotification(true); // Show notification if not logged in
     }
   };
   function extractVideoId(url) {

@@ -114,14 +114,14 @@ const BuyLabManual = () => {
         handleBranchChange={handleBranchChange}
       />
       {loading ? (
-        <div className="skeleton-container">
+        <div className="skeletonBM-container">
           {[...Array(12)].map((_, index) => (
-            <div className="skeleton-card" key={index}>
-              <div className="skeleton-image"></div>
-              <div className="skeleton-text skeleton-title"></div>
-              <div className="skeleton-text skeleton-description"></div>
-              <div className="skeleton-text skeleton-price"></div>
-              <div className="skeleton-button"></div>
+            <div className="skeletonBM-card" key={index}>
+              <div className="skeletonBM-image"></div>
+              <div className="skeletonBM-text skeletonBM-title"></div>
+              <div className="skeletonBM-text skeletonBM-description"></div>
+              <div className="skeletonBM-text skeletonBM-price"></div>
+              <div className="skeletonBM-button"></div>
             </div>
           ))}
         </div>

@@ -23,7 +23,7 @@
 }
 
 /* Skeleton Loader Styles */
-.skeleton-container {
+.skeletonBM-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -31,7 +31,7 @@
   justify-content: center;
 }
 
-.skeleton-card {
+.skeletonBM-card {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
@@ -41,35 +41,35 @@
   padding: 15px; 
 }
 
-.skeleton-image {
+.skeletonBM-image {
   background: #e0e0e0;
   height: 160px;
   border-radius: 10px;
 }
 
-.skeleton-text {
+.skeletonBM-text {
   background: #e0e0e0;
   height: 15px;
   margin: 10px 0;
   border-radius: 5px;
 }
 
-.skeleton-title {
+.skeletonBM-title {
   width: 60%;
   height: 8%;
 }
 
-.skeleton-description {
+.skeletonBM-description {
   width: 100%;
   height: 6%;
 }
 
-.skeleton-price {
+.skeletonBM-price {
   width: 50%;
   height: 25px;
 }
 
-.skeleton-button {
+.skeletonBM-button {
   background: #e0e0e0;
   height: 50px;
   border-radius: 10px;

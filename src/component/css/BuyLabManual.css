@@ -38,7 +38,7 @@
   border-radius: 10px;
   width: 270px;
   height: 400px;
-  padding: 15px;
+  padding: 15px; 
 }
 
 .skeleton-image {
@@ -55,21 +55,23 @@
 }
 
 .skeleton-title {
-  width: 80%;
+  width: 60%;
+  height: 8%;
 }
 
 .skeleton-description {
   width: 100%;
+  height: 6%;
 }
 
 .skeleton-price {
   width: 50%;
-  height: 20px;
+  height: 25px;
 }
 
 .skeleton-button {
   background: #e0e0e0;
-  height: 40px;
+  height: 50px;
   border-radius: 10px;
 }
 

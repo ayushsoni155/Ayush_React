@@ -41,46 +41,61 @@ const Signup = () => {
         'What is the city where you were born?',
     ];
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        const updatedValue = name === 'enrolmentID' ? value.toUpperCase().trim() : value.trim();
+    const [errorVibrated, setErrorVibrated] = useState({}); // Tracks fields that have vibrated for errors
 
-        setFormData({
-            ...formData,
-            [name]: updatedValue,
+const handleChange = (event) => {
+    const { name, value } = event.target;
+    const updatedValue = name === 'enrolmentID' ? value.toUpperCase().trim() : value.trim();
+
+    setFormData({
+        ...formData,
+        [name]: updatedValue,
+    });
+
+    let errorMessage = '';
+
+    switch (name) {
+        case 'enrolmentID':
+            errorMessage = enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrolment number format.';
+            break;
+        case 'phone':
+            errorMessage = phoneRegex.test(updatedValue) ? '' : 'Invalid phone number format.';
+            break;
+        case 'password':
+            errorMessage = passwordRegex.test(updatedValue)
+                ? ''
+                : 'Password must be at least 8 characters, including a number and a letter.';
+            break;
+        case 'confirmPassword':
+            errorMessage = updatedValue === formData.password ? '' : 'Passwords do not match.';
+            break;
+        case 'recoveryAnswer':
+            errorMessage = updatedValue.trim() ? '' : 'Recovery answer cannot be empty.';
+            break;
+        default:
+            break;
+    }
+
+    setErrors({
+        ...errors,
+        [name]: errorMessage,
+    });
+
+    // Trigger vibration only if the error is new for this field
+    if (errorMessage && !errorVibrated[name]) {
+        navigator.vibrate([100, 50, 100]);
+        setErrorVibrated({
+            ...errorVibrated,
+            [name]: true,
         });
-
-        let errorMessage = '';
-
-        switch (name) {
-            case 'enrolmentID':
-                errorMessage = enrolmentRegex.test(updatedValue) ? '' : 'Invalid enrolment number format.';
-                break;
-            case 'phone':
-                errorMessage = phoneRegex.test(updatedValue) ? '' : 'Invalid phone number format.';
-                break;
-            case 'password':
-                errorMessage = passwordRegex.test(updatedValue)
-                    ? ''
-                    : 'Password must be at least 8 characters, including a number and a letter.';
-                break;
-            case 'confirmPassword':
-                errorMessage = updatedValue === formData.password ? '' : 'Passwords do not match.';
-                break;
-            case 'recoveryAnswer':
-                errorMessage = updatedValue.trim() ? '' : 'Recovery answer cannot be empty.';
-                break;
-            default:
-                break;
-        }
-
-        setErrors({
-            ...errors,
-            [name]: errorMessage,
+    } else if (!errorMessage) {
+        // Reset vibration status for the field if error is resolved
+        setErrorVibrated({
+            ...errorVibrated,
+            [name]: false,
         });
-
-        if (errorMessage) navigator.vibrate([100, 50, 100]);
-    };
+    }
+};
 
     const handleSubmit = async (event) => {
         setLoading(true);
